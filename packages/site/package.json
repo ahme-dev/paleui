@@ -1,0 +1,14 @@
+{
+	"name": "site",
+	"private": true,
+	"scripts": {
+		"dist": "bun ./scripts/dist.ts",
+		"dist:preview": "bun ./scripts/dist.ts && bunx http-server dist"
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
+}
