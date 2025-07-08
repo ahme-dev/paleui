@@ -4,8 +4,6 @@ import fs from "node:fs";
 
 const viewsDir = "views";
 const distDir = "dist";
-const assetsDir = "assets";
-const externalAssets = ["../paleui/main.css"];
 
 // prepare
 
@@ -13,9 +11,11 @@ if (!fs.existsSync(viewsDir)) {
 	console.error(`Views directory does not exist: ${viewsDir}`);
 	process.exit(1);
 }
-
-if (!fs.existsSync(distDir)) {
-	console.info(`Build directory does not exist, creating: ${distDir}`);
+if (fs.existsSync(distDir)) {
+	fs.rmSync(distDir, { recursive: true, force: true });
+	console.info(`Cleared dist directory`);
+} else {
+	console.info(`Created dist directory`);
 	fs.mkdirSync(distDir);
 }
 
@@ -71,22 +71,77 @@ function getFileContent(filePath: string) {
 }
 
 function fixLinksInContent(content: string) {
-	content = content.replace(/src="(?:\.\.\/)?assets\//g, 'src="/');
+	const transformations = new Map<string, { newLink: string; type: string }>();
 
+	// for flat nested files
 	content = content.replace(
 		/href="([a-zA-Z0-9]+)\.([a-zA-Z0-9_.]+)\.html"/g,
-		(_, namespace, rest) => {
+		(match, namespace, rest) => {
 			const path = rest.replace(/\./g, "/");
-			return `href="/${namespace}/${path}.html"`;
+			const newLink = `/${namespace}/${path}.html`;
+			const newLinkWithAttr = `href="${newLink}"`;
+			const oldLink = match.replace(/^(href="|src=")(.+)"$/, "$2");
+
+			transformations.set(oldLink, {
+				type: "html",
+				newLink,
+			});
+			return newLinkWithAttr;
 		},
 	);
 
+	// for root files
 	content = content.replace(
 		/href="([a-zA-Z0-9_.-]+)\.html"/g,
-		'href="/$1.html"',
+		(match, file) => {
+			const newLink = `/${file}.html`;
+			const newLinkWithAttr = `href="${newLink}"`;
+			const oldLink = match.replace(/^(href="|src=")(.+)"$/, "$2");
+
+			transformations.set(oldLink, {
+				type: "html",
+				newLink,
+			});
+			return newLinkWithAttr;
+		},
 	);
 
-	return content;
+	// for assets in dir
+	content = content.replace(
+		/src="(?:\.\.\/)?assets\/([^"]+)"/g,
+		(match, file) => {
+			const newLink = `/${file}`;
+			const newLinkWithAttr = `src="${newLink}"`;
+			const oldLink = match.replace(/^(href="|src=")(.+)"$/, "$2");
+
+			transformations.set(oldLink, {
+				type: "asset",
+				newLink,
+			});
+			return newLinkWithAttr;
+		},
+	);
+
+	// for dependency assets
+	content = content.replace(
+		/href="(?!http:\/\/|https:\/\/)(?:\.\.\/)*([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)"/g,
+		(match, _dir, file) => {
+			const newLink = `/${file}`;
+			const newLinkWithAttr = `href="${newLink}"`;
+			const oldLink = match.replace(/^(href="|src=")(.+)"$/, "$2");
+
+			transformations.set(oldLink, {
+				type: "dependency",
+				newLink,
+			});
+			return newLinkWithAttr;
+		},
+	);
+
+	return {
+		content,
+		transformations,
+	};
 }
 
 // copy views
@@ -122,7 +177,8 @@ for (const viewFile of views) {
 
 	// replace links
 
-	finalContent = fixLinksInContent(finalContent);
+	const fixResult = fixLinksInContent(finalContent);
+	finalContent = fixResult.content;
 
 	// copy to destination
 
@@ -137,34 +193,24 @@ for (const viewFile of views) {
 	fs.writeFileSync(outputFile.filePath, finalContent, "utf8");
 
 	console.info("Prepared html:", outputFile.filePath);
-}
 
-// copy assets
+	// copy transformed assets
 
-if (fs.existsSync(assetsDir)) {
-	if (!fs.existsSync(distDir)) {
-		fs.mkdirSync(distDir, { recursive: true });
+	for (const [oldLink, { type, newLink }] of fixResult.transformations) {
+		if (type === "html") continue;
+
+		const oldLinkPath = oldLink.replace(/^\.\.\//, ``); // remove leading ../ if exists
+		if (!fs.existsSync(oldLinkPath)) {
+			continue;
+		}
+		const newPath = `${distDir}/${newLink.replace(/^(href="|src=")(.+)"$/, "$2")}`;
+		if (fs.existsSync(newPath)) {
+			console.info(`\tDuplicate asset skipped`);
+			continue;
+		}
+
+		fs.copyFileSync(oldLinkPath, newPath);
+
+		console.info(`\tCopied asset from ${oldLinkPath} to ${newPath}`);
 	}
-
-	const assets = fs.readdirSync(assetsDir);
-	for (const asset of assets) {
-		const assetPath = `${assetsDir}/${asset}`;
-		fs.copyFileSync(assetPath, `${distDir}/${asset}`);
-
-		console.info("Prepared asset:", `${distDir}/${asset}`);
-	}
-}
-
-for (const externalAsset of externalAssets) {
-	const assetPath = externalAsset;
-	const assetName = assetPath.split("/").pop();
-	if (!assetName) {
-		console.error(`Could not determine asset name from path: ${assetPath}`);
-		continue;
-	}
-
-	const destPath = `${distDir}/${assetName}`;
-	fs.copyFileSync(assetPath, destPath);
-
-	console.info("Prepared external asset:", destPath);
 }
