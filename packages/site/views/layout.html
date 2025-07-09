@@ -6,12 +6,40 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>PaleUI</title>
 	<link rel="stylesheet" href="../../paleui/main.css">
+	<link rel="stylesheet" href="../assets/global.css">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+		rel="stylesheet">
 </head>
 
 <body>
-	<div layout-slot />
+	<header>
+		<nav>
+			<a href="/">
+				<b>
+					PaleUI
+				</b>
+			</a>
+
+			<ul>
+				<li>
+					<a href="/docs">Docs</a>
+				</li>
+				<li>
+					<a href="/components">Components</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<div layout-slot />
+	</main>
 
 	<script src="../assets/swap.js"></script>
+	<script src="../assets/reload.js"></script>
 </body>
 
 </html>
