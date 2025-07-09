@@ -1,0 +1,46 @@
+* {
+	font-family: "Roboto Condensed", sans-serif;
+}
+
+body {
+	margin: 0;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+header {
+	font-weight: 400;
+	position: sticky;
+	top: 0;
+	background-color: var(--background);
+	padding: 1rem 1.5rem;
+}
+
+header a {
+	text-decoration: none;
+	color: inherit;
+}
+
+header>nav {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	font-size: 0.8rem;
+	align-items: center;
+}
+
+header>nav ul {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+main {
+	display: flex;
+	flex-direction: row;
+	gap: 2rem;
+}
