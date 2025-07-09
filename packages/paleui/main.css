@@ -1,35 +1,5 @@
 /*
  *
- * Unrelated
- *
- */
-
-* {
-	font-family: "Roboto", sans-serif;
-}
-
-main {
-	padding: 2rem;
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-}
-
-h2 {
-	margin: 0;
-}
-
-.flex {
-	display: flex;
-	flex-direction: row;
-	gap: 1rem;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
-}
-
-/*
- *
  * Root
  *
  */
@@ -64,18 +34,6 @@ h2 {
 	--transition-speed: 0.2s;
 	--spacing: 0.25rem;
 	--cursor-interactive: pointer;
-}
-
-/*
- *
- * Apply
- *
- */
-
-.body {
-	font-family: inherit;
-	background-color: var(--background);
-	color: var(--foreground);
 }
 
 /*
@@ -130,6 +88,56 @@ button.secondary:hover {
 	opacity: 80%;
 }
 
+span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	min-width: 0;
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+	box-sizing: border-box;
+	background-color: var(--background);
+	color: var(--foreground);
+	cursor: var(--cursor-interactive);
+	border: solid 1px var(--border);
+	border-radius: var(--radius);
+	font-size: 0.7rem;
+	font-weight: 400;
+	line-height: 1;
+	transition: background-color var(--transition-speed) ease-in-out;
+}
+
+span:hover {
+	background-color: var(--muted);
+}
+
+span>a {
+	text-decoration: none;
+	color: inherit;
+}
+
+span>a::after {
+	content: " ↗";
+}
+
+span.primary {
+	background-color: var(--primary);
+	color: var(--primary-foreground);
+	border: 0;
+	transition: opacity var(--transition-speed) ease-in-out;
+}
+
+span.secondary {
+	background-color: var(--secondary);
+	color: var(--secondary-foreground);
+	border: 0;
+	transition: opacity var(--transition-speed) ease-in-out;
+}
+
+span.primary:hover,
+span.secondary:hover {
+	opacity: 80%;
+}
 
 /*
  *
@@ -352,7 +360,8 @@ details>div {
  *
  */
 
-input {
+input,
+textarea {
 	display: inline-flex;
 	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
 	height: calc(var(--spacing) * 8);
@@ -436,4 +445,24 @@ select {
 
 select:hover {
 	background-color: var(--muted);
+}
+
+/*
+ *
+ * Typography 
+ *
+ */
+
+hgroup>h1,
+hgroup>h2,
+hgroup>h3,
+hgroup>h4,
+hgroup>h5,
+hgroup>h6 {
+	margin-bottom: 0.5rem;
+}
+
+hgroup>p {
+	margin: 0.5rem 0;
+	color: var(--muted-foreground);
 }
