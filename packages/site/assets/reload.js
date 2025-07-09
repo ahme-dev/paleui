@@ -20,7 +20,7 @@ function reload() {
 						lastModified = newModified;
 						window.location.reload();
 					} else {
-						return;
+						//
 					}
 				}
 			} else {

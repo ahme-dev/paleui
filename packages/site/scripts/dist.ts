@@ -7,18 +7,6 @@ const distDir = "dist";
 
 // prepare
 
-if (!fs.existsSync(viewsDir)) {
-	console.error(`Views directory does not exist: ${viewsDir}`);
-	process.exit(1);
-}
-if (fs.existsSync(distDir)) {
-	fs.rmSync(distDir, { recursive: true, force: true });
-	console.info(`Cleared dist directory`);
-} else {
-	console.info(`Created dist directory`);
-	fs.mkdirSync(distDir);
-}
-
 function exitWith(message: string) {
 	console.error(message);
 	process.exit(1);
@@ -145,6 +133,18 @@ function fixLinksInContent(content: string) {
 }
 
 function distProject() {
+	if (!fs.existsSync(viewsDir)) {
+		console.error(`Views directory does not exist: ${viewsDir}`);
+		process.exit(1);
+	}
+	if (fs.existsSync(distDir)) {
+		fs.rmSync(distDir, { recursive: true, force: true });
+		console.info(`Cleared dist directory`);
+	} else {
+		console.info(`Created dist directory`);
+		fs.mkdirSync(distDir);
+	}
+
 	const views = fs
 		.readdirSync(viewsDir)
 		.filter((file) => file.endsWith(".html"));
@@ -167,7 +167,7 @@ function distProject() {
 			for (const layoutPath of inputFile.fileLayoutPaths) {
 				const layoutContent = getFileContent(layoutPath);
 				finalContent = layoutContent.replace(
-					/<div\s+layout-slot\s*\/?>/,
+					/<[^>]+\s+layout-slot\s*\/?>/,
 					finalContent,
 				);
 			}
