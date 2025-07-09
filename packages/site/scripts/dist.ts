@@ -144,73 +144,89 @@ function fixLinksInContent(content: string) {
 	};
 }
 
-// copy views
+function distProject() {
+	const views = fs
+		.readdirSync(viewsDir)
+		.filter((file) => file.endsWith(".html"));
 
-const views = fs.readdirSync(viewsDir).filter((file) => file.endsWith(".html"));
-
-for (const viewFile of views) {
-	const inputFile = getFileMeta(viewFile);
-	if (inputFile.fileNameWithExt === "layout.html") {
-		continue;
-	}
-
-	const inputFileContent = getFileContent(inputFile.filePath);
-
-	let finalContent = "";
-
-	// add layouts
-
-	if (inputFile.fileLayoutPaths.length > 0) {
-		finalContent = inputFileContent;
-
-		for (const layoutPath of inputFile.fileLayoutPaths) {
-			const layoutContent = getFileContent(layoutPath);
-			finalContent = layoutContent.replace(
-				/<div\s+layout-slot\s*\/?>/,
-				finalContent,
-			);
-		}
-	} else {
-		console.warn(`No layouts found for file: ${inputFile.filePath}`);
-		finalContent = inputFileContent;
-	}
-
-	// replace links
-
-	const fixResult = fixLinksInContent(finalContent);
-	finalContent = fixResult.content;
-
-	// copy to destination
-
-	const outputFile = {
-		fileDirSlashed: `${distDir}/${inputFile.fileDirSlashed}`,
-		filePath: `${distDir}/${inputFile.fileDirSlashed}/${inputFile.fileNameWithExt}`,
-	};
-
-	if (!fs.existsSync(outputFile.fileDirSlashed)) {
-		fs.mkdirSync(outputFile.fileDirSlashed, { recursive: true });
-	}
-	fs.writeFileSync(outputFile.filePath, finalContent, "utf8");
-
-	console.info("Prepared html:", outputFile.filePath);
-
-	// copy transformed assets
-
-	for (const [oldLink, { type, newLink }] of fixResult.transformations) {
-		if (type === "html") continue;
-
-		const oldLinkPath = oldLink.replace(/^\.\.\//, ``); // remove leading ../ if exists
-		if (!fs.existsSync(oldLinkPath)) {
-			continue;
-		}
-		const newPath = `${distDir}/${newLink.replace(/^(href="|src=")(.+)"$/, "$2")}`;
-		if (fs.existsSync(newPath)) {
-			console.info(`\tDuplicate asset skipped`);
+	for (const viewFile of views) {
+		const inputFile = getFileMeta(viewFile);
+		if (inputFile.fileNameWithExt === "layout.html") {
 			continue;
 		}
 
-		fs.copyFileSync(oldLinkPath, newPath);
+		const inputFileContent = getFileContent(inputFile.filePath);
 
-		console.info(`\tCopied asset from ${oldLinkPath} to ${newPath}`);
+		let finalContent = "";
+
+		// add layouts
+
+		if (inputFile.fileLayoutPaths.length > 0) {
+			finalContent = inputFileContent;
+
+			for (const layoutPath of inputFile.fileLayoutPaths) {
+				const layoutContent = getFileContent(layoutPath);
+				finalContent = layoutContent.replace(
+					/<div\s+layout-slot\s*\/?>/,
+					finalContent,
+				);
+			}
+		} else {
+			console.warn(`No layouts found for file: ${inputFile.filePath}`);
+			finalContent = inputFileContent;
+		}
+
+		// replace links
+
+		const fixResult = fixLinksInContent(finalContent);
+		finalContent = fixResult.content;
+
+		// copy to destination
+
+		const outputFile = {
+			fileDirSlashed: `${distDir}/${inputFile.fileDirSlashed}`,
+			filePath: `${distDir}/${inputFile.fileDirSlashed}/${inputFile.fileNameWithExt}`,
+		};
+
+		if (!fs.existsSync(outputFile.fileDirSlashed)) {
+			fs.mkdirSync(outputFile.fileDirSlashed, { recursive: true });
+		}
+		fs.writeFileSync(outputFile.filePath, finalContent, "utf8");
+
+		console.info("Prepared html:", outputFile.filePath);
+
+		// copy transformed assets
+
+		for (const [oldLink, { type, newLink }] of fixResult.transformations) {
+			if (type === "html") continue;
+
+			const oldLinkPath = oldLink.replace(/^\.\.\//, ``); // remove leading ../ if exists
+			if (!fs.existsSync(oldLinkPath)) {
+				continue;
+			}
+			const newPath = `${distDir}/${newLink.replace(/^(href="|src=")(.+)"$/, "$2")}`;
+			if (fs.existsSync(newPath)) {
+				console.info(`\tDuplicate asset skipped`);
+				continue;
+			}
+
+			fs.copyFileSync(oldLinkPath, newPath);
+
+			console.info(`\tCopied asset from ${oldLinkPath} to ${newPath}`);
+		}
 	}
 }
+
+function writeToTriggerFile() {
+	let content = "";
+	content += new Date().toISOString();
+	content += "\n";
+	content += `This file is used for triggering live reload.`;
+
+	const triggerFilePath = `${distDir}/reload.txt`;
+	fs.writeFileSync(triggerFilePath, content, "utf8");
+	console.info(`Reload trigger file updated: ${triggerFilePath}`);
+}
+
+distProject();
+writeToTriggerFile();

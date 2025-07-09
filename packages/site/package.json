@@ -3,10 +3,12 @@
 	"private": true,
 	"scripts": {
 		"dist": "bun ./scripts/dist.ts",
-		"dist:preview": "bun ./scripts/dist.ts && bunx http-server dist"
+		"dev": "nodemon --watch . --ext ts,js,json,html,css --ignore dist/ --exec 'bun run dist'",
+		"preview": "bunx http-server dist"
 	},
 	"devDependencies": {
-		"@types/bun": "latest"
+		"@types/bun": "latest",
+		"nodemon": "^3.1.10"
 	},
 	"peerDependencies": {
 		"typescript": "^5"
