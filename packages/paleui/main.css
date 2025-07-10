@@ -73,14 +73,14 @@ button:disabled {
 button.primary {
 	background-color: var(--primary);
 	color: var(--primary-foreground);
-	border: solid 1px var(--border);
+	border: 0;
 	transition: opacity var(--transition-speed) ease-in-out;
 }
 
 button.secondary {
 	background-color: var(--secondary);
 	color: var(--secondary-foreground);
-	border: solid 1px var(--border);
+	border: 0;
 }
 
 button.primary:hover,
@@ -88,7 +88,7 @@ button.secondary:hover {
 	opacity: 80%;
 }
 
-span {
+mark {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -107,35 +107,35 @@ span {
 	transition: background-color var(--transition-speed) ease-in-out;
 }
 
-span:hover {
+mark:hover {
 	background-color: var(--muted);
 }
 
-span>a {
+mark>a {
 	text-decoration: none;
 	color: inherit;
 }
 
-span>a::after {
+mark>a::after {
 	content: " ↗";
 }
 
-span.primary {
+mark.primary {
 	background-color: var(--primary);
 	color: var(--primary-foreground);
 	border: 0;
 	transition: opacity var(--transition-speed) ease-in-out;
 }
 
-span.secondary {
+mark.secondary {
 	background-color: var(--secondary);
 	color: var(--secondary-foreground);
 	border: 0;
 	transition: opacity var(--transition-speed) ease-in-out;
 }
 
-span.primary:hover,
-span.secondary:hover {
+mark.primary:hover,
+mark.secondary:hover {
 	opacity: 80%;
 }
 
@@ -453,6 +453,10 @@ select:hover {
  *
  */
 
+p {
+	margin: 0.5rem 0;
+}
+
 hgroup>h1,
 hgroup>h2,
 hgroup>h3,
@@ -463,6 +467,5 @@ hgroup>h6 {
 }
 
 hgroup>p {
-	margin: 0.5rem 0;
 	color: var(--muted-foreground);
 }
