@@ -1,5 +1,64 @@
-<h1>
-	main pffdge
-</h1>
+<div id="landing">
+	<section>
+		<hgroup>
+			<h1>PaleUI</h1>
+			<p>
+				The sleek design of <strong>shadcn/ui</strong>, with 0 JavaScript.
+				<br>
+				Build beautiful and responsive user interfaces with ease.
+			</p>
+		</hgroup>
 
-<a href="components.index.html">Components</a>
+		<div>
+			<button class="primary" disabled>
+				Get Started
+			</button>
+
+			<a href="components.button.html">
+				<button>
+					Browse Components
+				</button>
+			</a>
+		</div>
+	</section>
+
+	<section>
+		<hgroup>
+			<h2>Features</h2>
+			<p>
+				A list of features.
+			</p>
+		</hgroup>
+
+		<ul>
+			<li>To</li>
+			<li>Be</li>
+			<li>Added</li>
+		</ul>
+	</section>
+</div>
+
+<style>
+	#landing {
+		max-width: 700px;
+		margin: 0 auto;
+	}
+
+	#landing section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		min-height: 80vh;
+		gap: 1rem
+	}
+
+	#landing hgroup {
+		text-align: center;
+	}
+
+	#landing h1 {
+		font-size: 3rem;
+		margin: 0;
+	}
+</style>
