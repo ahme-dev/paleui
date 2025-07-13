@@ -4,6 +4,7 @@ import fs from "node:fs";
 
 const viewsDir = "views";
 const distDir = "dist";
+const assets = "assets";
 
 // prepare
 
@@ -110,7 +111,25 @@ function fixLinksInContent(content: string) {
 		},
 	);
 
+	// for fonts in dir
+	content = content.replace(
+		/url\("(?:\.\.\/)?assets\/([^"]+)"\)/g,
+		(match, file) => {
+			const newLink = `/${file}`;
+			const newLinkWithUrl = `url("${newLink}")`;
+			const oldLink = match.replace(/^url\("(.+)"\)$/, "$1");
+
+			transformations.set(oldLink, {
+				type: "asset",
+				newLink,
+			});
+			return newLinkWithUrl;
+		},
+	);
+
 	// for dependency assets
+	// currently on relative path
+	// not node modules
 	content = content.replace(
 		/href="(?!http:\/\/|https:\/\/)(?:\.\.\/)*([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)"/g,
 		(match, _dir, file) => {
@@ -213,6 +232,37 @@ function distProject() {
 			fs.copyFileSync(oldLinkPath, newPath);
 
 			console.info(`\tCopied asset from ${oldLinkPath} to ${newPath}`);
+		}
+
+		// copy fonts in assets
+
+		if (!fs.existsSync(`${assets}`)) {
+			const assetFiles = fs
+				.readdirSync(assets)
+				.filter(
+					(file) =>
+						file.endsWith(".woff") ||
+						file.endsWith(".woff2") ||
+						file.endsWith(".ttf"),
+				);
+
+			for (const assetFile of assetFiles) {
+				console.log(assetFile);
+				const assetFilePath = `${assets}/${assetFile}`;
+				if (!fs.existsSync(assetFilePath)) {
+					console.warn(`Asset file does not exist: ${assetFilePath}`);
+					continue;
+				}
+
+				const outputAssetPath = `${distDir}/${assetFile}`;
+				if (fs.existsSync(outputAssetPath)) {
+					console.info(`\tDuplicate asset skipped: ${outputAssetPath}`);
+					continue;
+				}
+
+				fs.copyFileSync(assetFilePath, outputAssetPath);
+				console.info(`\tCopied asset: ${outputAssetPath}`);
+			}
 		}
 	}
 }
