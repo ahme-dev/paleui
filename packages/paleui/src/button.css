@@ -1,0 +1,133 @@
+button,
+[role="button"] {
+	display: inline-flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1);
+	justify-content: center;
+	white-space: nowrap;
+	min-width: 0;
+	margin: 0;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
+	height: calc(var(--spacing) * 8);
+	box-sizing: border-box;
+	border-radius: var(--radius);
+	cursor: var(--cursor-interactive);
+	font-weight: 500;
+	font-size: 0.8rem;
+	line-height: 1;
+
+	background-color: var(--primary);
+	color: var(--primary-foreground);
+	border: 0;
+	transition: opacity var(--transition-speed) ease-in-out;
+}
+
+button.icon,
+[role="button"].icon {
+	aspect-ratio: 1;
+	padding: calc(var(--spacing) * 2);
+}
+
+
+button>svg,
+[role="button"]>svg {
+	width: 0.8rem;
+	height: 0.8rem;
+}
+
+button.outline,
+[role="button"].outline {
+	border: solid 1px var(--border);
+	transition: background-color var(--transition-speed) ease-in-out;
+	color: var(--foreground);
+	background-color: var(--background);
+}
+
+button.ghost,
+[role="button"].ghost {
+	border: 0;
+	transition: background-color var(--transition-speed) ease-in-out;
+	color: var(--foreground);
+	background-color: transparent;
+}
+
+button.link,
+[role="button"].link {
+	border: 0;
+	color: var(--foreground);
+	background-color: transparent;
+	text-decoration: none;
+}
+
+button.destructive,
+[role="button"].destructive {
+	border: 0;
+	background-color: var(--destructive);
+	color: var(--destructive-foreground);
+}
+
+button.secondary,
+[role="button"].secondary {
+	border: 0;
+	background-color: var(--secondary);
+	color: var(--secondary-foreground);
+}
+
+button.link:hover,
+[role="button"].link:hover {
+	opacity: 100%;
+	background-color: transparent;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+button.outline:hover,
+[role="button"].outline:hover,
+button.ghost:hover,
+[role="button"].ghost:hover {
+	opacity: 100%;
+	background-color: var(--muted);
+}
+
+button:hover,
+[role="button"]:hover {
+	opacity: 80%;
+	background-color: var(--primary);
+}
+
+button.secondary:hover,
+[role="button"].secondary:hover {
+	opacity: 80%;
+	background-color: var(--secondary);
+}
+
+button.destructive:hover,
+[role="button"].destructive:hover {
+	opacity: 80%;
+	background-color: var(--destructive);
+}
+
+button:disabled,
+[role="button"]:disabled,
+button[aria-busy=true],
+[role="button"][aria-busy=true] {
+	opacity: 50%;
+	pointer-events: none;
+}
+
+button[aria-busy=true]>svg,
+[role="button"][aria-busy=true]>svg {
+	display: none;
+}
+
+button[aria-busy=true]::before,
+[role="button"][aria-busy=true]::before {
+	content: "";
+	width: 0.8rem;
+	height: 0.8rem;
+	border: 2px solid currentColor;
+	border-bottom: 2px solid transparent;
+	box-sizing: border-box;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}

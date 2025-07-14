@@ -1,0 +1,50 @@
+mark {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	min-width: 0;
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+	box-sizing: border-box;
+	background-color: var(--background);
+	color: var(--foreground);
+	cursor: var(--cursor-interactive);
+	border: solid 1px var(--border);
+	border-radius: var(--radius);
+	font-size: 0.7rem;
+	font-weight: 400;
+	line-height: 1;
+	transition: background-color var(--transition-speed) ease-in-out;
+}
+
+mark:hover {
+	background-color: var(--muted);
+}
+
+mark>a {
+	text-decoration: none;
+	color: inherit;
+}
+
+mark>a::after {
+	content: " ↗";
+}
+
+mark.primary {
+	background-color: var(--primary);
+	color: var(--primary-foreground);
+	border: 0;
+	transition: opacity var(--transition-speed) ease-in-out;
+}
+
+mark.secondary {
+	background-color: var(--secondary);
+	color: var(--secondary-foreground);
+	border: 0;
+	transition: opacity var(--transition-speed) ease-in-out;
+}
+
+mark.primary:hover,
+mark.secondary:hover {
+	opacity: 80%;
+}

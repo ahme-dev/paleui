@@ -13,8 +13,6 @@
 	},
 	"keywords": [
 		"paleui",
-		"tailwind",
-		"tailwindcss",
 		"css",
 		"ui",
 		"front-end",
@@ -24,9 +22,9 @@
 	],
 	"main": "./index.js",
 	"module": "./index.js",
-	"browser": "./main.css",
+	"browser": "./src/main.css",
 	"files": [
-		"main.css"
+		"src/main.css"
 	],
 	"scripts": {
 		"build": "bun build.js"
