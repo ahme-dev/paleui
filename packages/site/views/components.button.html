@@ -1,131 +1,140 @@
-<hgroup>
-	<h1>Button</h1>
-	<p>Semantic HTML button element.</p>
+<section>
 
-	<mark class="secondary">
-		<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button">MDN Web Docs</a>
-	</mark>
-</hgroup>
+	<hgroup>
+		<h1>Button</h1>
+		<p>Semantic HTML button element.</p>
 
-<object>
-	<button>Click</button>
-</object>
+		<mark class="secondary">
+			<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button">MDN Web Docs</a>
+		</mark>
+	</hgroup>
 
-<h2 id="examples">Examples</h2>
+	<object>
+		<button>Click</button>
+	</object>
+</section>
 
-<hgroup id="styles">
-	<h3>Styles</h3>
-	<p>
-		Several button styles are available to choose from. These only change the colors, background and border of the
-		button.
-	</p>
-	<p>
-		The <code>primary</code>, <code>secondary</code>, <code>destructive</code>, <code>ghost</code>, and
-		<code>outline</code> classes can be used to apply these styles.
-	</p>
-	<p>
-		It's recommended to use the link style (and its <code>link</code> class) only for <code>&lt;a&gt;</code> elements
-		with a
-		<code>role="button"</code>.
-	</p>
-</hgroup>
+<section>
+	<h2 id="examples">Examples</h2>
 
-<object>
-	<button type="button">
-		Default
-	</button>
+	<hgroup id="styles">
+		<h3>Styles</h3>
+		<p>
+			Several button styles are available to choose from. These only change the colors, background and border of the
+			button.
+		</p>
+		<p>
+			The <code>primary</code>, <code>secondary</code>, <code>destructive</code>, <code>ghost</code>, and
+			<code>outline</code> classes can be used to apply these styles.
+		</p>
+		<p>
+			It's recommended to use the link style (and its <code>link</code> class) only for <code>&lt;a&gt;</code> elements
+			with a
+			<code>role="button"</code>.
+		</p>
+	</hgroup>
 
-	<button type="button" class="secondary">
-		Secondary
-	</button>
+	<object>
+		<button type="button">
+			Default
+		</button>
 
-	<button type="button" class="destructive">
-		Destructive
-	</button>
+		<button type="button" class="secondary">
+			Secondary
+		</button>
 
-	<button type="button" class="outline">
-		Outline
-	</button>
+		<button type="button" class="destructive">
+			Destructive
+		</button>
 
-	<button type="button" class="ghost">
-		Ghost
-	</button>
+		<button type="button" class="outline">
+			Outline
+		</button>
 
-	<a href="#" role="button" class="link">
-		Link
-	</a>
-</object>
+		<button type="button" class="ghost">
+			Ghost
+		</button>
 
-<hgroup id="icons">
-	<h3>Icons</h3>
-	<p>
-		Icons can be added to buttons to enhance their visual appeal and usability. They can also be the only content of
-		a
-		button.
-	</p>
+		<a href="#" role="button" class="link">
+			Link
+		</a>
+	</object>
+</section>
 
-	<p>
-		The <code>icon</code> class can be used to size buttons to fit the icon.
-	</p>
-</hgroup>
+<section>
+	<hgroup id="icons">
+		<h3>Icons</h3>
+		<p>
+			Icons can be added to buttons to enhance their visual appeal and usability. They can also be the only content of
+			a
+			button.
+		</p>
 
-<object>
-	<button type="button">
-		Mark
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-			<path fill="none"
-				d="m16 7l1.912 3.667l4.088.506l-3 2.753l.6 4.074l-3.6-2.292L12.4 18l.6-4.074l-3-2.753l4.2-.506z" />
-			<path fill="currentColor"
-				d="M16 2A11.013 11.013 0 0 0 5 13a10.9 10.9 0 0 0 2.216 6.6s.3.395.349.452L16 30l8.439-9.953c.044-.053.345-.447.345-.447l.001-.003A10.9 10.9 0 0 0 27 13A11.013 11.013 0 0 0 16 2m3.6 16L16 15.709L12.4 18l.6-4.074l-3-2.753l4.2-.507L16 7l1.912 3.667l4.088.506l-3 2.753Z" />
-		</svg>
-	</button>
+		<p>Simply add an <code>&lt;svg&gt;</code> element inside the button.</p>
 
-	<button type="button" class="icon secondary">
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-			<path fill="currentColor" d="M24 2H8a2 2 0 0 0-2 2v26l10-5.054L26 30V4a2 2 0 0 0-2-2" />
-		</svg>
-	</button>
+		<p>
+			The <code>icon</code> class can be used to size buttons to fit the icon.
+		</p>
+	</hgroup>
 
-	<button class="destructive" type="button">
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-			<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
-			<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
-		</svg>
+	<object>
+		<button type="button">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path fill="none"
+					d="m16 7l1.912 3.667l4.088.506l-3 2.753l.6 4.074l-3.6-2.292L12.4 18l.6-4.074l-3-2.753l4.2-.506z" />
+				<path fill="currentColor"
+					d="M16 2A11.013 11.013 0 0 0 5 13a10.9 10.9 0 0 0 2.216 6.6s.3.395.349.452L16 30l8.439-9.953c.044-.053.345-.447.345-.447l.001-.003A10.9 10.9 0 0 0 27 13A11.013 11.013 0 0 0 16 2m3.6 16L16 15.709L12.4 18l.6-4.074l-3-2.753l4.2-.507L16 7l1.912 3.667l4.088.506l-3 2.753Z" />
+			</svg>
 
-		Delete
-	</button>
+			Mark
+		</button>
 
-</object>
+		<button type="button" class="icon secondary">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path fill="currentColor" d="M24 2H8a2 2 0 0 0-2 2v26l10-5.054L26 30V4a2 2 0 0 0-2-2" />
+			</svg>
+		</button>
 
-<hgroup id="states">
-	<h3>States</h3>
-	<p>
-		Buttons can be put in different states, such as disabled or loading, to indicate their current status.
-	</p>
+		<button class="destructive" type="button">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
+				<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
+			</svg>
 
-	<p>
-		The <code>disabled</code> and <code>aria-busy</code> attributes can be used for this purpose.
-	</p>
-</hgroup>
+			Delete
+		</button>
+	</object>
 
-<object>
-	<button disabled type="button">
-		Disabled Button
-	</button>
+	<hgroup id="states">
+		<h3>States</h3>
+		<p>
+			Buttons can be put in different states, such as disabled or loading, to indicate their current status.
+		</p>
 
-	<button aria-busy="true" type="button">
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-			<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
-			<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
-		</svg>
+		<p>
+			The <code>disabled</code> and <code>aria-busy</code> attributes can be used for this purpose.
+		</p>
+	</hgroup>
 
-		Loading Button
-	</button>
+	<object>
+		<button disabled type="button">
+			Disabled Button
+		</button>
 
-	<button aria-busy="true" class="icon destructive" type="button">
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-			<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
-			<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
-		</svg>
-	</button>
-</object>
+		<button aria-busy="true" type="button">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
+				<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
+			</svg>
+
+			Loading Button
+		</button>
+
+		<button aria-busy="true" class="icon destructive" type="button">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
+				<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
+			</svg>
+		</button>
+	</object>
+</section>
