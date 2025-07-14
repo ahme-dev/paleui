@@ -64,7 +64,7 @@ function fixLinksInContent(content: string) {
 
 	// for flat nested files
 	content = content.replace(
-		/href="([a-zA-Z0-9]+)\.([a-zA-Z0-9_.]+)\.html"/g,
+		/href="([a-zA-Z0-9_-]+)\.([a-zA-Z0-9_.-]+)\.html"/g,
 		(match, namespace, rest) => {
 			const path = rest.replace(/\./g, "/");
 			const newLink = `/${namespace}/${path}.html`;
@@ -131,7 +131,7 @@ function fixLinksInContent(content: string) {
 	// currently on relative path
 	// not node modules
 	content = content.replace(
-		/href="(?!http:\/\/|https:\/\/)(?:\.\.\/)*([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)"/g,
+		/href="(?!http:\/\/|https:\/\/)(?:\.\.\/)*([a-zA-Z0-9_.\/-]+)\/([a-zA-Z0-9_.-]+(?<!\.html))"/g,
 		(match, _dir, file) => {
 			const newLink = `/${file}`;
 			const newLinkWithAttr = `href="${newLink}"`;
