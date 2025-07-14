@@ -1,20 +1,38 @@
 <aside id="component-aside">
-	<small>
-		Components
-	</small>
-
 	<ul>
 		<li>
-			<a href="components.button.html" swap-target="#component-display" swap-history="true">Button</a>
+			<small>
+				Semantic
+			</small>
+			<ul>
+				<li>
+					<a href="components.button.html" swap-target="#component-display" swap-history="true">Button</a>
+				</li>
+				<li>
+					<a href="components.select.html" swap-target="#component-display" swap-history="true">Select</a>
+				</li>
+			</ul>
 		</li>
 		<li>
-			<a href="components.dropdown.html" swap-target="#component-display" swap-history="true">Dropdown</a>
+			<small>
+				Role-Based
+			</small>
+			<ul>
+				<li>
+					<a href="components.dropdown-menu.html" swap-target="#component-display" swap-history="true">Dropdown Menu</a>
+				</li>
+			</ul>
 		</li>
 	</ul>
 </aside>
 
 <section id="component-display">
 	<div layout-slot />
+
+	<small>
+		Built by <a target="_blank" href="https://ahme.dev">ahme.dev</a>. The source code is available on <a target="_blank"
+			href="https://github.com/ahme-dev/paleui/packages/paleui">Github</a>
+	</small>
 </section>
 
 </html>
@@ -32,7 +50,8 @@
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		display: flex;
+		display: inline-flex;
+		margin-top: 0.5rem;
 		flex-direction: column;
 		gap: 0;
 	}
@@ -42,12 +61,13 @@
 		box-sizing: border-box;
 		line-height: 1;
 		display: flex;
+		flex-direction: column;
 		border-radius: 0.5rem;
 		height: auto;
 		width: fit-content;
 	}
 
-	#component-aside li:hover {
+	#component-aside ul li ul li:hover {
 		background-color: var(--secondary);
 	}
 
@@ -63,6 +83,7 @@
 		font-size: 0.8rem;
 		font-weight: 400;
 		box-sizing: border-box;
+		text-wrap: nowrap;
 		margin: 0;
 		padding: 0.5rem;
 		text-decoration: none;
@@ -71,6 +92,7 @@
 
 	#component-aside small {
 		margin: 0;
+		margin-top: 1rem;
 		padding: 0.5rem;
 		color: var(--muted-foreground);
 	}
@@ -85,15 +107,20 @@
 		box-sizing: border-box;
 	}
 
-	#component-display map {
-		aspect-ratio: 9/5;
+	#component-display object {
 		display: flex;
-		margin: 1.5rem 0;
 		align-items: center;
-		gap: 1rem;
 		justify-content: center;
+		color: inherit;
+		aspect-ratio: 9/5;
+		margin: 1rem 0;
+		padding: 1rem;
 		border-radius: 0.5rem;
 		border: 1px solid var(--border);
+		box-sizing: border-box;
+		flex-wrap: wrap;
+		gap: 1rem;
+		overflow: auto;
 	}
 
 	#component-display a {

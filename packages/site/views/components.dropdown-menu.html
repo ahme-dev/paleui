@@ -1,0 +1,95 @@
+<hgroup>
+	<h1>Dropdown Menu</h1>
+	<p>Popup list triggered by a button.</p>
+</hgroup>
+
+<object>
+	<details>
+		<summary role="button" class="primary">
+			Dropdown
+		</summary>
+		<div role="dialog">
+			<ul>
+				<li>Option 1</li>
+			</ul>
+		</div>
+	</details>
+</object>
+
+<h2>Structure</h2>
+
+<p>
+	The dropdown menu uses the <code>details</code> and <code>summary</code> elements to create a button that reveals a
+	list of options. The <code>summary</code> element has a <code>button</code> role to look like a button, while the
+	other element that's displayed when the <code>details</code> is open,
+	has a <code>dialog</code> role on it to indicate that it is a popup.
+</p>
+
+<p>
+	As mentioned in other pages, <code>details</code> and <code>summary</code> elements provide a way to make a hidden
+	element that can be toggled using a trigger element. Using styling we can make the hidden element appear similar to a
+	popup.
+</p>
+
+
+<h2>Examples</h2>
+
+<hgroup id="variants">
+	<h3>Variants</h3>
+	<p>
+		Several button variants are available to choose from for the dropdown menu.
+	</p>
+</hgroup>
+
+
+<object>
+	<details>
+		<summary role="button" class="secondary">Secondary</summary>
+		<div role="dialog">
+			<ul>
+				<li>
+					<a href="#option4">Option 4</a>
+				</li>
+			</ul>
+		</div>
+	</details>
+
+	<details>
+		<summary role="button" class="destructive">Destructive</summary>
+		<div role="dialog">
+			<ul>
+				<li>
+					<a href="#option5">Option 5</a>
+				</li>
+			</ul>
+		</div>
+	</details>
+
+	<details>
+		<summary role="button" class="outline">Outline</summary>
+		<div role="dialog">
+			<ul>
+				<li>
+					<a href="#option3">Option 3</a>
+				</li>
+			</ul>
+		</div>
+	</details>
+
+
+</object>
+
+<hgroup id="states">
+	<h3>States</h3>
+	<p>
+		Dropdowns can be put in different states.
+	</p>
+</hgroup>
+
+<object>
+	<details>
+		<summary role="button" tabIndex={-1} disabled>
+			Disabled Dropdown
+		</summary>
+	</details>
+</object>
