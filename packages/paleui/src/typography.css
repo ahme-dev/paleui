@@ -1,0 +1,25 @@
+p {
+	margin: 0.5rem 0;
+}
+
+hgroup>h1,
+hgroup>h2,
+hgroup>h3,
+hgroup>h4,
+hgroup>h5,
+hgroup>h6 {
+	margin-bottom: 0.5rem;
+}
+
+hgroup>p {
+	color: var(--muted-foreground);
+}
+
+code {
+	padding: calc(var(--spacing) * 0.2) calc(var(--spacing) * 1);
+	background-color: var(--muted);
+	color: var(--muted-foreground);
+	font-size: 0.9rem;
+	border-radius: calc(var(--radius) - 1px);
+	line-height: 1;
+}
