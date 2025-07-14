@@ -1,0 +1,108 @@
+<section>
+
+	<hgroup>
+		<h1>Alert</h1>
+		<p>Box that requires user attention.</p>
+
+		<mark class="secondary">
+			<a target="_blank" rel="noopener noreferrer"
+				href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/alert_role">
+				MDN Web Docs
+			</a>
+		</mark>
+	</hgroup>
+
+	<object>
+		<div role="alert">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path fill="currentColor"
+					d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14s14-6.3 14-14S23.7 2 16 2m-1.1 6h2.2v11h-2.2zM16 25c-.8 0-1.5-.7-1.5-1.5S15.2 22 16 22s1.5.7 1.5 1.5S16.8 25 16 25" />
+			</svg>
+
+			<p>Unable to remove item</p>
+			<small>This action cannot be undone</small>
+		</div>
+	</object>
+
+	<p>
+		Per documentation, the <code>alert</code> role should not be displayed on page load, rather it should be used as
+		a way to communicate important information to the user after an action, such as form submission.
+	</p>
+	<p>
+		This helps assistive technologies understand when to notify users of changes.
+	</p>
+</section>
+
+<section>
+	<h2 id="structure">Structure</h2>
+
+	<p>
+		The alert uses most elements (ideally just a <code>div</code>) with a <code>alert</code> role to work as a in-page
+		alert.
+	</p>
+
+	<p>
+		Preconfigured and layouted are several elements <code>&lt;svg&gt;</code> for icons, <code>&lt;p&gt;</code> for the
+		title and <code>&lt;small&gt;</code> for the description. Each can be removed and the layout will adapt to show
+		correctly.
+	</p>
+</section>
+
+<section>
+	<h2 id="examples">Examples</h2>
+
+	<hgroup id="styles">
+		<h3>Styles</h3>
+		<p>
+			Alert can convey a different meaning based on its style. Beside the default style, there's only one other style
+			available.
+		</p>
+
+		<p>Use <code>destructive</code> to indicate a negative action.</p>
+	</hgroup>
+
+	<object>
+		<div role="alert">
+			<p>Default</p>
+			<small>A default alert</small>
+		</div>
+
+		<div role="alert" class="destructive">
+			<p>Destructive</p>
+			<small>A destructive alert</small>
+		</div>
+	</object>
+
+	<hgroup id="icons">
+		<h3>Icons</h3>
+		<p>
+			Alerts can have an icon to represent the purpose of the alert more clearly.
+		</p>
+		<p>
+			Simply add an <code>&lt;svg&gt;</code> element inside the alert to show an icon.
+		</p>
+	</hgroup>
+
+	<object>
+		<div role="alert">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path fill="currentColor"
+					d="m28.504 8.136l-12-7a1 1 0 0 0-1.008 0l-12 7A1 1 0 0 0 3 9v14a1 1 0 0 0 .496.864l12 7a1 1 0 0 0 1.008 0l12-7A1 1 0 0 0 29 23V9a1 1 0 0 0-.496-.864M16 3.158L26.016 9L16 14.842L5.984 9ZM5 10.74l10 5.833V28.26L5 22.426Zm12 17.52V16.574l10-5.833v11.685Z" />
+			</svg>
+
+			<p>An alert with an icon</p>
+		</div>
+
+		<div role="alert">
+			<p>An alert with an icon</p>
+			<small>And a title, too</small>
+
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path fill="currentColor"
+					d="m28.504 8.136l-12-7a1 1 0 0 0-1.008 0l-12 7A1 1 0 0 0 3 9v14a1 1 0 0 0 .496.864l12 7a1 1 0 0 0 1.008 0l12-7A1 1 0 0 0 29 23V9a1 1 0 0 0-.496-.864M16 3.158L26.016 9L16 14.842L5.984 9ZM5 10.74l10 5.833V28.26L5 22.426Zm12 17.52V16.574l10-5.833v11.685Z" />
+			</svg>
+
+
+		</div>
+	</object>
+</section>
