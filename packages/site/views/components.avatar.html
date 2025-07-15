@@ -1,0 +1,105 @@
+<section>
+	<hgroup>
+		<h1>Avatar</h1>
+		<p>An image with a fallback, representing a user or entity.</p>
+	</hgroup>
+
+	<object>
+		<picture>
+			<img src="../noassets/logo-bg.png" alt="PaleUI Logo" />
+			<small>PUI</small>
+		</picture>
+
+		<picture>
+			<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+			<small>PUI</small>
+		</picture>
+	</object>
+
+	<p>
+		Unfortunately without Javascript, it isn't possible to remove the broken image icon on Chromium, and on Firefox an
+		<code>alt</code> value is required to remove it. To get rid of default borders, again an <code>alt</code> value is
+		required, on both browsers. This shouldn't be a problem, as the <code>alt</code> value should always be set for
+		images.
+	</p>
+</section>
+
+<section>
+	<h2 id="structure">Structure</h2>
+
+	<p>
+		The avatar is made of a <code>&lt;picture&gt;</code>, <i>directly</i> containing
+		an <code>&lt;img&gt;</code> and a
+		<code>&lt;small&gt;</code> element for the name or initials of the user, which is used as a fallback when the image
+		is not
+		available.
+	</p>
+</section>
+
+<section>
+	<h2 id="sizing">Sizing</h2>
+
+	<p>
+		The avatar can be made square and the size can be adjusted.
+	</p>
+
+	<p>
+		The <code>square</code> class can be added to the <code>&lt;picture&gt;</code> to make it square (with minor
+		rounding), and to adjust the size, any <code>width</code> and <code>height</code> can be set on the
+		<code>&lt;picture&gt;</code> element as well, rather than the <code>&lt;img&gt;</code> element.
+	</p>
+
+	<object>
+		<picture class="square" style="width: 60px; height: 60px;">
+			<img src="../noassets/logo-bg.png" alt="PaleUI Logo" />
+			<small>PUI</small>
+		</picture>
+
+		<picture class="square" style="width: 40px; height: 40px;">
+			<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+			<small>PUI</small>
+		</picture>
+	</object>
+</section>
+
+<section>
+	<h2 id="Grouping">Grouping</h2>
+
+	<p>
+		Several avatars can be grouped together to represent a group of users, overlapping each other.
+	</p>
+
+	<p>
+		Grouping can be done by wrapping multiple <code>&lt;picture&gt;</code> elements in any element with
+		<code>&lt;role="group"&gt;</code> on it. But note that due to the implementation limitation, only up to 10 avatars
+		can be grouped together.
+	</p>
+
+	<object>
+		<div role="group">
+			<picture>
+				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+				<small>PUI</small>
+			</picture>
+
+			<picture>
+				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+				<small>PUI</small>
+			</picture>
+
+			<picture>
+				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+				<small>PUI</small>
+			</picture>
+
+			<picture>
+				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+				<small>PUI</small>
+			</picture>
+
+			<picture>
+				<small>+99</small>
+			</picture>
+		</div>
+	</object>
+</section>

@@ -1,72 +1,79 @@
-<hgroup>
-	<h1>Select</h1>
-	<p>Semantic HTML select element.</p>
+<section>
+	<hgroup>
+		<h1>Select</h1>
+		<p>Semantic HTML select element.</p>
 
-	<mark class="secondary">
-		<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select">MDN Web Docs</a>
-	</mark>
-</hgroup>
+		<div role="status" class="secondary">
+			<a target="_blank" rel="noopener noreferrer"
+				href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select">MDN Web Docs</a>
+		</div>
+	</hgroup>
 
-<object>
-	<select>
-		<option disabled selected value="">Pick a color</option>
-		<option value="red">Red</option>
-		<option value="blue">Blue</option>
-		<option value="white">White</option>
-	</select>
-</object>
+	<object>
+		<select>
+			<option disabled selected value="">Pick a color</option>
+			<option value="red">Red</option>
+			<option value="blue">Blue</option>
+			<option value="white">White</option>
+		</select>
+	</object>
+</section>
 
-<h2 id="examples">Examples</h2>
+<section>
+	<h2 id="examples">Examples</h2>
 
-<hgroup id="states">
-	<h3>States</h3>
-	<p>
-		Select elements can be put in different states, such as disabled or loading, to indicate their current status.
-	</p>
+	<hgroup id="states">
+		<h3>States</h3>
+		<p>
+			Select elements can be put in different states, such as disabled or loading, to indicate their current status.
+		</p>
 
-	<p>
-		The <code>disabled</code> and <code>aria-busy</code> attributes can be used for this purpose.
-	</p>
-</hgroup>
+		<p>
+			The <code>disabled</code> and <code>aria-busy</code> attributes can be used for this purpose.
+		</p>
+	</hgroup>
 
-<object>
-	<select disabled>
-		<option disabled selected>Disabled Select</option>
-		<option>Option 1</option>
-		<option>Option 2</option>
-	</select>
+	<object>
+		<select disabled>
+			<option disabled selected>Disabled Select</option>
+			<option>Option 1</option>
+			<option>Option 2</option>
+		</select>
 
-	<select aria-busy="true">
-		<option disabled selected>Loading Select</option>
-		<option>Option 1</option>
-		<option>Option 2</option>
-	</select>
-</object>
+		<select aria-busy="true">
+			<option disabled selected>Loading Select</option>
+			<option>Option 1</option>
+			<option>Option 2</option>
+		</select>
+	</object>
+</section>
 
-<hgroup id="item-grouping">
-	<h3>Item Grouping</h3>
-	<p>
-		Items in the select can be grouped to organize them better.
-	</p>
+<section>
+	<hgroup id="item-grouping">
+		<h3>Item Grouping</h3>
+		<p>
+			Items in the select can be grouped to organize them better.
+		</p>
 
-	<p>
-		Use the <code>&lt;optgroup&gt;</code> element to group options together, and the <code>label</code> attribute to
-		provide a label for the group.
-	</p>
-</hgroup>
+		<p>
+			Use the <code>&lt;optgroup&gt;</code> element to group options together, and the <code>label</code> attribute to
+			provide a label for the group.
+		</p>
+	</hgroup>
 
-<object>
-	<select>
-		<option disabled selected value="">Grouped select</option>
-		<hr />
-		<optgroup label="Group1">
-			<option value="item1">Item 1</option>
-			<option value="item2">Item 2</option>
-		</optgroup>
-		<hr />
-		<optgroup label="Group2">
-			<option value="item3">Item 3</option>
-			<option value="item4">Item 4</option>
-		</optgroup>
-	</select>
-</object>
+	<object>
+		<select>
+			<option disabled selected value="">Grouped select</option>
+			<hr />
+			<optgroup label="Group1">
+				<option value="item1">Item 1</option>
+				<option value="item2">Item 2</option>
+			</optgroup>
+			<hr />
+			<optgroup label="Group2">
+				<option value="item3">Item 3</option>
+				<option value="item4">Item 4</option>
+			</optgroup>
+		</select>
+	</object>
+</section>
