@@ -28,6 +28,9 @@
 					<a href="components.badge.html" swap-target="#component-display" swap-history="true">Badge</a>
 				</li>
 				<li>
+					<a href="components.breadcrumbs.html" swap-target="#component-display" swap-history="true">Breadcrumbs</a>
+				</li>
+				<li>
 					<a href="components.dropdown-menu.html" swap-target="#component-display" swap-history="true">Dropdown Menu</a>
 				</li>
 			</ul>
@@ -148,9 +151,13 @@
 
 	.aspect {
 		border: 1px solid var(--border);
-		font-size: 0.8rem;
 		background-color: var(--muted);
-		border-radius: 0.5rem;
-		padding: 1rem;
+		font-size: 0.8rem;
+		border-radius: var(--radius);
+		padding: calc(var(--spacing) * 2);
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
