@@ -28,9 +28,8 @@ button.icon,
 	padding: calc(var(--spacing) * 2);
 }
 
-
-button>svg,
-[role="button"]>svg {
+button > svg,
+[role="button"] > svg {
 	width: 0.8rem;
 	height: 0.8rem;
 }
@@ -109,19 +108,19 @@ button.destructive:hover,
 
 button:disabled,
 [role="button"]:disabled,
-button[aria-busy=true],
-[role="button"][aria-busy=true] {
+button[aria-busy="true"],
+[role="button"][aria-busy="true"] {
 	opacity: 50%;
 	pointer-events: none;
 }
 
-button[aria-busy=true]>svg,
-[role="button"][aria-busy=true]>svg {
+button[aria-busy="true"] > svg,
+[role="button"][aria-busy="true"] > svg {
 	display: none;
 }
 
-button[aria-busy=true]::before,
-[role="button"][aria-busy=true]::before {
+button[aria-busy="true"]::before,
+[role="button"][aria-busy="true"]::before {
 	content: "";
 	width: 0.8rem;
 	height: 0.8rem;
