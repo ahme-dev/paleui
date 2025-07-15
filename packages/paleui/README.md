@@ -27,7 +27,7 @@ PaleUI will not include any JavaScript, and will do its best to minimize the amo
 
 Using semantic HTML elements, role attributes, and ARIA attributes make writing UI much more accessible and cleaner to look at than class-heavy markup. This approach also ensures that the components are accessible to all users, including those using assistive technologies like screen readers.
 
-PaleUI will use semantic HTML elements and role attributes to target styling whenever possible, and will include appropriate ARIA attributes where needed. Even in examples, ARIA attributes will be included to encourage their use and demonstrate proper accessibility practices.
+PaleUI will use semantic HTML elements whenever possible, and role attributes if semantic elements are not available. Even in examples, ARIA attributes will be included to encourage their use and demonstrate proper accessibility practices.
 
 #### 3. Support older browsers.
 
@@ -41,7 +41,7 @@ PaleUI will stay compatible with `shadcn/ui` themes, and provide all the compone
 
 #### 5. Keep distribution small and modular.
 
-PaleUI will be distributed both as a single file and as multiple files to use in a modular way. It will also strive to keep the size of the files small to not affect performance. Individual components can be imported separately to minimize bundle size, and the library will avoid unnecessary dependencies that could bloat the final build. 
+PaleUI will be distributed both as a single file and as multiple files to use in a modular way. The user shouldn't be forced to include parts they don't need. 
 
 #### 6. Support usage in modern Javascript frameworks.
 
