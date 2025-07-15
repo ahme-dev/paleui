@@ -1,0 +1,116 @@
+<section>
+	<hgroup>
+		<h1>Breadcrumbs</h1>
+		<p>Displays the path to the current resource using a hierarchy of links.</p>
+	</hgroup>
+
+	<object>
+		<nav aria-label="breadcrumb">
+			<ol>
+				<li><a href="/">Home</a></li>
+				<li><a href="/components">Components</a></li>
+				<li aria-current="page">Breadcrumbs</li>
+			</ol>
+		</nav>
+	</object>
+</section>
+
+<section>
+	<h2 id="structure">Structure</h2>
+
+	<p>
+		Breadcrumbs are made using a <code>&lt;nav&gt;</code> element with <code>aria-label="breadcrumb"</code> containing
+		an ordered list (<code>&lt;ol&gt;</code>) of links. The current page is indicated with
+		<code>aria-current="page"</code> and should not be a link.
+	</p>
+</section>
+
+<section>
+	<h2 id="examples">Examples</h2>
+
+	<hgroup id="separators">
+		<h3>Separators</h3>
+		<p>
+			The separator between breadcrumb items can be customized.
+		</p>
+	</hgroup>
+
+	<p>
+		By default, a slash ("/") is used as the separator. But this can be changed by overriding the
+		<code>--separator</code>
+		CSS variable.
+	</p>
+
+	<object>
+		<nav aria-label="breadcrumb">
+			<ol style="--separator: '›';">
+				<li><a href="/">Home</a></li>
+				<li><a href="/products">Products</a></li>
+				<li><a href="/products/laptops">Laptops</a></li>
+				<li aria-current="page">Gaming Laptop</li>
+			</ol>
+		</nav>
+	</object>
+
+	<hgroup id="icons">
+		<h3>Icons</h3>
+		<p>
+			Breadcrumbs can include icons to enhance visual hierarchy and usability.
+		</p>
+	</hgroup>
+
+	<p>
+		A <code>&lt;svg&gt;</code> element can be added inside the breadcrumb item link.
+	</p>
+
+	<object>
+		<nav aria-label="breadcrumb">
+			<ol>
+				<li>
+					<a href="/">
+						Home
+					</a>
+				</li>
+				<li><a href="/projects">Projects</a></li>
+				<li>
+					<a href="/projects/favourites">
+						<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<path fill="currentColor"
+								d="m16 2l-4.55 9.22l-10.17 1.47l7.36 7.18L6.9 30l9.1-4.78L25.1 30l-1.74-10.13l7.36-7.17l-10.17-1.48Z" />
+						</svg>
+
+						Favourites
+					</a>
+				</li>
+				<li aria-current="page">Settings</li>
+			</ol>
+		</nav>
+	</object>
+
+	<hgroup id="collapsed">
+		<h3>Collapsed</h3>
+		<p>
+			For very long breadcrumb trails, you can show an ellipsis to indicate collapsed items.
+		</p>
+	</hgroup>
+
+	<p>
+		Instead of a link, the collapsed item can be represented by a span with <code>aria-hidden="true"</code>. The
+		attribute is there to indicate that the item is not part of the navigation and should not be announced by screen
+		readers.
+	</p>
+
+	<object>
+		<nav aria-label="breadcrumb">
+			<ol>
+				<li><a href="/">Home</a></li>
+				<li>
+					<span aria-hidden="true">...</span>
+				</li>
+				<li><a href="/components">Components</a></li>
+				<li><a href="/components/navigation">Navigation</a></li>
+				<li aria-current="page">Breadcrumbs</li>
+			</ol>
+		</nav>
+	</object>
+</section>
