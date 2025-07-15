@@ -10,8 +10,11 @@
 	</hgroup>
 
 	<object>
-		<div class="aspect" style="--ratio: 2/1">
-			<p>Aspect Ratio 2:1</p>
+		<div class="aspect" style="--ratio: 3/1; height: 60px;">
+			<p>Aspect Ratio
+				<br>
+				2:1
+			</p>
 		</div>
 	</object>
 </section>
@@ -25,4 +28,33 @@
 	</p>
 
 	<p>Note that the aspect ratio property is not as well supported in older browsers.</p>
+</section>
+
+<section>
+	<h2 id="examples">Examples</h2>
+
+	<hgroup id="sizing">
+		<h3>Sizing</h3>
+		<p>
+			The aspect ratio can be set to any value.
+		</p>
+	</hgroup>
+
+	<p>
+		The value can be assigned to the <code>--ratio</code> custom property.
+	</p>
+
+	<object>
+		<div class="aspect" style="--ratio: 1/1; height: 20px;">
+			<p>1:1</p>
+		</div>
+
+		<div class="aspect" style="--ratio: 1/2; height: 80px;">
+			<p>1:2</p>
+		</div>
+
+		<div class="aspect" style="--ratio: 4/3; height: 40px;">
+			<p>4:3</p>
+		</div>
+	</object>
 </section>

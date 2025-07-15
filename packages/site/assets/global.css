@@ -22,7 +22,7 @@ header a {
 	color: inherit;
 }
 
-header>nav {
+header > nav {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -31,7 +31,7 @@ header>nav {
 	font-size: 0.8rem;
 }
 
-header>nav ul {
+header > nav ul {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -44,7 +44,7 @@ header>nav ul {
 	box-sizing: border-box;
 }
 
-header>nav li {
+header > nav li {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -53,7 +53,7 @@ header>nav li {
 	box-sizing: border-box;
 }
 
-header>nav a {
+header > nav a {
 	padding: 0;
 	height: min-content;
 	line-height: 1;
