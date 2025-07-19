@@ -1,0 +1,56 @@
+<section>
+	<hgroup>
+		<h1>Alert Dialog</h1>
+		<p>Modal that requires user attention and confirmation.</p>
+
+		<div role="status" class="secondary">
+			<a target="_blank" rel="noopener noreferrer"
+				href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog">
+				MDN: &lt;dialog&gt;
+			</a>
+		</div>
+	</hgroup>
+
+	<object>
+		<button class="destructive" onclick="remove_modal.showModal()">Remove</button>
+		<dialog id="remove_modal">
+			<hgroup>
+				<h3>Remove item?</h3>
+				<p>This action cannot be undone, and it will permanently delete the item from our systems without the ability to
+					recover it.</p>
+			</hgroup>
+
+			<div>
+				<button class="outline">Cancel</button>
+				<button>Confirm</button>
+			</div>
+		</dialog>
+	</object>
+
+	<p>
+		The modern semantic approach used here has <a target="_blank" rel="noopener noreferrer"
+			href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#browser_compatibility">wide
+			support</a> in browsers, aside from some features of it not utilized here.
+		However the addition of Javascript is required to toggle the modal (though, less than one-line), and because of
+		this a different approach will be provided in future releases.
+	</p>
+
+	<p>
+		The alert dialog should only be used for actions that require user attention and confirmation. A regular dialog
+		should be used for non-critical information or content.
+	</p>
+</section>
+
+<section>
+	<h2 id="structure">Structure</h2>
+
+	<p>
+		The alert dialog is made out of semantic HTML, natively supported by browsers to trigger a modal without special
+		styling.
+	</p>
+
+	<p>
+		It uses the <code>&lt;dialog&gt;</code> element, which is a native HTML element that provides a way to create modal
+		dialogs, and has to be opened by using an id and <code>showModal()</code>.
+	</p>
+</section>
