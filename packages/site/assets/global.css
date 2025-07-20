@@ -90,3 +90,25 @@ h3 {
 	height: 10px;
 	width: 1px;
 }
+
+[role="none"] {
+	display: inline-flex;
+	flex-grow: 1;
+	min-width: calc(var(--spacing) * 4);
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.rounded {
+	border-radius: var(--radius);
+}
+.max-width {
+	max-width: 400px;
+}
