@@ -1,0 +1,24 @@
+article {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 4);
+	border: solid 1px var(--border);
+	box-sizing: border-box;
+	border-radius: calc(var(--radius) + 4px);
+	padding: calc(var(--spacing) * 5) calc(var(--spacing) * 6);
+}
+
+article header,
+article hgroup,
+article footer,
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+	box-sizing: border-box;
+	position: static;
+	padding: 0;
+	margin: 0 !important;
+}
