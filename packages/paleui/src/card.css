@@ -6,6 +6,7 @@ article {
 	box-sizing: border-box;
 	border-radius: calc(var(--radius) + 4px);
 	padding: calc(var(--spacing) * 5) calc(var(--spacing) * 6);
+	box-shadow: var(--shadow-sm);
 }
 
 article header,

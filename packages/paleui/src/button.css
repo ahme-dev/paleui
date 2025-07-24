@@ -16,6 +16,7 @@ button,
 	font-size: 0.8rem;
 	line-height: 1;
 
+	box-shadow: var(--shadow-xs);
 	background-color: var(--primary);
 	color: var(--primary-foreground);
 	border: 0;
@@ -48,6 +49,7 @@ button.ghost,
 	transition: background-color var(--transition-speed) ease-in-out;
 	color: var(--foreground);
 	background-color: transparent;
+	box-shadow: none;
 }
 
 button.link,
@@ -56,6 +58,7 @@ button.link,
 	color: var(--foreground);
 	background-color: transparent;
 	text-decoration: none;
+	box-shadow: none;
 }
 
 button.destructive,
