@@ -20,32 +20,20 @@
 	<link rel="stylesheet" href="../../paleui/src/dropdown-menu.css">
 	<link rel="stylesheet" href="../../paleui/src/select.css">
 	<link rel="stylesheet" href="../../paleui/src/input.css">
-	<link rel="stylesheet" href="../../paleui/src/tab.css">
+	<link rel="stylesheet" href="../../paleui/src/tabs.css">
 	<link rel="stylesheet" href="../../paleui/src/tooltip.css">
 	<link rel="stylesheet" href="../assets/global.css">
 
-	<style>
-		@font-face {
-			font-family: "Roboto Condensed";
-			font-style: italic;
-			src: url("../assets/RobotoCondensed-Italic-VariableFont_wght.ttf") format("truetype");
-			font-display: swap;
-		}
-
-		@font-face {
-			font-family: "Roboto Condensed";
-			font-style: normal;
-			src: url("../assets/RobotoCondensed-VariableFont_wght.ttf") format("truetype");
-			font-display: swap;
-		}
-	</style>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 	<header>
 		<nav>
 			<a href="/">
-				<img height="16" src="../assets/logo-nobg.png" alt="PaleUI Logo" />
+				<img height="16" src="../assets/logo-nobg.png" alt="PaleUI Logo" aria-label="PaleUI Logo" />
 			</a>
 
 			<span role="separator"></span>
@@ -59,8 +47,7 @@
 				</li>
 			</ul>
 
-			<span style="margin: 0 auto;">
-			</span>
+			<span role="none"></span>
 
 			<span role="separator"></span>
 

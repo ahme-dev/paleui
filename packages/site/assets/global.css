@@ -1,5 +1,9 @@
 * {
-	font-family: "Roboto Condensed", sans-serif;
+	font-family: "Geist", sans-serif;
+}
+
+html {
+	font-size: 16px;
 }
 
 body {
@@ -94,7 +98,7 @@ h3 {
 [role="none"] {
 	display: inline-flex;
 	flex-grow: 1;
-	min-width: calc(var(--spacing) * 4);
+	min-width: calc(var(--spacing) * 2);
 }
 
 .flex-col {
@@ -111,4 +115,8 @@ h3 {
 }
 .max-width {
 	max-width: 400px;
+}
+[role="group"] {
+	display: flex;
+	flex-direction: row;
 }
