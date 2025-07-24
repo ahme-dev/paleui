@@ -4,9 +4,17 @@
 		<p>List of sections displayed one at a time using controls.</p>
 	</hgroup>
 
-	<object>
-		<div class="max-width">
-			<div class="tabs">
+	<div class="tabs">
+		<input type="radio" name="screen" id="preview" checked />
+		<input type="radio" name="screen" id="html" />
+
+		<span role="tablist">
+			<label for="preview" role="tab">Preview</label>
+			<label for="html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel" class="preview">
+			<div class="tabs max-width">
 				<input type="radio" name="tabs" id="tab1" checked />
 				<input type="radio" name="tabs" id="tab2" />
 
@@ -38,7 +46,10 @@
 				</div>
 			</div>
 		</div>
-	</object>
+
+		<div role="tabpanel" class="html">
+		</div>
+	</div>
 
 	<p>The current approach isn't ideal and too verbose. While some other solutions exist, they either don't provide
 		correct

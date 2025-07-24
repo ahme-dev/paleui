@@ -4,32 +4,45 @@
 		<p>Displays a card, separating a piece of content into distinct sections.</p>
 	</hgroup>
 
-	<object>
-		<article class="max-width">
-			<div class="flex-row">
-				<header>
-					<hgroup>
-						<h2>Bluetooth Keyboard Case</h2>
-						<p>
-							A versatile keyboard case that transforms your tablet into a laptop-like experience.
-						</p>
-					</hgroup>
-				</header>
-				<span role="none"></span>
-				<section>
-					<img class="rounded" src="https://placehold.co/100x100" alt="not a real image">
-				</section>
-			</div>
+	<div class="tabs">
+		<input type="radio" name="tabs" id="preview" checked />
+		<input type="radio" name="tabs" id="html" />
 
-			<footer class="flex-row">
-				<button>Buy Now</button>
-				<span role="none"></span>
-				<span role="status" class="secondary">
-					$49.99
-				</span>
-			</footer>
-		</article>
-	</object>
+		<span role="tablist">
+			<label for="preview" role="tab">Preview</label>
+			<label for="html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel" class="preview">
+			<article style="max-width: 400px;">
+				<header style="display: flex; flex-direction: row;">
+					<div role="group">
+						<hgroup>
+							<h2>Bluetooth Keyboard Case</h2>
+							<p>
+								A versatile keyboard case that transforms your tablet into a laptop-like experience.
+							</p>
+						</hgroup>
+						<span role="none"></span>
+						<section>
+							<img class="rounded" src="https://placehold.co/100x100" alt="not a real image">
+						</section>
+					</div>
+				</header>
+
+				<footer style="display: flex; flex-direction: row;">
+					<button>Buy Now</button>
+					<span role="none"></span>
+					<span role="status" class="secondary">
+						$49.99
+					</span>
+				</footer>
+			</article>
+		</div>
+
+		<div role="tabpanel" class="html">
+		</div>
+	</div>
 </section>
 
 <section>
