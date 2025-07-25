@@ -13,36 +13,43 @@
 			<label for="html" role="tab">HTML</label>
 		</span>
 
-		<div role="tabpanel" class="preview">
-			<article style="max-width: 400px;">
-				<header style="display: flex; flex-direction: row;">
-					<div role="group">
-						<hgroup>
-							<h2>Bluetooth Keyboard Case</h2>
-							<p>
-								A versatile keyboard case that transforms your tablet into a laptop-like experience.
-							</p>
-						</hgroup>
-						<span role="none"></span>
-						<section>
-							<img class="rounded" src="https://placehold.co/100x100" alt="not a real image">
-						</section>
-					</div>
-				</header>
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#head-html">
+					<article style="max-width: 400px;">
+						<header style="display: flex; flex-direction: row;">
+							<div role="group">
+								<hgroup>
+									<h2>Bluetooth Keyboard Case</h2>
+									<p>
+										A versatile keyboard case that transforms your tablet into a laptop-like experience.
+									</p>
+								</hgroup>
+								<span role="none"></span>
+								<section>
+									<img class="rounded" src="https://placehold.co/100x100" alt="not a real image">
+								</section>
+							</div>
+						</header>
 
-				<footer style="display: flex; flex-direction: row;">
-					<button>Buy Now</button>
-					<span role="none"></span>
-					<span role="status" class="secondary">
-						$49.99
-					</span>
-				</footer>
-			</article>
+						<footer style="display: flex; flex-direction: row;">
+							<button>Buy Now</button>
+							<span role="none"></span>
+							<span role="status" class="secondary">
+								$49.99
+							</span>
+						</footer>
+					</article>
+				</div>
+			</object>
 		</div>
 
-		<div role="tabpanel" class="html">
+		<div role="tabpanel">
+			<object>
+				<div id="head-html">
+				</div>
+			</object>
 		</div>
-	</div>
 </section>
 
 <section>
@@ -58,4 +65,17 @@
 		<code>&lt;footer&gt;</code> elements, where now in the <code>&lt;article&gt;</code> they represent the header and
 		footer of the card rather than the page.
 	</p>
+
+
+	<object>
+		<div data-to-code>
+			<article>
+				<header>
+				</header>
+
+				<footer>
+				</footer>
+			</article>
+		</div>
+	</object>
 </section>

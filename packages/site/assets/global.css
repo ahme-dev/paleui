@@ -121,23 +121,46 @@ h3 {
 	flex-direction: row;
 }
 
-section > .tabs {
-	margin: 1.5rem 0;
-}
-
-.tabs > [role="tabpanel"].preview,
-.tabs > [role="tabpanel"].preview ~ [role="tabpanel"] {
-	margin-top: calc(var(--spacing) * 1);
-	width: 100%;
-	height: 100%;
+object {
+	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 1rem;
+	position: relative;
+	margin-top: 0;
+	width: 100%;
 	color: inherit;
 	aspect-ratio: 9 / 5;
-	padding: 0;
 	border-radius: 0.5rem;
 	border: 1px solid var(--border);
 	box-sizing: border-box;
 	flex-wrap: wrap;
 	gap: 1rem;
+}
+object > * {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+object pre {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	display: flex;
+}
+object code {
+	margin: 0;
+	padding: 0.5rem;
+	box-sizing: border-box;
+}
+
+[role="tabpanel"] {
+	margin-top: calc(var(--spacing) * 2);
+}
+section > .tabs {
+	margin: 1.5rem 0;
 }
