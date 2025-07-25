@@ -14,40 +14,47 @@
 		</span>
 
 		<div role="tabpanel" class="preview">
-			<div class="tabs max-width">
-				<input type="radio" name="tabs" id="tab1" checked />
-				<input type="radio" name="tabs" id="tab2" />
+			<object>
+				<div data-to-code="#head-html">
+					<div class="tabs max-width">
+						<input type="radio" name="tabs" id="tab1" checked />
+						<input type="radio" name="tabs" id="tab2" />
 
-				<span role="tablist">
-					<label for="tab1" role="tab">Signup</label>
-					<label for="tab2" role="tab">Login</label>
-				</span>
+						<span role="tablist">
+							<label for="tab1" role="tab">Signup</label>
+							<label for="tab2" role="tab">Login</label>
+						</span>
 
-				<div role="tabpanel" style="margin-top:1rem ;">
-					<article>
-						<hgroup>
-							<h2>Signup</h2>
-							<p>
-								Here you can create a new account, by providing your email and a password.
-							</p>
-						</hgroup>
-					</article>
+						<div role="tabpanel" style="margin-top:1rem ;">
+							<article>
+								<hgroup>
+									<h2>Signup</h2>
+									<p>
+										Here you can create a new account, by providing your email and a password.
+									</p>
+								</hgroup>
+							</article>
+						</div>
+
+						<div role="tabpanel" style="margin-top:1rem;">
+							<article>
+								<hgroup>
+									<h2>Login</h2>
+									<p>
+										Here you can login to your existing account, using your credentials.
+									</p>
+								</hgroup>
+							</article>
+						</div>
+					</div>
 				</div>
-
-				<div role="tabpanel" style="margin-top:1rem;">
-					<article>
-						<hgroup>
-							<h2>Login</h2>
-							<p>
-								Here you can login to your existing account, using your credentials.
-							</p>
-						</hgroup>
-					</article>
-				</div>
-			</div>
+			</object>
 		</div>
 
 		<div role="tabpanel" class="html">
+			<object>
+				<div id="head-html"></div>
+			</object>
 		</div>
 	</div>
 
@@ -76,4 +83,23 @@
 		Each tab content is wrapped in a <code>role="tabpanel"&gt;</code> element, which is displayed when the
 		corresponding tab is selected.
 	</p>
+
+	<object>
+		<div data-to-code>
+			<div class="tabs">
+				<input type="radio" name="structure" id="structure-tab1" checked />
+				<input type="radio" name="structure" id="structure-tab2" />
+
+				<span role="tablist">
+					<label for="structure-tab1" role="tab">Tab1</label>
+					<label for="structure-tab2" role="tab">Tab2</label>
+				</span>
+
+				<div role="tabpanel">
+				</div>
+				<div role="tabpanel">
+				</div>
+			</div>
+		</div>
+	</object>
 </section>
