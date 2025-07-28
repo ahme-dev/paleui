@@ -5,6 +5,7 @@
 	box-sizing: border-box;
 	border-radius: var(--radius);
 	height: auto;
+	width: 100%;
 	background-color: var(--background);
 	border: solid 1px var(--border);
 	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4);

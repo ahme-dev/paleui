@@ -15,6 +15,7 @@ button,
 	font-weight: 500;
 	font-size: 0.8rem;
 	line-height: 1;
+	flex-shrink: 0;
 
 	box-shadow: var(--shadow-xs);
 	background-color: var(--primary);
