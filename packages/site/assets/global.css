@@ -87,14 +87,6 @@ h3 {
 	font-weight: 500;
 }
 
-[role="separator"] {
-	border: none;
-	background-color: var(--border);
-	display: inline-flex;
-	height: 10px;
-	width: 1px;
-}
-
 [role="none"] {
 	display: inline-flex;
 	flex-grow: 1;
