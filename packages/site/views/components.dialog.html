@@ -1,7 +1,7 @@
 <section>
 	<hgroup>
-		<h1>Alert Dialog</h1>
-		<p>Modal that requires user attention and confirmation.</p>
+		<h1>Dialog</h1>
+		<p>Modal that overlays and renders separate content.</p>
 
 		<div role="status" class="secondary">
 			<a target="_blank" rel="noopener noreferrer"
@@ -23,23 +23,29 @@
 		<div role="tabpanel">
 			<object>
 				<div data-to-code="#head-html-panel">
-					<button class="destructive" onclick="remove_modal.showModal()">
-						Remove
+					<button onclick="share_modal.showModal()">
+						Share
 					</button>
 
-					<dialog id="remove_modal">
+					<dialog id="share_modal">
 						<hgroup>
-							<h3>Remove item?</h3>
+							<h3>Share link</h3>
 							<p>
-								This action cannot be undone, and it will permanently
-								delete the item from our systems without the
-								ability to recover it.
+								Anyone who has this link will be able to view this.
 							</p>
 						</hgroup>
 
+						<input type="text" value="https://paleui.ahme.dev" style="width: 100%;" />
+
+						<div style="margin: 0.5rem 0;"></div>
+
+						<div role="group">
+							<button style="background-color: dodgerblue;">X</button>
+							<button style="background-color: dodgerblue;">LinkedIn</button>
+						</div>
+
 						<div>
-							<button class="outline">Cancel</button>
-							<button>Confirm</button>
+							<button class="secondary">Close</button>
 						</div>
 					</dialog>
 				</div>
@@ -59,18 +65,13 @@
 		However the addition of Javascript is required to toggle the modal (though, less than one-line), and because of
 		this a different approach will be provided in future releases.
 	</p>
-
-	<p>
-		The alert dialog should only be used for actions that require user attention and confirmation. A regular dialog
-		should be used for non-critical information or content.
-	</p>
 </section>
 
 <section>
 	<h2 id="structure">Structure</h2>
 
 	<p>
-		The alert dialog is made out of semantic HTML, natively supported by browsers to trigger a modal without special
+		The dialog is made out of semantic HTML, natively supported by browsers to trigger a modal without special
 		styling.
 	</p>
 
@@ -95,8 +96,11 @@
 				<hgroup>
 					<!-- title and description -->
 				</hgroup>
+
+				<!-- dialog content -->
+
 				<div>
-					<!-- confirm and cancel buttons (auto aligned to the right) -->
+					<!-- buttons or footer (auto aligned to the right) -->
 				</div>
 			</dialog>
 		</div>
