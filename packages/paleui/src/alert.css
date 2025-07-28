@@ -4,6 +4,7 @@
 	grid-template-rows: auto auto;
 	box-sizing: border-box;
 	border-radius: var(--radius);
+	margin: 0;
 	height: auto;
 	width: 100%;
 	background-color: var(--background);
