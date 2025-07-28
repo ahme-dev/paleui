@@ -116,6 +116,9 @@ h3 {
 .max-width {
 	max-width: 400px;
 }
+.gap {
+	gap: calc(var(--spacing) * 2);
+}
 [role="group"] {
 	display: flex;
 	flex-direction: row;
@@ -151,11 +154,15 @@ object pre {
 	padding: 0;
 	box-sizing: border-box;
 	display: flex;
+	background-color: transparent;
+	color: var(--foreground);
 }
 object code {
 	margin: 0;
 	padding: 0.5rem;
 	box-sizing: border-box;
+	background-color: transparent;
+	color: var(--foreground);
 }
 
 [role="tabpanel"] {

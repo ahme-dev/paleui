@@ -5,18 +5,38 @@
 
 		<div role="status" class="secondary">
 			<a target="_blank" rel="noopener noreferrer"
-				href="https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio">MDN Web Docs</a>
+				href="https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio">MDN: aspect-ratio</a>
 		</div>
 	</hgroup>
 
-	<object>
-		<div class="aspect" style="--ratio: 3/1; height: 60px;">
-			<p>Aspect Ratio
-				<br>
-				2:1
-			</p>
+	<div class="tabs">
+		<input type="radio" name="head" id="head-preview" checked />
+		<input type="radio" name="head" id="head-html" />
+
+		<span role="tablist">
+			<label for="head-preview" role="tab">Preview</label>
+			<label for="head-html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#head-html-panel" class="max-width">
+					<div class="aspect" style="--ratio: 3/1; height: 60px;">
+						<p>
+							Aspect Ratio
+							<br>
+							2:1
+						</p>
+					</div>
+				</div>
+			</object>
 		</div>
-	</object>
+		<div role="tabpanel">
+			<object>
+				<div id="head-html-panel"></div>
+			</object>
+		</div>
+	</div>
 </section>
 
 <section>
@@ -28,6 +48,14 @@
 	</p>
 
 	<p>Note that the aspect ratio property is not as well supported in older browsers.</p>
+
+	<object>
+		<div data-to-code>
+			<div class="aspect" style="--ratio: 3/1;">
+				<!-- content -->
+			</div>
+		</div>
+	</object>
 </section>
 
 <section>
@@ -44,17 +72,37 @@
 		The value can be assigned to the <code>--ratio</code> custom property.
 	</p>
 
-	<object>
-		<div class="aspect" style="--ratio: 1/1; height: 20px;">
-			<p>1:1</p>
-		</div>
 
-		<div class="aspect" style="--ratio: 1/2; height: 80px;">
-			<p>1:2</p>
-		</div>
+	<div class="tabs">
+		<input type="radio" name="sizing" id="sizing-preview" checked />
+		<input type="radio" name="sizing" id="sizing-html" />
 
-		<div class="aspect" style="--ratio: 4/3; height: 40px;">
-			<p>4:3</p>
+		<span role="tablist">
+			<label for="sizing-preview" role="tab">Preview</label>
+			<label for="sizing-html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#sizing-html-panel" class="max-width flex-row gap">
+					<div class="aspect" style="--ratio: 1/1; height: 20px;">
+						<p>1:1</p>
+					</div>
+
+					<div class="aspect" style="--ratio: 1/2; height: 80px;">
+						<p>1:2</p>
+					</div>
+
+					<div class="aspect" style="--ratio: 4/3; height: 40px;">
+						<p>4:3</p>
+					</div>
+				</div>
+			</object>
 		</div>
-	</object>
+		<div role="tabpanel">
+			<object>
+				<div id="sizing-html-panel"></div>
+			</object>
+		</div>
+	</div>
 </section>
