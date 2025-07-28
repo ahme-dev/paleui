@@ -12,7 +12,8 @@ select {
 	background-color: var(--background);
 	color: var(--foreground);
 	border: solid 1px var(--border);
-	font-size: 0.8rem;
+	line-height: 1;
+	font-size: 0.875rem;
 	transition: background-color var(--transition-speed) ease-in-out;
 	appearance: none;
 	box-shadow: var(--shadow-xs);
