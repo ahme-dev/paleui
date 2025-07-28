@@ -18,38 +18,59 @@
 		</div>
 	</hgroup>
 
-	<object>
-		<div style="width: 100%; max-width: 400px;">
-			<details name="listener">
-				<summary>Product Information</summary>
-				<div>
-					<p>
-						Our flagship product combines cutting-edge technology with sleek design. Built with premium materials, it
-						offers unparalleled performance and reliability.
-					</p>
+	<div class="tabs">
+		<input type="radio" name="head" id="head-preview" checked />
+		<input type="radio" name="head" id="head-html" />
 
-					<p>
-						Key features include advanced processing capabilities, and an intuitive user interface designed for both
-						beginners and experts.
-					</p>
-				</div>
-			</details>
-			<details name="listener">
-				<summary>Shipping Details</summary>
-				<div>
-					<p>
-						We offer worldwide shipping through trusted courier partners. Standard delivery takes 3-5 business days,
-						while express shipping ensures delivery within 1-2 business days.
-					</p>
+		<span role="tablist">
+			<label for="head-preview" role="tab">Preview</label>
+			<label for="head-html" role="tab">HTML</label>
+		</span>
 
-					<p>
-						All orders are carefully packaged and fully insured. Track your shipment in real-time through our dedicated
-						tracking portal.
-					</p>
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#head-html-panel" class="max-width flex-col">
+					<details name="faq">
+						<summary>Product Information</summary>
+						<div>
+							<p>
+								Our flagship product combines cutting-edge technology with sleek design. Built with premium materials,
+								it
+								offers unparalleled performance and reliability.
+							</p>
+
+							<p>
+								Key features include advanced processing capabilities, and an intuitive user interface designed for
+								both
+								beginners and experts.
+							</p>
+						</div>
+					</details>
+					<details name="faq">
+						<summary>Shipping Details</summary>
+						<div>
+							<p>
+								We offer worldwide shipping through trusted courier partners. Standard delivery takes 3-5 business
+								days,
+								while express shipping ensures delivery within 1-2 business days.
+							</p>
+
+							<p>
+								All orders are carefully packaged and fully insured. Track your shipment in real-time through our
+								dedicated
+								tracking portal.
+							</p>
+						</div>
+					</details>
 				</div>
-			</details>
+			</object>
 		</div>
-	</object>
+		<div role="tabpanel">
+			<object>
+				<div id="head-html-panel"></div>
+			</object>
+		</div>
+	</div>
 
 	<p>
 		Note that support for having one <code>&lt;details&gt;</code> element open at a time (done with the
@@ -85,8 +106,24 @@
 		A shared <code>name</code> attribute can be added to the <code>&lt;details&gt;</code> elements to
 		make sure that only one of them is open at a time.
 	</p>
-</section>
 
+	<object>
+		<div data-to-code>
+			<details name="structure">
+				<summary>
+					<!-- title -->
+				</summary>
+				<!-- content -->
+			</details>
+			<details name="structure">
+				<summary>
+					<!-- title -->
+				</summary>
+				<!-- content -->
+			</details>
+		</div>
+	</object>
+</section>
 
 <section>
 	<h2 id="examples">Examples</h2>
@@ -103,35 +140,53 @@
 		<code>name</code> attribute to the <code>&lt;details&gt;</code> elements.
 	</p>
 
-	<object>
-		<div style="max-width: 400px; width: 100%;">
-			<details>
-				<summary>All can be opened</summary>
-				<div>
-					Yes, you can.
-				</div>
-			</details>
-			<details>
-				<summary>All can be opened</summary>
-				<div>
-					Yes, you can.
-				</div>
-			</details>
+	<div class="tabs">
+		<input type="radio" name="variants" id="variants-preview" checked />
+		<input type="radio" name="variants" id="variants-html" />
 
-			<br />
+		<span role="tablist">
+			<label for="variants-preview" role="tab">Preview</label>
+			<label for="variants-html" role="tab">HTML</label>
+		</span>
 
-			<details name="only">
-				<summary>A: Only this</summary>
-				<div>
-					Only one can be opened at a time.
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#variants-html-panel" class="flex-col max-width">
+					<details>
+						<summary>All can be opened</summary>
+						<div>
+							Yes, you can.
+						</div>
+					</details>
+					<details>
+						<summary>All can be opened</summary>
+						<div>
+							Yes, you can.
+						</div>
+					</details>
+
+					<br />
+
+					<details name="only">
+						<summary>A: Only this</summary>
+						<div>
+							Only one can be opened at a time.
+						</div>
+					</details>
+					<details name="only">
+						<summary>B: Only this</summary>
+						<div>
+							Only one can be opened at a time.
+						</div>
+					</details>
 				</div>
-			</details>
-			<details name="only">
-				<summary>B: Only this</summary>
-				<div>
-					Only one can be opened at a time.
-				</div>
-			</details>
+			</object>
+
 		</div>
-	</object>
+		<div role="tabpanel">
+			<object>
+				<div id="variants-html-panel"></div>
+			</object>
+		</div>
+	</div>
 </section>

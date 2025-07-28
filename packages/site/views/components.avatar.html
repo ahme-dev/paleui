@@ -4,17 +4,36 @@
 		<p>Image with a fallback, representing a user or entity.</p>
 	</hgroup>
 
-	<object>
-		<picture>
-			<img src="../noassets/logo-bg.png" alt="PaleUI Logo" />
-			<small>PUI</small>
-		</picture>
+	<div class="tabs">
+		<input type="radio" name="head" id="head-preview" checked />
+		<input type="radio" name="head" id="head-html" />
 
-		<picture>
-			<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
-			<small>PUI</small>
-		</picture>
-	</object>
+		<span role="tablist">
+			<label for="head-preview" role="tab">Preview</label>
+			<label for="head-html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#head-html-panel" class="max-width flex-row gap">
+					<picture>
+						<img src="../noassets/logo-bg.png" alt="PaleUI Logo" />
+						<small>PUI</small>
+					</picture>
+
+					<picture>
+						<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+						<small>PUI</small>
+					</picture>
+				</div>
+			</object>
+		</div>
+		<div role="tabpanel">
+			<object>
+				<div id="head-html-panel"></div>
+			</object>
+		</div>
+	</div>
 
 	<p>
 		Unfortunately without Javascript, it isn't possible to remove the broken image icon on Chromium, and on Firefox an
@@ -34,6 +53,17 @@
 		is not
 		available.
 	</p>
+
+	<object>
+		<div data-to-code>
+			<picture>
+				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+				<small>
+					<!-- fallback text -->
+				</small>
+			</picture>
+		</div>
+	</object>
 </section>
 
 <section>
@@ -52,17 +82,36 @@
 		<code>&lt;picture&gt;</code> element as well, rather than the <code>&lt;img&gt;</code> element.
 	</p>
 
-	<object>
-		<picture class="square" style="width: 60px; height: 60px;">
-			<img src="../noassets/logo-bg.png" alt="PaleUI Logo" />
-			<small>PUI</small>
-		</picture>
+	<div class="tabs">
+		<input type="radio" name="sizing" id="sizing-preview" checked />
+		<input type="radio" name="sizing" id="sizing-html" />
 
-		<picture class="square" style="width: 40px; height: 40px;">
-			<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
-			<small>PUI</small>
-		</picture>
-	</object>
+		<span role="tablist">
+			<label for="sizing-preview" role="tab">Preview</label>
+			<label for="sizing-html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#sizing-html-panel" class="max-width flex-row gap">
+					<picture class="square" style="width: 60px; height: 60px;">
+						<img src="../noassets/logo-bg.png" alt="PaleUI Logo" />
+						<small>PUI</small>
+					</picture>
+
+					<picture class="square" style="width: 40px; height: 40px;">
+						<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+						<small>PUI</small>
+					</picture>
+				</div>
+			</object>
+		</div>
+		<div role="tabpanel">
+			<object>
+				<div id="sizing-html-panel"></div>
+			</object>
+		</div>
+	</div>
 
 	<hgroup id="grouping">
 		<h3>Grouping</h3>
@@ -79,31 +128,50 @@
 		can be grouped together.
 	</p>
 
-	<object>
-		<div role="group">
-			<picture>
-				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
-				<small>PUI</small>
-			</picture>
+	<div class="tabs">
+		<input type="radio" name="grouping" id="grouping-preview" checked />
+		<input type="radio" name="grouping" id="grouping-html" />
 
-			<picture>
-				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
-				<small>PUI</small>
-			</picture>
+		<span role="tablist">
+			<label for="grouping-preview" role="tab">Preview</label>
+			<label for="grouping-html" role="tab">HTML</label>
+		</span>
 
-			<picture>
-				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
-				<small>PUI</small>
-			</picture>
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#grouping-html-panel" class="max-width">
+					<div role="group">
+						<picture>
+							<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+							<small>PUI</small>
+						</picture>
 
-			<picture>
-				<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
-				<small>PUI</small>
-			</picture>
+						<picture>
+							<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+							<small>PUI</small>
+						</picture>
 
-			<picture>
-				<small>+99</small>
-			</picture>
+						<picture>
+							<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+							<small>PUI</small>
+						</picture>
+
+						<picture>
+							<img src="../assets/logo-bg.png" alt="PaleUI Logo" />
+							<small>PUI</small>
+						</picture>
+
+						<picture>
+							<small>+99</small>
+						</picture>
+					</div>
+				</div>
+			</object>
 		</div>
-	</object>
+		<div role="tabpanel">
+			<object>
+				<div id="grouping-html-panel"></div>
+			</object>
+		</div>
+	</div>
 </section>

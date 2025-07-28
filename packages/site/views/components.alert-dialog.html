@@ -11,21 +11,46 @@
 		</div>
 	</hgroup>
 
-	<object>
-		<button class="destructive" onclick="remove_modal.showModal()">Remove</button>
-		<dialog id="remove_modal">
-			<hgroup>
-				<h3>Remove item?</h3>
-				<p>This action cannot be undone, and it will permanently delete the item from our systems without the ability to
-					recover it.</p>
-			</hgroup>
+	<div class="tabs">
+		<input type="radio" name="head" id="head-preview" checked />
+		<input type="radio" name="head" id="head-html" />
 
-			<div>
-				<button class="outline">Cancel</button>
-				<button>Confirm</button>
-			</div>
-		</dialog>
-	</object>
+		<span role="tablist">
+			<label for="head-preview" role="tab">Preview</label>
+			<label for="head-html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#head-html-panel">
+					<button class="destructive" onclick="remove_modal.showModal()">
+						Remove
+					</button>
+
+					<dialog id="remove_modal">
+						<hgroup>
+							<h3>Remove item?</h3>
+							<p>
+								This action cannot be undone, and it will permanently
+								delete the item from our systems without the
+								ability to recover it.
+							</p>
+						</hgroup>
+
+						<div>
+							<button class="outline">Cancel</button>
+							<button>Confirm</button>
+						</div>
+					</dialog>
+				</div>
+			</object>
+		</div>
+		<div role="tabpanel">
+			<object>
+				<div id="head-html-panel"></div>
+			</object>
+		</div>
+	</div>
 
 	<p>
 		The modern semantic approach used here has <a target="_blank" rel="noopener noreferrer"
@@ -53,4 +78,26 @@
 		It uses the <code>&lt;dialog&gt;</code> element, which is a native HTML element that provides a way to create modal
 		dialogs, and has to be opened by using an id and <code>showModal()</code>.
 	</p>
+
+	<p>
+		The dialog can contain any content, but it is recommended to use a <code>&lt;hgroup&gt;</code> element for the title
+		and description, and a <code>&lt;div&gt;</code> element for the buttons (automatically aligned to the right).
+	</p>
+
+	<object>
+		<div data-to-code>
+			<button onclick="mdl.showModal()">
+				<!-- trigger text -->
+			</button>
+
+			<dialog id="mdl">
+				<hgroup>
+					<!-- title and description -->
+				</hgroup>
+				<div>
+					<!-- buttons aligned to the right -->
+				</div>
+			</dialog>
+		</div>
+	</object>
 </section>

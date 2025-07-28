@@ -5,13 +5,32 @@
 
 		<div role="status" class="secondary">
 			<a target="_blank" rel="noopener noreferrer"
-				href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button">MDN Web Docs</a>
+				href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button">MDN: &lt;button&gt;</a>
 		</div>
 	</hgroup>
 
-	<object>
-		<button>Click</button>
-	</object>
+	<div class="tabs">
+		<input type="radio" name="head" id="head-preview" checked />
+		<input type="radio" name="head" id="head-html" />
+
+		<span role="tablist">
+			<label for="head-preview" role="tab">Preview</label>
+			<label for="head-html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#head-html-panel" class="max-width">
+					<button>Click</button>
+				</div>
+			</object>
+		</div>
+		<div role="tabpanel">
+			<object>
+				<div id="head-html-panel"></div>
+			</object>
+		</div>
+	</div>
 </section>
 
 <section>
@@ -35,31 +54,50 @@
 		<code>role="button"</code>.
 	</p>
 
-	<object>
-		<button type="button">
-			Default
-		</button>
+	<div class="tabs">
+		<input type="radio" name="styles" id="styles-preview" checked />
+		<input type="radio" name="styles" id="styles-html" />
 
-		<button type="button" class="secondary">
-			Secondary
-		</button>
+		<span role="tablist">
+			<label for="styles-preview" role="tab">Preview</label>
+			<label for="styles-html" role="tab">HTML</label>
+		</span>
 
-		<button type="button" class="destructive">
-			Destructive
-		</button>
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#styles-html-panel" class="max-width flex-row gap">
+					<button type="button">
+						Default
+					</button>
 
-		<button type="button" class="outline">
-			Outline
-		</button>
+					<button type="button" class="secondary">
+						Secondary
+					</button>
 
-		<button type="button" class="ghost">
-			Ghost
-		</button>
+					<button type="button" class="destructive">
+						Destructive
+					</button>
 
-		<a href="#" role="button" class="link">
-			Link
-		</a>
-	</object>
+					<button type="button" class="outline">
+						Outline
+					</button>
+
+					<button type="button" class="ghost">
+						Ghost
+					</button>
+
+					<a href="#" role="button" class="link">
+						Link
+					</a>
+				</div>
+			</object>
+		</div>
+		<div role="tabpanel">
+			<object>
+				<div id="styles-html-panel"></div>
+			</object>
+		</div>
+	</div>
 
 	<hgroup id="icons">
 		<h3>Icons</h3>
@@ -76,33 +114,53 @@
 		The <code>icon</code> class can be used to size buttons to fit the icon.
 	</p>
 
-	<object>
-		<button type="button">
-			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-				<path fill="none"
-					d="m16 7l1.912 3.667l4.088.506l-3 2.753l.6 4.074l-3.6-2.292L12.4 18l.6-4.074l-3-2.753l4.2-.506z" />
-				<path fill="currentColor"
-					d="M16 2A11.013 11.013 0 0 0 5 13a10.9 10.9 0 0 0 2.216 6.6s.3.395.349.452L16 30l8.439-9.953c.044-.053.345-.447.345-.447l.001-.003A10.9 10.9 0 0 0 27 13A11.013 11.013 0 0 0 16 2m3.6 16L16 15.709L12.4 18l.6-4.074l-3-2.753l4.2-.507L16 7l1.912 3.667l4.088.506l-3 2.753Z" />
-			</svg>
+	<div class="tabs">
+		<input type="radio" name="icons" id="icons-preview" checked />
+		<input type="radio" name="icons" id="icons-html" />
 
-			Mark
-		</button>
+		<span role="tablist">
+			<label for="icons-preview" role="tab">Preview</label>
+			<label for="icons-html" role="tab">HTML</label>
+		</span>
 
-		<button type="button" class="icon secondary">
-			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-				<path fill="currentColor" d="M24 2H8a2 2 0 0 0-2 2v26l10-5.054L26 30V4a2 2 0 0 0-2-2" />
-			</svg>
-		</button>
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#icons-html-panel" class="max-width flex-row gap">
+					<button type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<path fill="none"
+								d="m16 7l1.912 3.667l4.088.506l-3 2.753l.6 4.074l-3.6-2.292L12.4 18l.6-4.074l-3-2.753l4.2-.506z" />
+							<path fill="currentColor"
+								d="M16 2A11.013 11.013 0 0 0 5 13a10.9 10.9 0 0 0 2.216 6.6s.3.395.349.452L16 30l8.439-9.953c.044-.053.345-.447.345-.447l.001-.003A10.9 10.9 0 0 0 27 13A11.013 11.013 0 0 0 16 2m3.6 16L16 15.709L12.4 18l.6-4.074l-3-2.753l4.2-.507L16 7l1.912 3.667l4.088.506l-3 2.753Z" />
+						</svg>
 
-		<button class="destructive" type="button">
-			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-				<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
-				<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
-			</svg>
+						Mark
+					</button>
 
-			Delete
-		</button>
-	</object>
+					<button type="button" class="icon secondary">
+						<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<path fill="currentColor" d="M24 2H8a2 2 0 0 0-2 2v26l10-5.054L26 30V4a2 2 0 0 0-2-2" />
+						</svg>
+					</button>
+
+					<button class="destructive" type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
+							<path fill="currentColor"
+								d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
+						</svg>
+
+						Delete
+					</button>
+				</div>
+			</object>
+		</div>
+		<div role="tabpanel">
+			<object>
+				<div id="icons-html-panel"></div>
+			</object>
+		</div>
+	</div>
 
 	<hgroup id="states">
 		<h3>States</h3>
@@ -115,25 +173,46 @@
 		The <code>disabled</code> and <code>aria-busy</code> attributes can be used for this purpose.
 	</p>
 
-	<object>
-		<button disabled type="button">
-			Disabled Button
-		</button>
+	<div class="tabs">
+		<input type="radio" name="states" id="states-preview" checked />
+		<input type="radio" name="states" id="states-html" />
 
-		<button aria-busy="true" type="button">
-			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-				<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
-				<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
-			</svg>
+		<span role="tablist">
+			<label for="states-preview" role="tab">Preview</label>
+			<label for="states-html" role="tab">HTML</label>
+		</span>
 
-			Loading Button
-		</button>
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#states-html-panel" class="max-width flex-row gap">
+					<button disabled type="button">
+						Disabled Button
+					</button>
 
-		<button aria-busy="true" class="icon destructive" type="button">
-			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-				<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
-				<path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
-			</svg>
-		</button>
-	</object>
+					<button aria-busy="true" type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
+							<path fill="currentColor"
+								d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
+						</svg>
+
+						Loading Button
+					</button>
+
+					<button aria-busy="true" class="icon destructive" type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
+							<path fill="currentColor"
+								d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" />
+						</svg>
+					</button>
+				</div>
+			</object>
+		</div>
+		<div role="tabpanel">
+			<object>
+				<div id="states-html-panel"></div>
+			</object>
+		</div>
+	</div>
 </section>
