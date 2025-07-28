@@ -1,18 +1,6 @@
-details {
+/* details {
 	position: relative;
 	display: inline-flex;
-}
-
-details[open] summary[role="button"] {
-	border-radius: var(--radius);
-}
-
-details summary[role="button"]::after {
-	content: ""
-}
-
-details[open] summary[role="button"]::after {
-	content: ""
 }
 
 details [role="dialog"] {
@@ -23,7 +11,7 @@ details [role="dialog"] {
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
 	box-sizing: border-box;
-	padding: calc(var(--spacing)*1);
+	padding: calc(var(--spacing) * 1);
 	display: flex;
 	flex-direction: column;
 	margin: 0;
@@ -61,7 +49,7 @@ details {
 	display: flex;
 }
 
-details>summary {
+details > summary:not([role="button"]) {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
@@ -82,25 +70,25 @@ details>summary {
 	transition: background-color var(--transition-speed) ease-in-out;
 }
 
-details>summary:hover {
+details > summary:not([role="button"]):hover {
 	background-color: var(--muted);
 }
 
-details>summary::after {
+details > summary:not([role="button"])::after {
 	content: "+";
 	font-weight: bold;
 }
 
-details[open] summary {
+details[open] summary:not([role="button"]) {
 	border-radius: var(--radius) var(--radius) 0 0;
 }
 
-details[open] summary::after {
+details[open] summary:not([role="button"])::after {
 	content: "-";
 	font-weight: bold;
 }
 
-details>div {
+details > div {
 	display: flex;
 	width: 100%;
 	flex-direction: column;
@@ -112,4 +100,4 @@ details>div {
 	border-radius: 0 0 var(--radius) var(--radius);
 	font-size: 0.8rem;
 	line-height: 1;
-}
+} */
