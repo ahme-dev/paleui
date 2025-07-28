@@ -11,6 +11,12 @@ textarea {
 	font-size: 0.8rem;
 	line-height: 1;
 	transition: background-color var(--transition-speed) ease-in-out;
+	box-shadow: var(--shadow);
+}
+
+input:focus-visible,
+textarea:focus-visible {
+	outline: 2px solid var(--ring);
 }
 
 label[role="textbox"] input {

@@ -14,7 +14,12 @@ dialog > hgroup {
 	padding-bottom: calc(var(--spacing) * 2);
 }
 
-dialog > div {
+dialog > hgroup p {
+	font-size: 0.875rem;
+}
+
+dialog > div:last-child {
+	margin-top: calc(var(--spacing) * 4);
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
