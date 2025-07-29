@@ -1,14 +1,13 @@
 article {
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--spacing) * 4);
-	border: solid 1px var(--border);
-	box-sizing: border-box;
-	border-radius: calc(var(--radius) + 4px);
-	padding: calc(var(--spacing) * 5) calc(var(--spacing) * 6);
-	box-shadow: var(--shadow-sm);
+  padding: calc(var(--spacing) * 5) calc(var(--spacing) * 6);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 4);
+  border: solid 1px var(--border);
+  box-sizing: border-box;
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--shadow-sm);
 }
-
 article header,
 article hgroup,
 article footer,
@@ -18,8 +17,25 @@ article h3,
 article h4,
 article h5,
 article h6 {
-	box-sizing: border-box;
-	position: static;
-	padding: 0;
-	margin: 0 !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  vertical-align: baseline;
+  position: static;
 }
+article hgroup > h1,
+article hgroup > h2,
+article hgroup > h3,
+article hgroup > h4,
+article hgroup > h5,
+article hgroup > h6 {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  vertical-align: baseline;
+  margin-bottom: calc(var(--spacing) * 1);
+}
+
+/*# sourceMappingURL=card.css.map */

@@ -1,5 +1,9 @@
+@use "utils.scss";
+
 input,
 textarea {
+	@include utils.outline("background-color");
+
 	display: inline-flex;
 	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
 	height: calc(var(--spacing) * 8);
@@ -12,14 +16,10 @@ textarea {
 	line-height: 1;
 	box-shadow: var(--shadow);
 	outline: 0px solid var(--ring);
-	transition:
-		background-color var(--transition-speed) ease-in-out,
-		outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
-}
 
-input:focus-visible,
-textarea:focus-visible {
-	outline-width: 3px;
+	:focus-visible {
+		@include utils.outline-visible;
+	}
 }
 
 label[role="textbox"] input {

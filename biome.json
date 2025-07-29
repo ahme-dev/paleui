@@ -6,7 +6,8 @@
 		"useIgnoreFile": false
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": false,
+		"includes": ["packages/paleui/**/*", "packages/site/**/*"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -20,6 +21,9 @@
 				"useSemanticElements": "info",
 				"noNoninteractiveElementToInteractiveRole": "info",
 				"useFocusableInteractive": "info"
+			},
+			"suspicious": {
+				"noDuplicateProperties": "info"
 			}
 		}
 	},

@@ -1,0 +1,67 @@
+@use "utils.scss";
+
+[role="status"] {
+	@include utils.reset;
+	@include utils.pad(1, 2);
+
+	display: inline-flex;
+	gap: calc(var(--spacing) * 1);
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	min-width: 0;
+	border-radius: var(--radius);
+	font-size: 0.7rem;
+	font-weight: 400;
+	line-height: 0.95;
+
+	background-color: var(--primary);
+	color: var(--primary-foreground);
+	border: 0;
+	transition: opacity var(--transition-speed) ease-in-out;
+
+	>a {
+		text-decoration: none;
+		color: inherit;
+
+		&::after {
+			content: " ↗";
+		}
+	}
+
+	>svg {
+		width: calc(var(--spacing) * 3);
+		height: calc(var(--spacing) * 3);
+	}
+
+	&.fit {
+		@include utils.pad(1);
+	}
+
+	&.outline {
+		border: solid 1px var(--border);
+		transition: background-color var(--transition-speed) ease-in-out;
+		color: var(--foreground);
+		background-color: var(--background);
+	}
+
+	&.ghost {
+		border: 0;
+		transition: background-color var(--transition-speed) ease-in-out;
+		color: var(--foreground);
+		background-color: transparent;
+	}
+
+
+	&.destructive {
+		border: 0;
+		background-color: var(--destructive);
+		color: var(--destructive-foreground);
+	}
+
+	&.secondary {
+		border: 0;
+		background-color: var(--secondary);
+		color: var(--secondary-foreground);
+	}
+}

@@ -5,10 +5,10 @@ label {
 	font-size: 0.875rem;
 	cursor: var(--cursor-interactive);
 	line-height: 1;
-}
 
-label small {
-	color: var(--muted-foreground);
-	font-size: 0.875rem;
-	line-height: 1;
+	small {
+		color: var(--muted-foreground);
+		font-size: 0.875rem;
+		line-height: 1;
+	}
 }

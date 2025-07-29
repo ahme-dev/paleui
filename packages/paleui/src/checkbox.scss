@@ -1,0 +1,47 @@
+@use "utils.scss";
+
+input[type="checkbox"] {
+	@include utils.reset;
+	@include utils.outline;
+
+	appearance: none;
+	width: calc(var(--spacing) * 4);
+	height: calc(var(--spacing) * 4);
+	border: 1px solid var(--border);
+	border-radius: calc(var(--radius) - 2px);
+	background-color: var(--background);
+	flex-shrink: 0;
+	box-shadow: var(--shadow);
+	cursor: var(--cursor-interactive);
+	outline: 0px solid var(--ring);
+
+	&:focus-visible {
+		@include utils.outline-visible;
+	}
+
+	&:checked {
+		background-color: var(--primary);
+		border-color: var(--primary);
+	}
+
+	&:checked::before {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		font: 1.2rem;
+		content: "✓";
+		color: var(--primary-foreground);
+	}
+
+	&:disabled,
+	&[aria-disabled="true"],
+	&[aria-busy="true"] {
+		@include utils.disable;
+	}
+
+	small {
+		font-weight: 400;
+	}
+}
