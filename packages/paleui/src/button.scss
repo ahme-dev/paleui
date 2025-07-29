@@ -3,7 +3,7 @@
 button,
 [role="button"] {
 	@include utils.reset;
-	@include utils.outline("opacity");
+	@include utils.transition-outline-with ("opacity var(--transition-speed) ease-in-out");
 	@include utils.pad(2, 4);
 
 	display: inline-flex;
@@ -37,7 +37,7 @@ button,
 	}
 
 	&.outline {
-		@include utils.outline("background-color");
+		@include utils.transition-outline-with ("background-color var(--transition-speed) ease-in-out");
 		border: solid 1px var(--border);
 		color: var(--foreground);
 		background-color: var(--background);
@@ -49,7 +49,7 @@ button,
 	}
 
 	&.ghost {
-		@include utils.outline("background-color");
+		@include utils.transition-outline-with ("background-color var(--transition-speed) ease-in-out");
 		border: 0;
 		color: var(--foreground);
 		background-color: transparent;
@@ -104,7 +104,7 @@ button,
 	}
 
 	&:focus-visible {
-		@include utils.outline-visible;
+		@include utils.transition-outline-visible;
 	}
 
 	&:hover {

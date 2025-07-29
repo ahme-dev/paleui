@@ -7,15 +7,13 @@
 }
 
 
-@mixin outline($extra-transition: null) {
+@mixin transition-outline-with ($extra-transition: null) {
 	outline: 0px solid var(--ring);
-	transition-duration: calc(var(--transition-speed) * 0.5);
-	transition-behavior: ease-in-out;
-	transition-property: outline-width,
+	transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out,
 	#{$extra-transition};
 }
 
-@mixin outline-visible {
+@mixin transition-outline-visible {
 	outline-width: 3px;
 }
 

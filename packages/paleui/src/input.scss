@@ -2,7 +2,7 @@
 
 input,
 textarea {
-	@include utils.outline("background-color");
+	@include utils.transition-outline-with ("background-color var(--transition-speed) ease-in-out");
 
 	display: inline-flex;
 	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
@@ -18,7 +18,7 @@ textarea {
 	outline: 0px solid var(--ring);
 
 	:focus-visible {
-		@include utils.outline-visible;
+		@include utils.transition-outline-visible;
 	}
 }
 
