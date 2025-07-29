@@ -14,7 +14,6 @@ select {
 	border: solid 1px var(--border);
 	line-height: 1;
 	font-size: 0.875rem;
-	transition: background-color var(--transition-speed) ease-in-out;
 	appearance: none;
 	box-shadow: var(--shadow-xs);
 
@@ -29,6 +28,15 @@ select {
 		4px 4px;
 	background-repeat: no-repeat;
 	cursor: var(--cursor-interactive);
+
+	outline: 0px solid var(--ring);
+	transition:
+		outline-width calc(var(--transition-speed) * 0.5) ease-in-out,
+		background-color var(--transition-speed) ease-in-out;
+}
+
+select:focus-visible {
+	outline-width: 3px;
 }
 
 select:disabled,
