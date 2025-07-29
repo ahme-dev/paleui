@@ -1,0 +1,86 @@
+.tabs {
+	position: relative;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+.tabs > input {
+	opacity: 0;
+	position: absolute;
+	top: calc(var(--spacing) * 0.6);
+	left: calc(var(--spacing) * 0.6);
+	height: calc(var(--spacing) * 5);
+	width: calc(var(--spacing) * 8);
+	padding: var(--spacing);
+	margin: 0;
+	appearance: none;
+}
+
+.tabs > input:nth-of-type(2) {
+	left: calc(var(--spacing) * 0.6 + calc(var(--spacing) * 8));
+}
+
+[role="tablist"] {
+	position: relative;
+	background-color: var(--muted);
+	width: fit-content;
+	display: flex;
+	box-sizing: border-box;
+	padding: calc(var(--spacing) * 0.6);
+	height: calc(var(--spacing) * 9);
+	border-radius: calc(var(--radius) + 2px);
+}
+
+[role="tablist"] > [role="tab"] {
+	display: inline-flex;
+	appearance: none;
+	height: 100%;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
+	background-color: var(--muted);
+	box-sizing: border-box;
+	margin: 0;
+	border: 1px transparent solid;
+	cursor: var(--cursor-interactive);
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 1;
+	border-radius: calc(var(--radius) + 2px);
+	outline: 0px solid var(--ring);
+	transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
+}
+
+[role="tabpanel"] {
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	display: none;
+	width: 100%;
+}
+
+input:first-child:focus-visible ~ [role="tablist"] > [role="tab"]:first-child,
+input:nth-child(2):focus-visible
+	~ [role="tablist"]
+	> [role="tab"]:nth-child(2) {
+	outline-width: 3px;
+}
+
+input:first-child:checked ~ [role="tablist"] > [role="tab"]:first-child,
+input:nth-child(2):checked ~ [role="tablist"] > [role="tab"]:nth-child(2) {
+	background-color: var(--background);
+	color: var(--foreground);
+	box-shadow: var(--shadow-xs);
+	z-index: 2;
+	border: solid 1px var(--border);
+}
+
+input:nth-child(1):checked ~ [role="tabpanel"]:nth-of-type(1),
+input:nth-child(2):checked ~ [role="tabpanel"]:nth-of-type(2) {
+	display: flex;
+}
