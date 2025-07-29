@@ -1,0 +1,135 @@
+@use "utils.scss";
+
+button,
+[role="button"] {
+	@include utils.reset;
+	@include utils.outline("opacity");
+	@include utils.pad(2, 4);
+
+	display: inline-flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1);
+	justify-content: center;
+	white-space: nowrap;
+	min-width: 0;
+	height: calc(var(--spacing) * 8);
+	border-radius: var(--radius);
+	cursor: var(--cursor-interactive);
+	font-weight: 500;
+	font-size: 0.8rem;
+	line-height: 1;
+	flex-shrink: 0;
+	text-decoration: none;
+
+	box-shadow: var(--shadow-xs);
+	background-color: var(--primary);
+	color: var(--primary-foreground);
+	border: 0;
+
+	&.icon {
+		aspect-ratio: 1;
+		padding: calc(var(--spacing) * 2);
+	}
+
+	>svg {
+		width: 0.8rem;
+		height: 0.8rem;
+	}
+
+	&.outline {
+		@include utils.outline("background-color");
+		border: solid 1px var(--border);
+		color: var(--foreground);
+		background-color: var(--background);
+
+		&:hover {
+			opacity: 100%;
+			background-color: var(--muted);
+		}
+	}
+
+	&.ghost {
+		@include utils.outline("background-color");
+		border: 0;
+		color: var(--foreground);
+		background-color: transparent;
+		box-shadow: none;
+
+		&:hover {
+			opacity: 100%;
+			background-color: var(--muted);
+		}
+	}
+
+	&.link {
+		border: 0;
+		color: var(--foreground);
+		background-color: transparent;
+		text-decoration: none;
+		box-shadow: none;
+
+		&:hover {
+			opacity: 100%;
+			background-color: transparent;
+			text-decoration: underline;
+			text-underline-offset: 2px;
+		}
+
+		&:focus-visible {
+			text-decoration: underline;
+			text-underline-offset: 2px;
+		}
+	}
+
+	&.destructive {
+		border: 0;
+		background-color: var(--destructive);
+		color: var(--destructive-foreground);
+
+		&:hover {
+			opacity: 80%;
+			background-color: var(--destructive);
+		}
+	}
+
+	&.secondary {
+		border: 0;
+		background-color: var(--secondary);
+		color: var(--secondary-foreground);
+
+		&:hover {
+			opacity: 80%;
+			background-color: var(--secondary);
+		}
+	}
+
+	&:focus-visible {
+		@include utils.outline-visible;
+	}
+
+	&:hover {
+		opacity: 80%;
+		background-color: var(--primary);
+	}
+
+	&:disabled,
+	&[aria-disabled="true"],
+	&[aria-busy="true"] {
+		@include utils.disable;
+	}
+
+	&[aria-busy="true"]>svg {
+		display: none;
+	}
+
+	&[aria-busy="true"]::before {
+		content: "";
+		width: 0.8rem;
+		height: 0.8rem;
+		border: 2px solid currentColor;
+		border-bottom: 2px solid transparent;
+		box-sizing: border-box;
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+	}
+}

@@ -20,13 +20,15 @@
 		"component library",
 		"css library"
 	],
-	"main": "./index.js",
-	"module": "./index.js",
-	"browser": "./src/main.css",
-	"files": [
-		"src/main.css"
-	],
 	"scripts": {
-		"build": "bun build.js"
+		"gen": "sass src:lib && postcss lib/*.css --dir lib"
+	},
+	"types": "module",
+	"dependencies": {},
+	"devDependencies": {
+		"autoprefixer": "^10.4.21",
+		"postcss": "^8.5.6",
+		"postcss-cli": "^11.0.1",
+		"sass": "^1.89.2"
 	}
 }

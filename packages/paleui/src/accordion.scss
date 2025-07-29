@@ -1,0 +1,67 @@
+@use "utils.scss";
+
+details {
+	@include utils.reset;
+
+	display: flex;
+	overflow: hidden;
+	flex-direction: column;
+	width: 100%;
+
+	+details {
+		border-top: 1px solid var(--border);
+	}
+
+	>summary {
+		@include utils.reset;
+		@include utils.pad(4, 0);
+
+		display: flex;
+		gap: calc(var(--spacing) * 4);
+		justify-content: space-between;
+		width: 100%;
+		flex-grow: 1;
+		border-radius: var(--radius);
+		cursor: var(--cursor-interactive);
+		font-weight: 500;
+		font-size: 0.875rem;
+		color: var(--foreground);
+		line-height: 1;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&::after {
+			content: "⮝";
+			width: calc(var(--spacing) * 4);
+			height: calc(var(--spacing) * 4);
+			display: inline-block;
+			text-decoration: none;
+			text-decoration-line: none;
+		}
+
+		&:hover::after {
+			text-decoration: none;
+			text-decoration-line: none;
+		}
+	}
+
+	&[open]>summary::after {
+		content: "⮟";
+		width: calc(var(--spacing) * 4);
+		height: calc(var(--spacing) * 4);
+	}
+
+	>div {
+		@include utils.reset;
+
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+		font-size: 0.875rem;
+		line-height: 1;
+		transition: height 0.3s ease-out;
+		padding-bottom: calc(var(--spacing) * 4);
+	}
+}

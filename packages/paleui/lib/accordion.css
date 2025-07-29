@@ -1,63 +1,70 @@
+@charset "UTF-8";
 details {
-	display: flex;
-	overflow: hidden;
-	flex-direction: column;
-	width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  vertical-align: baseline;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  width: 100%;
 }
-
 details + details {
-	border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border);
 }
-
 details > summary {
-	display: flex;
-	gap: calc(var(--spacing) * 4);
-	justify-content: space-between;
-	width: 100%;
-	flex-grow: 1;
-	box-sizing: border-box;
-	border-radius: var(--radius);
-	cursor: var(--cursor-interactive);
-	font-weight: 500;
-
-	padding: calc(var(--spacing) * 4) 0;
-	color: var(--foreground);
-
-	font-size: 0.8rem;
-	line-height: 1;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  vertical-align: baseline;
+  padding: calc(var(--spacing) * 4) calc(var(--spacing) * 0);
+  display: flex;
+  gap: calc(var(--spacing) * 4);
+  justify-content: space-between;
+  width: 100%;
+  flex-grow: 1;
+  border-radius: var(--radius);
+  cursor: var(--cursor-interactive);
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--foreground);
+  line-height: 1;
 }
-
-details > div {
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	box-sizing: border-box;
-	font-size: 0.8rem;
-	line-height: 1;
-	transition: height 0.3s ease-out;
-	padding-bottom: calc(var(--spacing) * 4);
-}
-
 details > summary:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
-
 details > summary::after {
-	content: "";
-	background-color: var(--muted-foreground);
-	mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3e%3cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 9l6 6 6-6'%3e%3c/path%3e%3c/svg%3e");
-	mask-repeat: no-repeat;
-	mask-size: 16px;
-	width: 16px;
-	height: 16px;
+  content: "⮝";
+  width: calc(var(--spacing) * 4);
+  height: calc(var(--spacing) * 4);
+  display: inline-block;
+  text-decoration: none;
+  text-decoration-line: none;
+}
+details > summary:hover::after {
+  text-decoration: none;
+  text-decoration-line: none;
+}
+details[open] > summary::after {
+  content: "⮟";
+  width: calc(var(--spacing) * 4);
+  height: calc(var(--spacing) * 4);
+}
+details > div {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  vertical-align: baseline;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  font-size: 0.875rem;
+  line-height: 1;
+  transition: height 0.3s ease-out;
+  padding-bottom: calc(var(--spacing) * 4);
 }
 
-details[open] summary::after {
-	content: "";
-	background-color: var(--muted-foreground);
-	mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3e%3cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M18 15l-6-6-6 6'%3e%3c/path%3e%3c/svg%3e");
-	mask-repeat: no-repeat;
-	mask-size: 16px;
-	width: 16px;
-	height: 16px;
-}
+/*# sourceMappingURL=accordion.css.map */

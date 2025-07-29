@@ -4,6 +4,9 @@
 	"workspaces": [
 		"packages/*"
 	],
+	"scripts": {
+		"fix": "biome check --fix"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "2.0.6"
 	}

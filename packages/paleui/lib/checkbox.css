@@ -1,40 +1,50 @@
-input[type="checkbox"] {
-	appearance: none;
-	width: calc(var(--spacing) * 4);
-	height: calc(var(--spacing) * 4);
-	padding: 0;
-	margin: 0;
-	border: 1px solid var(--border);
-	border-radius: calc(var(--radius) - 2px);
-	background-color: var(--background);
-	box-sizing: border-box;
-	flex-shrink: 0;
-	box-shadow: var(--shadow);
-	cursor: var(--cursor-interactive);
-	outline: 0px solid var(--ring);
-	transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
+@charset "UTF-8";
+input[type=checkbox] {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  vertical-align: baseline;
+  outline: 0px solid var(--ring);
+  transition-duration: calc(var(--transition-speed) * 0.5);
+  transition-behavior: ease-in-out;
+  transition-property: outline-width;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: calc(var(--spacing) * 4);
+  height: calc(var(--spacing) * 4);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background-color: var(--background);
+  flex-shrink: 0;
+  box-shadow: var(--shadow);
+  cursor: var(--cursor-interactive);
+  outline: 0px solid var(--ring);
+}
+input[type=checkbox]:focus-visible {
+  outline-width: 3px;
+}
+input[type=checkbox]:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+input[type=checkbox]:checked::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font: 1.2rem;
+  content: "✓";
+  color: var(--primary-foreground);
+}
+input[type=checkbox]:disabled, input[type=checkbox][aria-disabled=true], input[type=checkbox][aria-busy=true] {
+  opacity: 50%;
+  pointer-events: none;
+}
+input[type=checkbox] small {
+  font-weight: 400;
 }
 
-input[type="checkbox"]:checked {
-	background-color: var(--primary);
-	border-color: var(--primary);
-}
-
-input[type="checkbox"]:checked::before {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	font: 1.2rem;
-	content: "✓";
-	color: var(--primary-foreground);
-}
-
-input[type="checkbox"]:focus-visible {
-	outline-width: 3px;
-}
-
-label small {
-	font-weight: 400;
-}
+/*# sourceMappingURL=checkbox.css.map */

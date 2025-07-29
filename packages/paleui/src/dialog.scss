@@ -1,0 +1,61 @@
+@use "utils.scss";
+
+dialog {
+	@include utils.outline;
+
+	border: none;
+	border-radius: var(--radius);
+	max-width: 500px;
+	padding: calc(var(--spacing) * 6);
+	position: relative;
+
+	&:focus-visible {
+		@include utils.outline-visible;
+	}
+
+	>.close {
+		position: absolute;
+		top: calc(var(--spacing) * 2);
+		right: calc(var(--spacing) * 2);
+		color: var(--muted-foreground);
+		cursor: var(--cursor-interactive);
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	>.close:hover {
+		box-shadow: none;
+		background-color: transparent;
+	}
+
+	::backdrop {
+		background-color: black;
+		opacity: 50%;
+	}
+
+	>hgroup {
+		padding-bottom: calc(var(--spacing) * 2);
+
+		p {
+			font-size: 0.875rem;
+		}
+	}
+
+	>div:last-child,
+	>form:last-child {
+		margin-top: calc(var(--spacing) * 4);
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		gap: var(--spacing);
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-top: 0;
+	}
+}

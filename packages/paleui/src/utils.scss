@@ -1,0 +1,29 @@
+@mixin reset {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+
+@mixin outline($extra-transition: null) {
+	outline: 0px solid var(--ring);
+	transition-duration: calc(var(--transition-speed) * 0.5);
+	transition-behavior: ease-in-out;
+	transition-property: outline-width,
+	#{$extra-transition};
+}
+
+@mixin outline-visible {
+	outline-width: 3px;
+}
+
+@mixin pad($y, $x: $y) {
+	padding: calc(var(--spacing) * $y) calc(var(--spacing) * $x);
+}
+
+@mixin disable {
+	opacity: 50%;
+	pointer-events: none;
+}
