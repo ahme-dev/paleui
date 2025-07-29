@@ -158,7 +158,7 @@ object code {
 }
 
 [role="tabpanel"] {
-	margin-top: calc(var(--spacing) * 2);
+	margin-top: calc(var(--spacing) * 2) !important;
 }
 section > .tabs {
 	margin: 1.5rem 0;
