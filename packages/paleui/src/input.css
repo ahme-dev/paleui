@@ -10,8 +10,8 @@ textarea {
 	border: solid 1px var(--border);
 	font-size: 0.8rem;
 	line-height: 1;
-	outline: 0px solid var(--ring);
 	box-shadow: var(--shadow);
+	outline: 0px solid var(--ring);
 	transition:
 		background-color var(--transition-speed) ease-in-out,
 		outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
