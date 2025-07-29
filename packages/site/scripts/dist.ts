@@ -131,7 +131,7 @@ function fixLinksInContent(content: string) {
 	// currently on relative path
 	// not node modules
 	content = content.replace(
-		/href="(?!http:\/\/|https:\/\/)(?:\.\.\/)*([a-zA-Z0-9_.\/-]+)\/([a-zA-Z0-9_.-]+(?<!\.html))"/g,
+		/href="(?!http:\/\/|https:\/\/)(?:\.\.\/)*([a-zA-Z0-9_./-]+)\/([a-zA-Z0-9_.-]+(?<!\.html))"/g,
 		(match, _dir, file) => {
 			const newLink = `/${file}`;
 			const newLinkWithAttr = `href="${newLink}"`;
