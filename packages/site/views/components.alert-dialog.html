@@ -37,10 +37,10 @@
 							</p>
 						</hgroup>
 
-						<div>
+						<form method="dialog">
 							<button class="outline">Cancel</button>
-							<button>Confirm</button>
-						</div>
+							<button onclick="run_something()">Confirm</button>
+						</form>
 					</dialog>
 				</div>
 			</object>
@@ -81,7 +81,7 @@
 
 	<p>
 		The dialog can contain any content, but it is recommended to use a <code>&lt;hgroup&gt;</code> element for the title
-		and description, and a <code>&lt;div&gt;</code> (as last child) element for the buttons which is styled to
+		and description, and a <code>&lt;form&gt;</code> element (as last child) for the buttons which is styled to
 		automatically align to the right.
 	</p>
 
@@ -95,9 +95,9 @@
 				<hgroup>
 					<!-- title and description -->
 				</hgroup>
-				<div>
+				<form method="dialog">
 					<!-- confirm and cancel buttons (auto aligned to the right) -->
-				</div>
+				</form>
 			</dialog>
 		</div>
 	</object>
