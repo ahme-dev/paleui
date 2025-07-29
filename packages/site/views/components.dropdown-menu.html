@@ -4,18 +4,88 @@
 		<p>Popup list triggered by a button.</p>
 	</hgroup>
 
-	<object>
-		<details>
-			<summary role="button" class="primary">
-				Dropdown
-			</summary>
-			<div role="dialog">
-				<ul>
-					<li>Option 1</li>
-				</ul>
-			</div>
-		</details>
-	</object>
+	<style>
+		details>[role="button"] {
+			width: fit-content;
+			position: relative;
+		}
+
+		details>[role="button"]:hover {
+			text-decoration: none;
+		}
+
+		details>[role="button"]::after,
+		details[open]>[role="button"]::after {
+			all: unset;
+		}
+
+		details [role="dialog"] {
+			position: absolute;
+			z-index: 10;
+			background-color: var(--popover);
+			color: var(--popover-foreground);
+			width: max-content;
+			border: 1px solid var(--border);
+			border-radius: var(--radius);
+			box-sizing: border-box;
+			padding: calc(var(--spacing) * 1);
+			display: flex;
+			flex-direction: column;
+			margin: 0;
+			font-size: 0.8rem;
+			line-height: 1;
+			box-shadow: var(--shadow);
+		}
+	</style>
+
+	<div class="tabs">
+		<input type="radio" name="head" id="head-preview" checked />
+		<input type="radio" name="head" id="head-html" />
+
+		<span role="tablist">
+			<label for="head-preview" role="tab">Preview</label>
+			<label for="head-html" role="tab">HTML</label>
+		</span>
+
+		<div role="tabpanel">
+			<object>
+				<div data-to-code="#head-html-panel" class="max-width">
+					<details>
+						<summary role="button" class="outline">
+							Open
+						</summary>
+						<div role="dialog">
+							<ul role="menu" style="min-width: 180px;">
+								<p>My Account</p>
+
+								<li role="menuitem">
+									Profile
+									<small>%P</small>
+								</li>
+								<li role="menuitem">
+									Billing
+									<small>^%B</small>
+								</li>
+								<li role="menuitem">
+									Settings
+									<small>%S</small>
+								</li>
+								<hr>
+								<li role="menuitem">
+									Team
+								</li>
+							</ul>
+						</div>
+					</details>
+				</div>
+			</object>
+		</div>
+		<div role="tabpanel">
+			<object>
+				<div id="head-html-panel"></div>
+			</object>
+		</div>
+	</div>
 </section>
 
 <section>
@@ -78,21 +148,6 @@
 					</li>
 				</ul>
 			</div>
-		</details>
-	</object>
-
-	<hgroup id="states">
-		<h3>States</h3>
-		<p>
-			Dropdowns can be put in different states.
-		</p>
-	</hgroup>
-
-	<object>
-		<details>
-			<summary role="button" disabled>
-				Disabled Dropdown
-			</summary>
 		</details>
 	</object>
 </section>
