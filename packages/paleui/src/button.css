@@ -16,17 +16,21 @@ button,
 	font-size: 0.8rem;
 	line-height: 1;
 	flex-shrink: 0;
+	text-decoration: none;
 
 	box-shadow: var(--shadow-xs);
 	background-color: var(--primary);
 	color: var(--primary-foreground);
 	border: 0;
-	transition: opacity var(--transition-speed) ease-in-out;
+	outline: 0px solid var(--ring);
+	transition:
+		opacity var(--transition-speed) ease-in-out,
+		outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
 }
 
 button:focus-visible,
 [role="button"]:focus-visible {
-	outline: 2px solid var(--ring);
+	outline-width: 3px;
 }
 
 button.icon,
@@ -44,7 +48,9 @@ button > svg,
 button.outline,
 [role="button"].outline {
 	border: solid 1px var(--border);
-	transition: background-color var(--transition-speed) ease-in-out;
+	transition:
+		background-color var(--transition-speed) ease-in-out,
+		outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
 	color: var(--foreground);
 	background-color: var(--background);
 }
@@ -52,7 +58,9 @@ button.outline,
 button.ghost,
 [role="button"].ghost {
 	border: 0;
-	transition: background-color var(--transition-speed) ease-in-out;
+	transition:
+		background-color var(--transition-speed) ease-in-out,
+		outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
 	color: var(--foreground);
 	background-color: transparent;
 	box-shadow: none;
@@ -85,6 +93,12 @@ button.link:hover,
 [role="button"].link:hover {
 	opacity: 100%;
 	background-color: transparent;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+button.link:focus-visible,
+[role="button"].link:focus-visible {
 	text-decoration: underline;
 	text-underline-offset: 2px;
 }

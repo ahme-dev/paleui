@@ -49,8 +49,9 @@
 	font-size: 0.875rem;
 	font-weight: 500;
 	line-height: 1;
-	transition: none;
 	border-radius: calc(var(--radius) + 2px);
+	outline: 0px solid var(--ring);
+	transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
 }
 
 [role="tabpanel"] {
@@ -67,7 +68,7 @@ input:first-child:focus-visible ~ [role="tablist"] > [role="tab"]:first-child,
 input:nth-child(2):focus-visible
 	~ [role="tablist"]
 	> [role="tab"]:nth-child(2) {
-	outline: 2px solid var(--ring);
+	outline-width: 3px;
 }
 
 input:first-child:checked ~ [role="tablist"] > [role="tab"]:first-child,

@@ -3,6 +3,26 @@ dialog {
 	border-radius: var(--radius);
 	max-width: 500px;
 	padding: calc(var(--spacing) * 6);
+	position: relative;
+	transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
+}
+
+dialog:focus-visible {
+	outline-width: 3px;
+}
+
+dialog > .close {
+	position: absolute;
+	top: calc(var(--spacing) * 2);
+	right: calc(var(--spacing) * 2);
+	color: var(--muted-foreground);
+	cursor: var(--cursor-interactive);
+	background-color: transparent;
+	box-shadow: none;
+}
+dialog > .close:hover {
+	box-shadow: none;
+	background-color: transparent;
 }
 
 dialog::backdrop {
@@ -18,7 +38,8 @@ dialog > hgroup p {
 	font-size: 0.875rem;
 }
 
-dialog > div:last-child {
+dialog > div:last-child,
+dialog > form:last-child {
 	margin-top: calc(var(--spacing) * 4);
 	display: flex;
 	flex-direction: row;

@@ -10,13 +10,16 @@ textarea {
 	border: solid 1px var(--border);
 	font-size: 0.8rem;
 	line-height: 1;
-	transition: background-color var(--transition-speed) ease-in-out;
+	outline: 0px solid var(--ring);
 	box-shadow: var(--shadow);
+	transition:
+		background-color var(--transition-speed) ease-in-out,
+		outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
 }
 
 input:focus-visible,
 textarea:focus-visible {
-	outline: 2px solid var(--ring);
+	outline-width: 3px;
 }
 
 label[role="textbox"] input {
