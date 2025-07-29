@@ -11,8 +11,8 @@ input[type="checkbox"] {
 	flex-shrink: 0;
 	box-shadow: var(--shadow);
 	cursor: var(--cursor-interactive);
-	outline: none;
-	transition: none;
+	outline: 0px solid var(--ring);
+	transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
 }
 
 input[type="checkbox"]:checked {
@@ -32,7 +32,7 @@ input[type="checkbox"]:checked::before {
 }
 
 input[type="checkbox"]:focus-visible {
-	outline: 2px solid var(--ring);
+	outline-width: 3px;
 }
 
 label small {
