@@ -35,7 +35,7 @@
 
 		>[role="tab"] {
 			@include utils.reset;
-			@include utils.outline;
+			@include utils.transition-outline-with;
 
 			display: inline-flex;
 			appearance: none;
@@ -67,7 +67,7 @@
 
 	input:first-child:focus-visible~[role="tablist"]>[role="tab"]:first-child,
 	input:nth-child(2):focus-visible~[role="tablist"]>[role="tab"]:nth-child(2) {
-		@include utils.outline-visible;
+		@include utils.transition-outline-visible;
 	}
 
 	input:first-child:checked~[role="tablist"]>[role="tab"]:first-child,

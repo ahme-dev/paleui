@@ -48,9 +48,7 @@
   font-family: inherit;
   vertical-align: baseline;
   outline: 0px solid var(--ring);
-  transition-duration: calc(var(--transition-speed) * 0.5);
-  transition-behavior: ease-in-out;
-  transition-property: outline-width;
+  transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
   display: inline-flex;
   -webkit-appearance: none;
      -moz-appearance: none;
