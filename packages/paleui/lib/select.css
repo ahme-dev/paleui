@@ -14,9 +14,7 @@ select {
   border: solid 1px var(--border);
   line-height: 1;
   font-size: 0.875rem;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  appearance: none;
   box-shadow: var(--shadow-xs);
   background-image: linear-gradient(45deg, rgba(0, 0, 0, 0) 50%, gray 50%), linear-gradient(135deg, gray 50%, rgba(0, 0, 0, 0) 50%);
   background-position: calc(100% - 20px) calc(1px + 50%), calc(100% - 16.1px) calc(1px + 50%);
