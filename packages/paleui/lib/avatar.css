@@ -25,8 +25,7 @@ picture > img {
   font-family: inherit;
   vertical-align: baseline;
   position: relative;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border: 0;
   z-index: 2;
   font-size: 0;

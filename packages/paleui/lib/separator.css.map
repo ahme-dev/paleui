@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/separator.css","separator.css"],"names":[],"mappings":"AAAA;EACC,YAAA;EACA,UAAA;EACA,+BAAA;EACA,mBAAA;ACCD;;ADEA;EACC,YAAA;EACA,WAAA;EACA,WAAA;EACA,+BAAA;ACCD","file":"separator.css"}
+{"version":3,"sourceRoot":"","sources":["../src/separator.scss"],"names":[],"mappings":"AAAA;EACC;EACA;EACA;EACA;;;AAGD;EACC;EACA;EACA;EACA","file":"separator.css"}
