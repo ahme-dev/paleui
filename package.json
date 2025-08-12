@@ -8,6 +8,7 @@
 		"fix": "biome check --fix",
 		"site:dev": "bun run --cwd packages/site dev",
 		"site:preview": "bun run --cwd packages/site preview",
+		"site:dist": "bun run --cwd packages/site dist",
 		"lib:gen": "bun run --cwd packages/paleui gen"
 	},
 	"devDependencies": {
