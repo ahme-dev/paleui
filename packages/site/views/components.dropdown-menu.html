@@ -4,40 +4,6 @@
 		<p>Popup list triggered by a button.</p>
 	</hgroup>
 
-	<style>
-		details>[role="button"] {
-			width: fit-content;
-			position: relative;
-		}
-
-		details>[role="button"]:hover {
-			text-decoration: none;
-		}
-
-		details>[role="button"]::after,
-		details[open]>[role="button"]::after {
-			all: unset;
-		}
-
-		details [role="dialog"] {
-			position: absolute;
-			z-index: 10;
-			background-color: var(--popover);
-			color: var(--popover-foreground);
-			width: max-content;
-			border: 1px solid var(--border);
-			border-radius: var(--radius);
-			box-sizing: border-box;
-			padding: calc(var(--spacing) * 1);
-			display: flex;
-			flex-direction: column;
-			margin: 0;
-			font-size: 0.8rem;
-			line-height: 1;
-			box-shadow: var(--shadow);
-		}
-	</style>
-
 	<div class="tabs">
 		<input type="radio" name="head" id="head-preview" checked />
 		<input type="radio" name="head" id="head-html" />
@@ -97,6 +63,9 @@
 		other element that's displayed when the <code>details</code> is open,
 		has a <code>dialog</code> role on it to indicate that it is a popup.
 	</p>
+
+	<p>The list is <code>role="menu"</code> and each item has a <code>role="menuitem"</code> to have proper accessibility
+		semantics and consistent styling. The items also support a <code>&lt;small&gt;</code> element for shortcuts.</p>
 
 	<p>
 		As mentioned in other pages, <code>details</code> and <code>summary</code> elements provide a way to make a hidden

@@ -5,7 +5,10 @@
 		"packages/*"
 	],
 	"scripts": {
-		"fix": "biome check --fix"
+		"fix": "biome check --fix",
+		"site:dev": "bun run --cwd packages/site dev",
+		"site:preview": "bun run --cwd packages/site preview",
+		"lib:gen": "bun run --cwd packages/paleui gen"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.0.6"
