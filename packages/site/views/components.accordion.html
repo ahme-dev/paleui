@@ -84,13 +84,11 @@
 	</p>
 
 	<p>
-		Additionally, an approach using <code>mask-image</code> has been used to color the svg chevrons, and this may not be
-		as <a target="_blank" rel="noopener noreferrer" href="https://caniuse.com/?search=mask-image">widely supported</a>
-		across all browsers. A different approach
-		using unicode characters or self-writing SVGs will be
-		added
-		in the future to ensure compatibility.
+		Additionally, without the name attribute the details element will not take up full width (as that is needed by the
+		dropdown-menu component). This means accordion elements that are not set to only allow one open at a time will not
+		take up the full width of the parent and need custom styling. A workaround for this will be provided in the future.
 	</p>
+
 </section>
 
 <section>
