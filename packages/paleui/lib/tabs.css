@@ -19,7 +19,9 @@
   height: calc(var(--spacing) * 5);
   width: calc(var(--spacing) * 8);
   padding: var(--spacing);
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 .tabs > input:nth-of-type(2) {
   left: calc(var(--spacing) * 0.6 + var(--spacing) * 8);
@@ -32,6 +34,7 @@
   vertical-align: baseline;
   position: relative;
   background-color: var(--muted);
+  width: -moz-fit-content;
   width: fit-content;
   display: flex;
   padding: calc(var(--spacing) * 0.6);
@@ -47,7 +50,9 @@
   outline: 0px solid var(--ring);
   transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
   display: inline-flex;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   height: 100%;
   flex-wrap: wrap;
   align-items: center;

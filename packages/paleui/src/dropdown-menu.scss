@@ -1,31 +1,36 @@
-details>[role="button"] {
-	width: fit-content;
-	position: relative;
-}
+details {
+	>[role="button"] {
+		width: fit-content;
+		position: relative;
 
-details>[role="button"]:hover {
-	text-decoration: none;
-}
+		&:hover {
+			text-decoration: none;
+		}
 
-details>[role="button"]::after,
-details[open]>[role="button"]::after {
-	all: unset;
-}
+		&::after {
+			all: unset;
+		}
+	}
 
-details [role="dialog"] {
-	position: absolute;
-	z-index: 10;
-	background-color: var(--popover);
-	color: var(--popover-foreground);
-	width: max-content;
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	box-sizing: border-box;
-	padding: calc(var(--spacing) * 1);
-	display: flex;
-	flex-direction: column;
-	margin: 0;
-	font-size: 0.8rem;
-	line-height: 1;
-	box-shadow: var(--shadow);
+	&[open]>[role="button"]::after {
+		all: unset;
+	}
+
+	>[role="dialog"] {
+		position: absolute;
+		z-index: 10;
+		background-color: var(--popover);
+		color: var(--popover-foreground);
+		width: max-content;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		box-sizing: border-box;
+		padding: calc(var(--spacing) * 1);
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		font-size: 0.8rem;
+		line-height: 1;
+		box-shadow: var(--shadow);
+	}
 }

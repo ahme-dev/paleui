@@ -8,8 +8,6 @@ details {
   display: flex;
   overflow: hidden;
   flex-direction: column;
-}
-details[name] {
   width: 100%;
 }
 details + details {
@@ -648,16 +646,17 @@ details > [role=button] {
   width: fit-content;
   position: relative;
 }
+
 details > [role=button]:hover {
   text-decoration: none;
 }
-details > [role=button]::after {
-  all: unset;
-}
+
+details > [role=button]::after,
 details[open] > [role=button]::after {
   all: unset;
 }
-details > [role=dialog] {
+
+details [role=dialog] {
   position: absolute;
   z-index: 10;
   background-color: var(--popover);
@@ -1082,5 +1081,4 @@ pre > code {
   color: transparent;
   overflow: auto;
 }
-
-/*# sourceMappingURL=all.css.map */
+/*# sourceMappingURL=pui-all.css.map */

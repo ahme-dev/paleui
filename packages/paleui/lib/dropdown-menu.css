@@ -1,22 +1,23 @@
 details > [role=button] {
+  width: -moz-fit-content;
   width: fit-content;
   position: relative;
 }
-
 details > [role=button]:hover {
   text-decoration: none;
 }
-
-details > [role=button]::after,
+details > [role=button]::after {
+  all: unset;
+}
 details[open] > [role=button]::after {
   all: unset;
 }
-
-details [role=dialog] {
+details > [role=dialog] {
   position: absolute;
   z-index: 10;
   background-color: var(--popover);
   color: var(--popover-foreground);
+  width: -moz-max-content;
   width: max-content;
   border: 1px solid var(--border);
   border-radius: var(--radius);
