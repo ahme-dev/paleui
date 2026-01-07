@@ -10,6 +10,7 @@ body {
 	margin: 0;
 	background-color: var(--background);
 	color: var(--foreground);
+	overflow-x: hidden;
 }
 
 header {
@@ -69,6 +70,54 @@ main {
 	display: flex;
 	flex-direction: row;
 	gap: 2rem;
+}
+
+@media (max-width: 768px) {
+	main {
+		flex-direction: column;
+		gap: 0;
+	}
+
+	body:has(.sidebar-toggle:checked) {
+		overflow: hidden;
+	}
+
+	header {
+		padding: 1rem;
+	}
+
+	header > nav {
+		gap: 1rem;
+		font-size: 0.75rem;
+	}
+
+	header > nav ul {
+		gap: 1rem;
+	}
+
+	.max-width {
+		max-width: 100%;
+	}
+
+	object {
+		aspect-ratio: auto;
+		min-height: 200px;
+	}
+
+	.flex-row {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	h1,
+	section h1 {
+		font-size: 1.3rem;
+	}
+
+	h2,
+	section h2 {
+		font-size: 1.15rem;
+	}
 }
 
 h1,
@@ -155,6 +204,9 @@ object code {
 	box-sizing: border-box;
 	background-color: transparent;
 	color: var(--foreground);
+	overflow-x: auto;
+	white-space: pre-wrap;
+	word-wrap: break-word;
 }
 
 [role="tabpanel"] {
