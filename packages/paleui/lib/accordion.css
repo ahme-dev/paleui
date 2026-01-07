@@ -1,5 +1,5 @@
 @charset "UTF-8";
-details {
+details[role=region] {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -8,14 +8,12 @@ details {
   display: flex;
   overflow: hidden;
   flex-direction: column;
-}
-details[name] {
   width: 100%;
 }
-details + details {
+details[role=region] + details[role=region] {
   border-top: 1px solid var(--border);
 }
-details > summary {
+details[role=region] > summary {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -34,10 +32,10 @@ details > summary {
   color: var(--foreground);
   line-height: 1;
 }
-details > summary:hover {
+details[role=region] > summary:hover {
   text-decoration: underline;
 }
-details > summary::after {
+details[role=region] > summary::after {
   content: "⮝";
   width: calc(var(--spacing) * 4);
   height: calc(var(--spacing) * 4);
@@ -45,16 +43,16 @@ details > summary::after {
   text-decoration: none;
   text-decoration-line: none;
 }
-details > summary:hover::after {
+details[role=region] > summary:hover::after {
   text-decoration: none;
   text-decoration-line: none;
 }
-details[open] > summary::after {
+details[role=region][open] > summary::after {
   content: "⮟";
   width: calc(var(--spacing) * 4);
   height: calc(var(--spacing) * 4);
 }
-details > div {
+details[role=region] > div {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
