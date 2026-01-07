@@ -1,17 +1,14 @@
 @use "utils.scss";
 
-details {
+details[role="region"] {
 	@include utils.reset;
 
 	display: flex;
 	overflow: hidden;
 	flex-direction: column;
+	width: 100%;
 
-	&[name] {
-		width: 100%;
-	}
-
-	+details {
+	+details[role="region"] {
 		border-top: 1px solid var(--border);
 	}
 
