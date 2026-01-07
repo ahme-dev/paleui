@@ -4,7 +4,7 @@ dialog {
 	@include utils.transition-outline-with;
 
 	border: none;
-	border-radius: var(--radius);
+	border-radius: var(--radius-2xl);
 	max-width: 500px;
 	padding: calc(var(--spacing) * 6);
 	position: relative;

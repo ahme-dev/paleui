@@ -21,7 +21,7 @@
   box-sizing: border-box;
   font-size: 0.875rem;
   padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   color: var(--card-foreground);
   transition: background-color var(--transition-speed) ease-in-out;
   line-height: 1;

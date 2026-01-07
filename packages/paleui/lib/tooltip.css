@@ -12,7 +12,7 @@
   color: var(--background);
   font-size: 0.8rem;
   padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2.5);
-  border-radius: calc(var(--radius) + 2px);
+  border-radius: var(--radius-md);
   text-wrap: wrap;
   z-index: 1000;
   margin-bottom: 8px;

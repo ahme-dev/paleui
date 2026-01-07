@@ -12,8 +12,8 @@ button,
 	justify-content: center;
 	white-space: nowrap;
 	min-width: 0;
-	height: calc(var(--spacing) * 8);
-	border-radius: var(--radius);
+	height: calc(var(--spacing) * 9);
+	border-radius: var(--radius-lg);
 	cursor: var(--cursor-interactive);
 	font-weight: 500;
 	font-size: 0.8rem;
