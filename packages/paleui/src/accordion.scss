@@ -8,8 +8,10 @@ details[role="region"] {
 	flex-direction: column;
 	width: 100%;
 
-	+details[role="region"] {
-		border-top: 1px solid var(--border);
+	border-bottom: 1px solid var(--border);
+
+	&:last-child {
+		border-bottom: 0;
 	}
 
 	>summary {

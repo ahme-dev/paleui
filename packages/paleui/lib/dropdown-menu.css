@@ -20,14 +20,14 @@ details > [role=dialog] {
   width: -moz-max-content;
   width: max-content;
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   box-sizing: border-box;
   padding: calc(var(--spacing) * 1);
   display: flex;
   flex-direction: column;
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   line-height: 1;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-md);
 }
 /*# sourceMappingURL=dropdown-menu.css.map */

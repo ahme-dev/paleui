@@ -11,7 +11,7 @@ input[type="checkbox"] {
 	border-radius: var(--radius-sm);
 	background-color: var(--background);
 	flex-shrink: 0;
-	box-shadow: var(--shadow);
+	box-shadow: var(--shadow-xs);
 	cursor: var(--cursor-interactive);
 	outline: 0px solid var(--ring);
 
@@ -30,7 +30,8 @@ input[type="checkbox"] {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		font: 1.2rem;
+		font-size: 0.875rem;
+		line-height: 1;
 		content: "✓";
 		color: var(--primary-foreground);
 	}

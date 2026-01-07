@@ -6,8 +6,8 @@
 	vertical-align: baseline;
 }
 
-
 @mixin transition-outline-with ($extra-transition: null) {
+	outline-offset: 0;
 	outline: 0px solid var(--ring);
 	transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out,
 	#{$extra-transition};

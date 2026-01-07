@@ -1,11 +1,14 @@
 dialog {
+  outline-offset: 0;
   outline: 0px solid var(--ring);
   transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
   border: none;
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-lg);
   max-width: 500px;
   padding: calc(var(--spacing) * 6);
   position: relative;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 dialog:focus-visible {
   outline-width: 3px;
