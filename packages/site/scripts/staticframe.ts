@@ -1,3 +1,9 @@
+/**
+ * StaticFrame
+ * Acts as a compiler for the site.
+ * It supports layouts, flat file based routing, and asset composition.
+ */
+
 import fs from "node:fs";
 
 // config

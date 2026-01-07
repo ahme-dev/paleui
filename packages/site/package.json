@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"dist": "bun ./scripts/dist.ts",
-		"dev": "nodemon --watch . --ext ts,js,json,html,css --ignore dist/ --exec 'bun run dist'",
+		"dev": "nodemon --watch . --ext ts,js,json,html,css --ignore dist/ --exec 'bun run staticframe'",
 		"preview": "bunx serve dist"
 	},
 	"devDependencies": {
