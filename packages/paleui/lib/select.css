@@ -4,9 +4,9 @@ select {
   gap: calc(var(--spacing) * 2);
   overflow: hidden;
   justify-content: center;
-  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
+  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
   padding-right: calc(var(--spacing) * 12);
-  height: calc(var(--spacing) * 8);
+  height: calc(var(--spacing) * 9);
   box-sizing: border-box;
   border-radius: var(--radius-md);
   background-color: var(--background);

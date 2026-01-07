@@ -9,9 +9,10 @@ details[role=region] {
   overflow: hidden;
   flex-direction: column;
   width: 100%;
+  border-bottom: 1px solid var(--border);
 }
-details[role=region] + details[role=region] {
-  border-top: 1px solid var(--border);
+details[role=region]:last-child {
+  border-bottom: 0;
 }
 details[role=region] > summary {
   margin: 0;

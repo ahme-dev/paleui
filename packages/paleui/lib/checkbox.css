@@ -5,6 +5,7 @@ input[type=checkbox] {
   box-sizing: border-box;
   font-family: inherit;
   vertical-align: baseline;
+  outline-offset: 0;
   outline: 0px solid var(--ring);
   transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
   -webkit-appearance: none;
@@ -16,7 +17,7 @@ input[type=checkbox] {
   border-radius: var(--radius-sm);
   background-color: var(--background);
   flex-shrink: 0;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-xs);
   cursor: var(--cursor-interactive);
   outline: 0px solid var(--ring);
 }
@@ -33,7 +34,8 @@ input[type=checkbox]:checked::before {
   align-items: center;
   width: 100%;
   height: 100%;
-  font: 1.2rem;
+  font-size: 0.875rem;
+  line-height: 1;
   content: "✓";
   color: var(--primary-foreground);
 }

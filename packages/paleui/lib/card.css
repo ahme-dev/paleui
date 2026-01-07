@@ -2,11 +2,13 @@ article {
   padding: calc(var(--spacing) * 5) calc(var(--spacing) * 6);
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing) * 4);
+  gap: calc(var(--spacing) * 6);
   border: solid 1px var(--border);
   box-sizing: border-box;
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
+  background-color: var(--card);
+  color: var(--card-foreground);
 }
 article header,
 article hgroup,
