@@ -30,7 +30,7 @@
 		<div role="tabpanel">
 			<object>
 				<div data-to-code="#head-html-panel" class="max-width flex-col">
-					<details name="faq">
+					<details role="region" name="faq">
 						<summary>Product Information</summary>
 						<div>
 							<p>
@@ -46,7 +46,7 @@
 							</p>
 						</div>
 					</details>
-					<details name="faq">
+					<details role="region" name="faq">
 						<summary>Shipping Details</summary>
 						<div>
 							<p>
@@ -78,15 +78,12 @@
 		<code>&lt;details&gt;</code> element itself, and not as <a target="_blank" rel="noopener noreferrer"
 			href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details#browser_compatibility">
 			widely supported</a>.
-		A separate implementation will be provided
-		in the future to
-		provide this functionality without cutting off support for older browsers.
 	</p>
 
 	<p>
-		Additionally, without the name attribute the details element will not take up full width (as that is needed by the
-		dropdown-menu component). This means accordion elements that are not set to only allow one open at a time will not
-		take up the full width of the parent and need custom styling. A workaround for this will be provided in the future.
+		Accordion items use <code>role="region"</code> for proper semantics and to distinguish them from dropdown menus
+		(which also use <code>&lt;details&gt;</code> elements). This ensures accordions take full width while dropdown
+		menus remain compact.
 	</p>
 
 </section>
@@ -95,25 +92,26 @@
 	<h2 id="structure">Structure</h2>
 
 	<p>
-		The accordion is made of multiple <code>&lt;details&gt;</code> elements (collapses) with a
+		The accordion is made of multiple <code>&lt;details role="region"&gt;</code> elements (collapses) with a
 		<code>&lt;summary&gt;</code> element (trigger) inside each, and a <code>&lt;div&gt;</code> element
 		(content) that is displayed when the <code>&lt;details&gt;</code> is open.
 	</p>
 
 	<p>
+		The <code>role="region"</code> attribute is required for proper accordion styling and semantics.
 		A shared <code>name</code> attribute can be added to the <code>&lt;details&gt;</code> elements to
 		make sure that only one of them is open at a time.
 	</p>
 
 	<object>
 		<div data-to-code>
-			<details name="structure">
+			<details role="region" name="structure">
 				<summary>
 					<!-- title -->
 				</summary>
 				<!-- content -->
 			</details>
-			<details name="structure">
+			<details role="region" name="structure">
 				<summary>
 					<!-- title -->
 				</summary>
@@ -134,7 +132,7 @@
 	</hgroup>
 
 	<p>
-		By default, all items can be opened at once. To make sure that only one item is open at a time, add a
+		By default, all items can be opened at once. To make sure that only one item is open at a time, add a shared
 		<code>name</code> attribute to the <code>&lt;details&gt;</code> elements.
 	</p>
 
@@ -150,13 +148,13 @@
 		<div role="tabpanel">
 			<object>
 				<div data-to-code="#variants-html-panel" class="flex-col max-width">
-					<details>
+					<details role="region">
 						<summary>All can be opened</summary>
 						<div>
 							Yes, you can.
 						</div>
 					</details>
-					<details>
+					<details role="region">
 						<summary>All can be opened</summary>
 						<div>
 							Yes, you can.
@@ -165,13 +163,13 @@
 
 					<br />
 
-					<details name="only">
+					<details role="region" name="only">
 						<summary>A: Only this</summary>
 						<div>
 							Only one can be opened at a time.
 						</div>
 					</details>
-					<details name="only">
+					<details role="region" name="only">
 						<summary>B: Only this</summary>
 						<div>
 							Only one can be opened at a time.
