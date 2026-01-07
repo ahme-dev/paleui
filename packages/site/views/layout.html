@@ -12,6 +12,10 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+	<script type="module" src="https://cdn.jsdelivr.net/npm/htswap@0.21.3/dist-min/htswap.js"></script>
+	<script type="module" src="../assets/code.js"></script>
+	<script type="module" src="../assets/reload.js"></script>
 </head>
 
 <body data-htswap>
@@ -49,32 +53,6 @@
 	<main>
 		<div layout-slot />
 	</main>
-
-	<script type="module" src="https://cdn.jsdelivr.net/npm/htswap@0.21.3/dist-min/htswap.js"></script>
-	<script type="module" src="../assets/code.js"></script>
-	<script>
-		(function() {
-			let lastReloadContent = null;
-
-			async function checkForReload() {
-				try {
-					const response = await fetch('/reload.txt?t=' + Date.now());
-					if (response.ok) {
-						const content = await response.text();
-						if (lastReloadContent === null) {
-							lastReloadContent = content;
-						} else if (content !== lastReloadContent) {
-							console.log('Reload triggered - changes detected');
-							window.location.reload();
-						}
-					}
-				} catch (err) {
-				}
-			}
-
-			setInterval(checkForReload, 1000);
-		})();
-	</script>
 </body>
 
 </html>
