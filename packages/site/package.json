@@ -4,7 +4,7 @@
 	"scripts": {
 		"dist": "bun ./scripts/dist.ts",
 		"dev": "nodemon --watch . --ext ts,js,json,html,css --ignore dist/ --exec 'bun run dist'",
-		"preview": "bunx http-server dist"
+		"preview": "bunx serve dist"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
