@@ -7,7 +7,12 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["packages/paleui/**/*", "packages/site/**/*"]
+		"includes": [
+			"tests/**/*",
+			"packages/**/*",
+			"!packages/paleui/lib/**/*",
+			"!packages/site/dist/**/*"
+		]
 	},
 	"formatter": {
 		"enabled": true,
