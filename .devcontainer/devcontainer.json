@@ -10,8 +10,12 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"biomejs.biome"
-			]
+				"biomejs.biome",
+				"ms-playwright.playwright"
+			],
+			"settings": {
+				"editor.defaultFormatter": "biomejs.biome"
+			}
 		}
 	}
 }

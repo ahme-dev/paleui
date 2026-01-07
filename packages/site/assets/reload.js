@@ -1,20 +1,19 @@
-(function() {
+(() => {
 	let lastReloadContent = null;
 
 	async function checkForReload() {
 		try {
-			const response = await fetch('/reload.txt?t=' + Date.now());
+			const response = await fetch(`/reload.txt?t=${Date.now()}`);
 			if (response.ok) {
 				const content = await response.text();
 				if (lastReloadContent === null) {
 					lastReloadContent = content;
 				} else if (content !== lastReloadContent) {
-					console.log('Reload triggered - changes detected');
+					console.log("Reload triggered - changes detected");
 					window.location.reload();
 				}
 			}
-		} catch (err) {
-		}
+		} catch (_err) {}
 	}
 
 	setInterval(checkForReload, 1000);
