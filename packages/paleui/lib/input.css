@@ -46,12 +46,9 @@ label[role=textbox] {
   font-size: 0.875rem;
   line-height: 1;
   box-shadow: var(--shadow);
-  outline: 0px solid var(--ring);
-  outline-offset: 0;
 }
 label[role=textbox]:focus-within {
   outline-width: 3px;
-  outline-offset: 0;
 }
 label[role=textbox] input,
 label[role=textbox] textarea {
