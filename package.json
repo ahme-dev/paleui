@@ -5,13 +5,16 @@
 		"packages/*"
 	],
 	"scripts": {
-		"fix": "biome check --fix",
+		"dev": "concurrently -n SITE,LIB -c bgBlue.bold,bgMagenta.bold \"bun run site:dev\" \"bun run lib:dev\"",
+		"dist": "bun run site:dist; bun run lib:dist",
 		"site:dev": "bun run --cwd packages/site dev",
-		"site:preview": "bun run --cwd packages/site preview",
 		"site:dist": "bun run --cwd packages/site dist",
-		"lib:gen": "bun run --cwd packages/paleui gen"
+		"lib:dev": "bun run --cwd packages/paleui dev",
+		"lib:dist": "bun run --cwd packages/paleui dist",
+		"fix": "biome check --fix"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.0.6"
+		"@biomejs/biome": "2.0.6",
+		"concurrently": "^9.1.2"
 	}
 }

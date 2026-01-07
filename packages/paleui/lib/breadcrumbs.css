@@ -74,5 +74,4 @@ nav[aria-label=breadcrumb] > ol > li > span[aria-hidden=true] {
 nav[aria-label=breadcrumb] > ol[style*="--separator"] > li:not(:last-child)::after {
   content: var(--separator, "/");
 }
-
 /*# sourceMappingURL=breadcrumbs.css.map */
