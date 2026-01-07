@@ -95,5 +95,4 @@
 .tabs input:nth-child(2):checked ~ [role=tabpanel]:nth-of-type(2) {
   display: flex;
 }
-
 /*# sourceMappingURL=tabs.css.map */

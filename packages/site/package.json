@@ -3,11 +3,11 @@
 	"private": true,
 	"scripts": {
 		"dist": "bun ./scripts/staticframe.ts",
-		"dev": "nodemon --watch . --ext ts,js,json,html,css --ignore dist/ --exec 'bun run dist'",
-		"preview": "bunx serve dist"
+		"dev": "bun run dist && concurrently -n watch,serve -c yellow,cyan \"nodemon --watch . --watch ../paleui/lib --ext ts,js,json,html,css --ignore dist/ --exec 'bun run dist'\" \"bunx serve dist\""
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
+		"concurrently": "^9.1.2",
 		"nodemon": "^3.1.10"
 	},
 	"peerDependencies": {
