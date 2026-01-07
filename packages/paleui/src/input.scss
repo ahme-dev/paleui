@@ -17,7 +17,7 @@ textarea {
 	box-shadow: var(--shadow);
 	outline: 0px solid var(--ring);
 
-	:focus-visible {
+	&:focus-visible {
 		@include utils.transition-outline-visible;
 	}
 }

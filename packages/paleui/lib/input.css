@@ -15,8 +15,8 @@ textarea {
   box-shadow: var(--shadow);
   outline: 0px solid var(--ring);
 }
-input :focus-visible,
-textarea :focus-visible {
+input:focus-visible,
+textarea:focus-visible {
   outline-width: 3px;
 }
 
