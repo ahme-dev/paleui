@@ -2,7 +2,7 @@ dialog {
   outline: 0px solid var(--ring);
   transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
   border: none;
-  border-radius: var(--radius);
+  border-radius: var(--radius-2xl);
   max-width: 500px;
   padding: calc(var(--spacing) * 6);
   position: relative;

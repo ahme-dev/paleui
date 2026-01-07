@@ -31,7 +31,7 @@
 		display: flex;
 		padding: calc(var(--spacing) * 0.6);
 		height: calc(var(--spacing) * 9);
-		border-radius: calc(var(--radius) + 2px);
+		border-radius: var(--radius-md);
 
 		>[role="tab"] {
 			@include utils.reset;
@@ -51,7 +51,7 @@
 			font-size: 0.875rem;
 			font-weight: 500;
 			line-height: 1;
-			border-radius: calc(var(--radius) + 2px);
+			border-radius: var(--radius-sm);
 			outline: 0px solid var(--ring);
 		}
 	}

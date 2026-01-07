@@ -8,7 +8,7 @@
   display: grid;
   grid-template-columns: min-content 1fr;
   grid-template-rows: auto auto;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   height: auto;
   width: 100%;
   background-color: var(--background);

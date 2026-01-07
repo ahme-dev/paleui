@@ -25,7 +25,7 @@ details[role=region] > summary {
   justify-content: space-between;
   width: 100%;
   flex-grow: 1;
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   cursor: var(--cursor-interactive);
   font-weight: 500;
   font-size: 0.875rem;
@@ -77,7 +77,7 @@ details[role=region] > div {
   display: grid;
   grid-template-columns: min-content 1fr;
   grid-template-rows: auto auto;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   height: auto;
   width: 100%;
   background-color: var(--background);
@@ -153,7 +153,7 @@ picture {
   flex-shrink: 0;
 }
 picture.square {
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
 }
 picture > img {
   margin: 0;
@@ -170,7 +170,7 @@ picture > img {
   color: transparent;
   overflow: hidden;
   line-height: 0;
-  border-radius: var(--radius);
+  border-radius: inherit;
   width: 100%;
   height: 100%;
 }
@@ -181,7 +181,7 @@ picture > small {
   font-family: inherit;
   vertical-align: baseline;
   position: absolute;
-  border-radius: var(--radius);
+  border-radius: inherit;
   z-index: 1;
 }
 
@@ -240,7 +240,7 @@ picture > small {
   justify-content: center;
   white-space: nowrap;
   min-width: 0;
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
   font-size: 0.7rem;
   font-weight: 400;
   line-height: 0.95;
@@ -379,8 +379,8 @@ button,
   justify-content: center;
   white-space: nowrap;
   min-width: 0;
-  height: calc(var(--spacing) * 8);
-  border-radius: var(--radius);
+  height: calc(var(--spacing) * 9);
+  border-radius: var(--radius-lg);
   cursor: var(--cursor-interactive);
   font-weight: 500;
   font-size: 0.8rem;
@@ -510,7 +510,7 @@ article {
   gap: calc(var(--spacing) * 4);
   border: solid 1px var(--border);
   box-sizing: border-box;
-  border-radius: calc(var(--radius) + 4px);
+  border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-sm);
 }
 article header,
@@ -557,7 +557,7 @@ input[type=checkbox] {
   width: calc(var(--spacing) * 4);
   height: calc(var(--spacing) * 4);
   border: 1px solid var(--border);
-  border-radius: calc(var(--radius) - 2px);
+  border-radius: var(--radius-sm);
   background-color: var(--background);
   flex-shrink: 0;
   box-shadow: var(--shadow);
@@ -593,7 +593,7 @@ dialog {
   outline: 0px solid var(--ring);
   transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out;
   border: none;
-  border-radius: var(--radius);
+  border-radius: var(--radius-2xl);
   max-width: 500px;
   padding: calc(var(--spacing) * 6);
   position: relative;
@@ -663,7 +663,7 @@ details > [role=dialog] {
   width: -moz-max-content;
   width: max-content;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-sizing: border-box;
   padding: calc(var(--spacing) * 1);
   display: flex;
@@ -696,7 +696,7 @@ textarea {
   padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
   height: calc(var(--spacing) * 8);
   box-sizing: border-box;
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
   background-color: var(--background);
   color: var(--foreground);
   border: solid 1px var(--border);
@@ -725,7 +725,7 @@ label[role=textbox] {
   padding: 0 calc(var(--spacing) * 4);
   height: calc(var(--spacing) * 8);
   box-sizing: border-box;
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
   background-color: var(--background);
   color: var(--foreground);
   border: solid 1px var(--border);
@@ -742,6 +742,18 @@ label[role=textbox] input:focus {
 }
 
 :root {
+  /* === RADIUS SYSTEM === */
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  /* === SPACING === */
+  --spacing: 0.25rem;
+  /* === COLOR TOKENS === */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -761,8 +773,22 @@ label[role=textbox] input:focus {
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --radius: 0.4rem;
-  --spacing: 0.25rem;
+  /* === CHART COLORS === */
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  /* === SIDEBAR TOKENS === */
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--card-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  /* === SHADOWS === */
   --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
   --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
   --shadow-sm:
@@ -775,31 +801,54 @@ label[role=textbox] input:focus {
   --shadow-xl:
   	0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-  --font-mono: monospace;
+  /* === TYPOGRAPHY === */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen',
+  	'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  	sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
+  	'DejaVu Sans Mono', monospace;
+  --font-heading: var(--font-sans);
+  /* === MISC === */
   --transition-speed: 0.2s;
   --cursor-interactive: default;
 }
 
 .dark {
+  /* === COLOR TOKENS === */
   --background: oklch(0.115 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.115 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.115 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.205 0 0);
+  --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.205 0 0);
+  --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.629 0.245 27.325);
+  --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.265 0 0);
-  --input: oklch(0.265 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
+  /* === CHART COLORS === */
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  /* === SIDEBAR TOKENS === */
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @keyframes spin {
@@ -833,7 +882,7 @@ label[role=textbox] input:focus {
   box-sizing: border-box;
   font-size: 0.875rem;
   padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   color: var(--card-foreground);
   transition: background-color var(--transition-speed) ease-in-out;
   line-height: 1;
@@ -865,7 +914,7 @@ select {
   padding-right: calc(var(--spacing) * 12);
   height: calc(var(--spacing) * 8);
   box-sizing: border-box;
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
   background-color: var(--background);
   color: var(--foreground);
   border: solid 1px var(--border);
@@ -950,7 +999,7 @@ hr {
   display: flex;
   padding: calc(var(--spacing) * 0.6);
   height: calc(var(--spacing) * 9);
-  border-radius: calc(var(--radius) + 2px);
+  border-radius: var(--radius-md);
 }
 .tabs [role=tablist] > [role=tab] {
   margin: 0;
@@ -976,7 +1025,7 @@ hr {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1;
-  border-radius: calc(var(--radius) + 2px);
+  border-radius: var(--radius-sm);
   outline: 0px solid var(--ring);
 }
 .tabs [role=tabpanel] {
@@ -1021,7 +1070,7 @@ hr {
   color: var(--background);
   font-size: 0.8rem;
   padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2.5);
-  border-radius: calc(var(--radius) + 2px);
+  border-radius: var(--radius-md);
   text-wrap: wrap;
   z-index: 1000;
   margin-bottom: 8px;
@@ -1071,7 +1120,7 @@ code {
   background-color: var(--muted);
   color: var(--muted-foreground);
   font-size: 0.875rem;
-  border-radius: calc(var(--radius) - 1px);
+  border-radius: var(--radius-sm);
   line-height: 1;
 }
 

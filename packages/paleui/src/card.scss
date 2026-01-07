@@ -8,7 +8,7 @@ article {
 	gap: calc(var(--spacing) * 4);
 	border: solid 1px var(--border);
 	box-sizing: border-box;
-	border-radius: calc(var(--radius) + 4px);
+	border-radius: var(--radius-2xl);
 	box-shadow: var(--shadow-sm);
 
 	header,

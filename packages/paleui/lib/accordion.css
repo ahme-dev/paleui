@@ -25,7 +25,7 @@ details[role=region] > summary {
   justify-content: space-between;
   width: 100%;
   flex-grow: 1;
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   cursor: var(--cursor-interactive);
   font-weight: 500;
   font-size: 0.875rem;

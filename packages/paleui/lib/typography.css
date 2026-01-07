@@ -30,7 +30,7 @@ code {
   background-color: var(--muted);
   color: var(--muted-foreground);
   font-size: 0.875rem;
-  border-radius: calc(var(--radius) - 1px);
+  border-radius: var(--radius-sm);
   line-height: 1;
 }
 
