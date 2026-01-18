@@ -11,6 +11,8 @@
 		"site:dist": "bun run --cwd packages/site dist",
 		"lib:dev": "bun run --cwd packages/paleui dev",
 		"lib:dist": "bun run --cwd packages/paleui dist",
+
+		"check": "biome check",
 		"fix": "biome check --fix",
 
 		"test:update": "playwright test --update-snapshots",
