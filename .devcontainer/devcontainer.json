@@ -1,21 +1,25 @@
 {
-	"name": "PaleUI Development",
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
-	"forwardPorts": [
-		3000
-	],
-	"remoteUser": "bun",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"biomejs.biome",
-				"ms-playwright.playwright"
-			],
-			"settings": {
-				"editor.defaultFormatter": "biomejs.biome"
-			}
-		}
-	}
+  "name": "PaleUI Development",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "biomejs.biome",
+        "ms-playwright.playwright"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "playwright.reuseBrowser": false,
+        "playwright.env": {
+          "PW_TEST_CONNECT_WS_ENDPOINT": "ws://playwright:3000/"
+        }
+      }
+    }
+  },
+  "forwardPorts": [3000, 9323],
+  "postCreateCommand": "bun install",
+  "remoteUser": "root"
 }

@@ -11,10 +11,19 @@
 		"site:dist": "bun run --cwd packages/site dist",
 		"lib:dev": "bun run --cwd packages/paleui dev",
 		"lib:dist": "bun run --cwd packages/paleui dist",
-		"fix": "biome check --fix"
+		"fix": "biome check --fix",
+
+		"test:update": "playwright test --update-snapshots",
+		"test:run": "playwright test",
+		"test:run:ui": "playwright test --ui --ui-port=9323",
+		"test:report": "playwright show-report --port 9323",
+
+		"test:run:docker-up": "docker compose -f docker-compose.playwright.yml up -d --wait && PW_TEST_CONNECT_WS_ENDPOINT=ws://localhost:3000/ playwright test",
+		"test:run:docker-down": "docker compose -f docker-compose.playwright.yml down"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.0.6",
+		"@playwright/test": "^1.57.0",
 		"concurrently": "^9.1.2"
 	}
 }

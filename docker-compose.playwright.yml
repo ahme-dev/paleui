@@ -1,0 +1,18 @@
+# allows running playwright tests without installing browsers locally
+# check package.json for command
+
+services:
+  playwright:
+    build:
+      context: .devcontainer
+      dockerfile: Dockerfile.playwright
+    init: true
+    ipc: host
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000').then(r => r.ok || process.exit(1)).catch(() => process.exit(1))\""]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+      start_period: 5s

@@ -1,0 +1,14 @@
+FROM mcr.microsoft.com/playwright:v1.57.0-noble
+
+# pin playwright version to match image
+ENV PLAYWRIGHT_VERSION=1.57.0
+
+WORKDIR /home/pwuser
+
+RUN npm install -g playwright@${PLAYWRIGHT_VERSION}
+
+EXPOSE 3000
+
+USER pwuser
+
+CMD ["npx", "playwright", "run-server", "--port", "3000", "--host", "0.0.0.0"]
