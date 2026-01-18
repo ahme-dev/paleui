@@ -102,6 +102,7 @@ The project follows conventional commit conventions with scopes for clarity:
 - `feat` - New feature or enhancement
 - `fix` - Bug fix
 - `chore` - Maintenance tasks, configuration, or tooling changes
+- `test` - Test modifications
 
 *Scopes:*
 - `lib` - Changes to the core CSS library (`packages/paleui`)
@@ -112,3 +113,4 @@ The project follows conventional commit conventions with scopes for clarity:
 - `feat(lib): add button component`
 - `fix(site): correct navigation layout`
 - `chore: update build configuration`
+- `test: fixed dropdown test not including opened ui`
