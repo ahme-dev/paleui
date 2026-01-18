@@ -91,3 +91,24 @@ The setup can be achieved in two main ways:
 - `bun run test:update` - Update Playwright snapshots (local + devcontainer)
 - `bun run test:report` - Check test report (local, in devcontainer it's auto setup on :9323 so not needed)
 - `bun run fix` - Run Biome to lint and format code
+
+#### Committing
+
+The project follows conventional commit conventions with scopes for clarity:
+
+**Format:** `type(scope): description`
+
+**Types:**
+- `feat` - New feature or enhancement
+- `fix` - Bug fix
+- `chore` - Maintenance tasks, configuration, or tooling changes
+
+**Scopes:**
+- `lib` - Changes to the core CSS library (`packages/paleui`)
+- `site` - Changes to the documentation site (`packages/site`)
+- Omit scope for changes affecting the entire monorepo
+
+**Examples:**
+- `feat(lib): add button component`
+- `fix(site): correct navigation layout`
+- `chore: update build configuration`
