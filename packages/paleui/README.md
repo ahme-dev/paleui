@@ -46,3 +46,48 @@ PaleUI will be distributed both as a single file and as multiple files to use in
 #### 6. Support usage in modern Javascript frameworks.
 
 PaleUI will not be just a library for plain HTML, backends, and non-JavaScript frameworks. It will also support usage in modern JavaScript frameworks like React, Vue, and Svelte, providing a light alternative with the same familiar design that those developers expect.
+
+### Contributing
+
+Contributions to PaleUI are welcome. The project uses a monorepo structure and is built with the following:
+
+- **Bun** - Runtime and package manager
+- **Sass** - CSS preprocessor for writing modular styles
+- **PostCSS** with Autoprefixer - Ensures browser compatibility
+- **Biome** - Linter and formatter
+- **Playwright** - End-to-end testing
+
+#### Structure
+
+The monorepo contains two packages:
+
+- `packages/paleui` - Core CSS library (Sass source in `src/`, compiled output in `lib/`)
+- `packages/site` - Documentation site (build scripts in `scripts/`, built output in `dist/`)
+
+#### Setup
+
+The setup can be achieved in two main ways:
+
+**Dev Container:** Open in VS Code and use "Dev Containers: Reopen in Dev Container". Includes Bun, Biome, and Playwright pre-configured.
+
+**Local:** Install Bun (v1.0 or later), clone the repo, and install the packages. Playwright must also be set up on the device along with required browsers, unless Docker is available to spin up the preconfigured image.
+
+#### Tasks
+
+**Development:**
+- `bun run dev` - Start development mode (library + site)
+- `bun run lib:dev` - Watch and build library only
+- `bun run site:dev` - Watch and build site only
+
+**Building:**
+- `bun run dist` - Build both library and site for production
+- `bun run lib:dist` - Build library for production
+- `bun run site:dist` - Build site for production
+
+**Testing and Formatting:**
+- `bun run test:run` - Run Playwright tests (local + devcontainer)
+- `bun run test:run:docker-up` - Run Playwright tests in container (local, but using docker for tests)
+- `bun run test:run:ui` - Run Playwright tests with UI (local)
+- `bun run test:update` - Update Playwright snapshots (local + devcontainer)
+- `bun run test:report` - Check test report (local, in devcontainer it's auto setup on :9323 so not needed)
+- `bun run fix` - Run Biome to lint and format code
