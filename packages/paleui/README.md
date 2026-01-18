@@ -51,11 +51,11 @@ PaleUI will not be just a library for plain HTML, backends, and non-JavaScript f
 
 Contributions to PaleUI are welcome. The project uses a monorepo structure and is built with the following:
 
-- **Bun** - Runtime and package manager
-- **Sass** - CSS preprocessor for writing modular styles
-- **PostCSS** with Autoprefixer - Ensures browser compatibility
-- **Biome** - Linter and formatter
-- **Playwright** - End-to-end testing
+- *Bun* - Runtime and package manager
+- *Sass* - CSS preprocessor for writing modular styles
+- *PostCSS* with Autoprefixer - Ensures browser compatibility
+- *Biome* - Linter and formatter
+- *Playwright* - End-to-end testing
 
 #### Structure
 
@@ -68,23 +68,23 @@ The monorepo contains two packages:
 
 The setup can be achieved in two main ways:
 
-**Dev Container:** Open in VS Code and use "Dev Containers: Reopen in Dev Container". Includes Bun, Biome, and Playwright pre-configured.
+*1. Dev Container:* Open in VS Code and use "Dev Containers: Reopen in Dev Container". Includes Bun, Biome, and Playwright pre-configured.
 
-**Local:** Install Bun (v1.0 or later), clone the repo, and install the packages. Playwright must also be set up on the device along with required browsers, unless Docker is available to spin up the preconfigured image.
+*2. Local:* Install Bun (v1.0 or later), clone the repo, and install the packages. Playwright must also be set up on the device along with required browsers, unless Docker is available to spin up the preconfigured image.
 
 #### Tasks
 
-**Development:**
+*Development:*
 - `bun run dev` - Start development mode (library + site)
 - `bun run lib:dev` - Watch and build library only
 - `bun run site:dev` - Watch and build site only
 
-**Building:**
+*Building:*
 - `bun run dist` - Build both library and site for production
 - `bun run lib:dist` - Build library for production
 - `bun run site:dist` - Build site for production
 
-**Testing and Formatting:**
+*Testing and Formatting:*
 - `bun run test:run` - Run Playwright tests (local + devcontainer)
 - `bun run test:run:docker-up` - Run Playwright tests in container (local, but using docker for tests)
 - `bun run test:run:ui` - Run Playwright tests with UI (local)
@@ -96,19 +96,19 @@ The setup can be achieved in two main ways:
 
 The project follows conventional commit conventions with scopes for clarity:
 
-**Format:** `type(scope): description`
+*Format:* `type(scope): description`
 
-**Types:**
+*Types:*
 - `feat` - New feature or enhancement
 - `fix` - Bug fix
 - `chore` - Maintenance tasks, configuration, or tooling changes
 
-**Scopes:**
+*Scopes:*
 - `lib` - Changes to the core CSS library (`packages/paleui`)
 - `site` - Changes to the documentation site (`packages/site`)
 - Omit scope for changes affecting the entire monorepo
 
-**Examples:**
+*Examples:*
 - `feat(lib): add button component`
 - `fix(site): correct navigation layout`
 - `chore: update build configuration`
