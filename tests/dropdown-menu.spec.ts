@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Dropdown Menu Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/dropdown-menu.html");
+		await page.goto(buildUrl("/components/dropdown-menu.html"));
 	});
 
 	test("dropdown trigger - closed", async ({ page }) => {
@@ -52,17 +51,17 @@ test.describe("Dropdown Menu Visual Snapshots", () => {
 
 	test.describe("Dropdown Variants", () => {
 		test("secondary dropdown", async ({ page }) => {
-			const trigger = page.locator(DEMO).locator("summary.secondary");
+			const trigger = page.locator("summary.secondary");
 			await expect(trigger).toHaveScreenshot("dropdown-secondary.png");
 		});
 
 		test("destructive dropdown", async ({ page }) => {
-			const trigger = page.locator(DEMO).locator("summary.destructive");
+			const trigger = page.locator("summary.destructive");
 			await expect(trigger).toHaveScreenshot("dropdown-destructive.png");
 		});
 
 		test("outline dropdown", async ({ page }) => {
-			const trigger = page.locator(DEMO).locator("summary.outline").last();
+			const trigger = page.locator("summary.outline").last();
 			await expect(trigger).toHaveScreenshot("dropdown-outline.png");
 		});
 	});

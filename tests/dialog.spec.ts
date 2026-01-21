@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Dialog Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/dialog.html");
+		await page.goto(buildUrl("/components/dialog.html"));
 	});
 
 	test("dialog trigger button", async ({ page }) => {

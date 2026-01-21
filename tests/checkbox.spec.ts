@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Checkbox Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/checkbox.html");
+		await page.goto(buildUrl("/components/checkbox.html"));
 	});
 
 	const getCheckbox = (page: import("@playwright/test").Page) =>

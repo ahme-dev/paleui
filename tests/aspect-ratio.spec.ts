@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Aspect Ratio Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/aspect-ratio.html");
+		await page.goto(buildUrl("/components/aspect-ratio.html"));
 	});
 
 	test("default aspect ratio - 3:1", async ({ page }) => {

@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Alert Dialog Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/alert-dialog.html");
+		await page.goto(buildUrl("/components/alert-dialog.html"));
 	});
 
 	test("alert dialog trigger button", async ({ page }) => {

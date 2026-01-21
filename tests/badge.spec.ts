@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Badge Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/badge.html");
+		await page.goto(buildUrl("/components/badge.html"));
 	});
 
 	test("default badge with icon", async ({ page }) => {

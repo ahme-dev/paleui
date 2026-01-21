@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Card Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/card.html");
+		await page.goto(buildUrl("/components/card.html"));
 	});
 
 	test("default card", async ({ page }) => {
