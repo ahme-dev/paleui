@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+const DEMO = "[data-to-code]";
+
 test.describe("Alert Dialog Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/components/alert-dialog.html");
@@ -7,6 +9,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 
 	test("alert dialog trigger button", async ({ page }) => {
 		const button = page
+			.locator(DEMO)
 			.locator("button.destructive")
 			.filter({ hasText: "Remove" });
 		await expect(button).toHaveScreenshot("alert-dialog-trigger.png");
@@ -14,6 +17,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 
 	test("alert dialog open", async ({ page }) => {
 		const button = page
+			.locator(DEMO)
 			.locator("button.destructive")
 			.filter({ hasText: "Remove" });
 		await button.click();
@@ -25,6 +29,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 	test.describe("Alert Dialog Components", () => {
 		test("alert dialog header", async ({ page }) => {
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -35,6 +40,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 
 		test("alert dialog buttons", async ({ page }) => {
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -45,6 +51,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 
 		test("alert dialog cancel button", async ({ page }) => {
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -55,6 +62,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 
 		test("alert dialog confirm button", async ({ page }) => {
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -69,6 +77,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 	test.describe("Alert Dialog States", () => {
 		test("alert dialog with backdrop", async ({ page }) => {
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -80,6 +89,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 
 		test("cancel button hover", async ({ page }) => {
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -93,6 +103,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 
 		test("confirm button hover", async ({ page }) => {
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -111,6 +122,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 		test("mobile viewport", async ({ page }) => {
 			await page.setViewportSize({ width: 375, height: 667 });
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -122,6 +134,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 		test("tablet viewport", async ({ page }) => {
 			await page.setViewportSize({ width: 768, height: 1024 });
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();
@@ -133,6 +146,7 @@ test.describe("Alert Dialog Visual Snapshots", () => {
 		test("desktop viewport", async ({ page }) => {
 			await page.setViewportSize({ width: 1920, height: 1080 });
 			const button = page
+				.locator(DEMO)
 				.locator("button.destructive")
 				.filter({ hasText: "Remove" });
 			await button.click();

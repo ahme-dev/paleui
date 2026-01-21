@@ -1,15 +1,17 @@
 import { expect, test } from "@playwright/test";
 
+const DEMO = "[data-to-code]";
+
 test.describe("Checkbox Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/components/checkbox.html");
 	});
 
 	const getCheckbox = (page: import("@playwright/test").Page) =>
-		page.locator("#component-display input[type='checkbox']").first();
+		page.locator(DEMO).locator("input[type='checkbox']").first();
 
 	const getLabel = (page: import("@playwright/test").Page) =>
-		page.locator("#component-display label").first();
+		page.locator(DEMO).locator("label").first();
 
 	test("default checkbox - unchecked", async ({ page }) => {
 		const checkbox = getCheckbox(page);
@@ -29,7 +31,7 @@ test.describe("Checkbox Visual Snapshots", () => {
 		});
 
 		test("checkbox with details", async ({ page }) => {
-			const label = page.locator("#component-display label").nth(1);
+			const label = page.locator(DEMO).locator("label").nth(1);
 			await expect(label).toHaveScreenshot("checkbox-with-details.png");
 		});
 	});
