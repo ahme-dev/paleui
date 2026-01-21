@@ -94,23 +94,9 @@ The setup can be achieved in two main ways:
 
 #### Committing
 
-The project follows conventional commit conventions with scopes for clarity:
-
-*Format:* `type(scope): description`
-
-*Types:*
-- `feat` - New feature or enhancement
-- `fix` - Bug fix
-- `chore` - Maintenance tasks, configuration, or tooling changes
+The project follows conventional commit conventions:
+- `feat` - New feature or enhancement for the lib
+- `fix` - Bug fix for the lib
+- `docs` - Changes to the site or other forms of documentation
 - `test` - Test modifications
-
-*Scopes:*
-- `lib` - Changes to the core CSS library (`packages/paleui`)
-- `site` - Changes to the documentation site (`packages/site`)
-- Omit scope for changes affecting the entire monorepo
-
-*Examples:*
-- `feat(lib): add button component`
-- `fix(site): correct navigation layout`
-- `chore: update build configuration`
-- `test: fixed dropdown test not including opened ui`
+- `chore` - Maintenance tasks, configuration, or tooling changes
