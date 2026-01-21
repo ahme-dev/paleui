@@ -1,17 +1,25 @@
 import { expect, test } from "@playwright/test";
 
+const DEMO = "[data-to-code]";
+
 test.describe("Dialog Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/components/dialog.html");
 	});
 
 	test("dialog trigger button", async ({ page }) => {
-		const button = page.locator("button").filter({ hasText: "Share" });
+		const button = page
+			.locator(DEMO)
+			.locator("button")
+			.filter({ hasText: "Share" });
 		await expect(button).toHaveScreenshot("dialog-trigger.png");
 	});
 
 	test("dialog open", async ({ page }) => {
-		const button = page.locator("button").filter({ hasText: "Share" });
+		const button = page
+			.locator(DEMO)
+			.locator("button")
+			.filter({ hasText: "Share" });
 		await button.click();
 
 		const dialog = page.locator("dialog#share_modal");
@@ -20,7 +28,10 @@ test.describe("Dialog Visual Snapshots", () => {
 
 	test.describe("Dialog Components", () => {
 		test("dialog header", async ({ page }) => {
-			const button = page.locator("button").filter({ hasText: "Share" });
+			const button = page
+				.locator(DEMO)
+				.locator("button")
+				.filter({ hasText: "Share" });
 			await button.click();
 
 			const header = page.locator("dialog hgroup");
@@ -28,7 +39,10 @@ test.describe("Dialog Visual Snapshots", () => {
 		});
 
 		test("dialog input", async ({ page }) => {
-			const button = page.locator("button").filter({ hasText: "Share" });
+			const button = page
+				.locator(DEMO)
+				.locator("button")
+				.filter({ hasText: "Share" });
 			await button.click();
 
 			const input = page.locator('dialog input[type="text"]');
@@ -36,7 +50,10 @@ test.describe("Dialog Visual Snapshots", () => {
 		});
 
 		test("dialog close button", async ({ page }) => {
-			const button = page.locator("button").filter({ hasText: "Share" });
+			const button = page
+				.locator(DEMO)
+				.locator("button")
+				.filter({ hasText: "Share" });
 			await button.click();
 
 			const closeButton = page.locator("dialog form button.secondary");
@@ -46,7 +63,7 @@ test.describe("Dialog Visual Snapshots", () => {
 
 	// test.describe("Dialog States", () => {
 	// 	test("dialog backdrop", async ({ page }) => {
-	// 		const button = page.locator("button").filter({ hasText: "Share" });
+	// 		const button = page.locator(DEMO).locator("button").filter({ hasText: "Share" });
 	// 		await button.click();
 
 	// 		await page.waitForSelector("dialog[open]");
@@ -58,7 +75,10 @@ test.describe("Dialog Visual Snapshots", () => {
 	test.describe("Responsive Snapshots", () => {
 		test("mobile viewport", async ({ page }) => {
 			await page.setViewportSize({ width: 375, height: 667 });
-			const button = page.locator("button").filter({ hasText: "Share" });
+			const button = page
+				.locator(DEMO)
+				.locator("button")
+				.filter({ hasText: "Share" });
 			await button.click();
 
 			const dialog = page.locator("dialog#share_modal");
@@ -67,7 +87,10 @@ test.describe("Dialog Visual Snapshots", () => {
 
 		test("tablet viewport", async ({ page }) => {
 			await page.setViewportSize({ width: 768, height: 1024 });
-			const button = page.locator("button").filter({ hasText: "Share" });
+			const button = page
+				.locator(DEMO)
+				.locator("button")
+				.filter({ hasText: "Share" });
 			await button.click();
 
 			const dialog = page.locator("dialog#share_modal");
@@ -76,7 +99,10 @@ test.describe("Dialog Visual Snapshots", () => {
 
 		test("desktop viewport", async ({ page }) => {
 			await page.setViewportSize({ width: 1920, height: 1080 });
-			const button = page.locator("button").filter({ hasText: "Share" });
+			const button = page
+				.locator(DEMO)
+				.locator("button")
+				.filter({ hasText: "Share" });
 			await button.click();
 
 			const dialog = page.locator("dialog#share_modal");

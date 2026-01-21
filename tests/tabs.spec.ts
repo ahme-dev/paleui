@@ -1,12 +1,14 @@
 import { expect, test } from "@playwright/test";
 
+const DEMO = "[data-to-code]";
+
 test.describe("Tabs Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/components/tabs.html");
 	});
 
 	const getExampleTabs = (page: import("@playwright/test").Page) =>
-		page.locator("object .tabs.max-width").first();
+		page.locator(DEMO).locator(".tabs.max-width").first();
 
 	test("default tabs", async ({ page }) => {
 		const tabs = getExampleTabs(page);
