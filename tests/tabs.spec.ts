@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Tabs Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/tabs.html");
+		await page.goto(buildUrl("/components/tabs.html"));
 	});
 
 	const getExampleTabs = (page: import("@playwright/test").Page) =>

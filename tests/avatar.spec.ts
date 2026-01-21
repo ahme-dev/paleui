@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Avatar Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/avatar.html");
+		await page.goto(buildUrl("/components/avatar.html"));
 	});
 
 	test("avatar with image", async ({ page }) => {

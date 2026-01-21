@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Breadcrumbs Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/breadcrumbs.html");
+		await page.goto(buildUrl("/components/breadcrumbs.html"));
 	});
 
 	test("default breadcrumbs", async ({ page }) => {

@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Input Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/input.html");
+		await page.goto(buildUrl("/components/input.html"));
 	});
 
 	test("default input", async ({ page }) => {

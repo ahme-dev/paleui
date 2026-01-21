@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Button Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/button.html");
+		await page.goto(buildUrl("/components/button.html"));
 	});
 
 	test("default button", async ({ page }) => {

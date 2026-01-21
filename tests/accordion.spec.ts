@@ -1,12 +1,12 @@
 import { expect, test } from "@playwright/test";
+import { buildUrl, DEMO } from "./test-utils";
 
-const DEMO = "[data-to-code]";
 // Selector for accordion group wrapper
 const ACCORDION_GROUP = "[data-accordion]";
 
 test.describe("Accordion Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/accordion.html");
+		await page.goto(buildUrl("/components/accordion.html"));
 	});
 
 	test("accordion group has data-accordion attribute", async ({ page }) => {

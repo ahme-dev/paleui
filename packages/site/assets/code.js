@@ -74,6 +74,10 @@ function addCopyButton(to, codeContent) {
 }
 
 function updateTabs() {
+	if (window.__TEST_MODE__) {
+		return;
+	}
+
 	document
 		.querySelectorAll(`${ATTRIBUTE_WITH_BRACKETS}:not([data-code-processed])`)
 		.forEach(async (block) => {

@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Select Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/select.html");
+		await page.goto(buildUrl("/components/select.html"));
 	});
 
 	test("default select", async ({ page }) => {

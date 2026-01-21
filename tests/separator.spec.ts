@@ -1,10 +1,9 @@
 import { expect, test } from "@playwright/test";
-
-const DEMO = "[data-to-code]";
+import { buildUrl, DEMO } from "./test-utils";
 
 test.describe("Separator Visual Snapshots", () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto("/components/separator.html");
+		await page.goto(buildUrl("/components/separator.html"));
 	});
 
 	test("horizontal separator", async ({ page }) => {
