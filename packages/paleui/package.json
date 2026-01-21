@@ -1,7 +1,7 @@
 {
 	"type": "module",
 	"name": "paleui",
-	"version": "0.1.0",
+	"version": "0.0.0-semantic-release",
 	"description": "Pale UI",
 	"author": "https://ahme.dev",
 	"license": "MIT",
@@ -20,11 +20,17 @@
 		"component library",
 		"css library"
 	],
+	"files": [
+		"lib/**/*.css"
+	],
+	"exports": {
+		"./lib/*": "./lib/*",
+		"./lib/*.css": "./lib/*.css"
+	},
 	"scripts": {
 		"dist": "sass src:lib && postcss lib/*.css --dir lib",
 		"dev": "concurrently -n sass,postcss \"sass src:lib --watch\" \"postcss lib/*.css --dir lib --watch\""
 	},
-	"types": "module",
 	"dependencies": {},
 	"devDependencies": {
 		"autoprefixer": "^10.4.21",

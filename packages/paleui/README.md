@@ -9,6 +9,64 @@ PaleUI is a user interface library designed to provide a clean and modern look f
 - **Just Semantic HTML**: The library uses semantic HTML elements and role attributes to ensure accessibility and cleaner markup, making it easier to read and maintain.
 - **Modular, Small, and Fast**: PaleUI is designed to be modular, allowing you to import only the components you need. This keeps your project lightweight and fast.
 
+### Usage
+
+PaleUI can be installed via a package manager, or included directly in your HTML.
+
+#### Install via npm
+
+```bash
+npm install paleui
+```
+
+Then import the styles you need. You can import everything at once or only specific components:
+
+```css
+@import "paleui/lib/all.css";       /* Everything */
+
+@import "paleui/lib/button.css";    /* Buttons */
+@import "paleui/lib/card.css";      /* Cards */
+```
+
+#### Include via CDN
+
+For quick prototyping or static sites, include PaleUI directly from a CDN:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/all.css">
+
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/main.css">
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/button.css">
+```
+
+#### Theming
+
+PaleUI uses the same CSS variables as `shadcn/ui`, so any shadcn theme works out of the box. To use a custom theme, override the CSS variables in your stylesheet after importing PaleUI:
+
+```css
+@import "paleui/lib/all.css";
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.808 0 0);
+  --radius: 0.625rem;
+  /* ... other variables */
+}
+```
+
+For dark mode, add the `dark` class to any parent element (typically `<html>` or `<body>`) and define dark variants:
+
+```css
+.dark {
+  --background: oklch(0.115 0 0);
+  --foreground: oklch(0.985 0 0);
+  /* ... other dark mode variables */
+}
+```
+
 ### Goals 
 
 Note: this is an early draft, and will likely be updated somewhat until a stable release is made.
