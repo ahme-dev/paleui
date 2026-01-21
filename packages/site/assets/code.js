@@ -1,66 +1,30 @@
-//
-// Highlighter
-//
+/**
+ * Code Display Utility
+ *
+ * Automatically extracts HTML from demo elements and displays them as formatted code
+ * examples. Used throughout the PaleUI documentation site to show component source code
+ * alongside live previews.
+ *
+ * Usage: Add the `data-to-code` attribute to any element containing demo HTML.
+ *
+ * ```html
+ * <!-- Display code in a separate target element -->
+ * <div data-to-code="#code-panel">
+ *   <button>Demo Button</button>
+ * </div>
+ * <div id="code-panel"></div>
+ *
+ * <!-- Replace the element itself with code -->
+ * <div data-to-code>
+ *   <button>Demo Button</button>
+ * </div>
+ * ```
+ */
 
-let shikiEnabled = false;
-function getShiki() {
-	try {
-		shikiEnabled = localStorage.getItem("shiki") === "true";
-	} catch (_) {}
-}
-getShiki();
-function toggleShiki() {
-	localStorage.setItem("shiki", !shikiEnabled);
-	shikiEnabled = !shikiEnabled;
-}
+import { addHighlightButton, highlightHtml } from "./highlight.js";
 
-async function highlightHtml(str) {
-	let html = "";
-
-	if (shikiEnabled) {
-		const mod = await import("https://esm.sh/shiki@3.0.0");
-		html = await mod.codeToHtml(str, {
-			lang: "html",
-			theme: "min-light",
-		});
-	} else {
-		const escapedStr = str
-			.replace(/&/g, "&amp;")
-			.replace(/</g, "&lt;")
-			.replace(/>/g, "&gt;")
-			.replace(/"/g, "&quot;")
-			.replace(/'/g, "&#39;");
-		html = `<pre><code>${escapedStr}</code></pre>`;
-	}
-
-	return html;
-}
-
-function addHighlightButton(to) {
-	if (to.querySelector(".highlight-btn")) return;
-
-	const highlightButton = document.createElement("button");
-	highlightButton.textContent = shikiEnabled ? "✪" : "☲";
-	highlightButton.className = "icon outline highlight-btn";
-	const text = shikiEnabled ? "Turn off highlighting" : "Turn on highlighting";
-	highlightButton.setAttribute("aria-label", text);
-	highlightButton.title = text;
-	highlightButton.style =
-		"position: absolute; top: 10px; right: 45px; z-index: 1000; cursor: pointer;";
-
-	highlightButton.addEventListener("click", () => {
-		toggleShiki();
-		const confirmText = shikiEnabled
-			? "Reload the page to turn on highlighting? This will load shikijs and increase bundle size on the site."
-			: "Reload the page to turn off highlighting?";
-		if (confirm(confirmText)) location.reload();
-	});
-	to.appendChild(highlightButton);
-}
-
-//
-// Replacer
-//
+const ATTRIBUTE = "data-to-code";
+const ATTRIBUTE_WITH_BRACKETS = `[${ATTRIBUTE}]`;
 
 async function replaceWithCode(from, to) {
 	let codeContent = from.innerHTML;
@@ -109,23 +73,18 @@ function addCopyButton(to, codeContent) {
 	to.appendChild(copyButton);
 }
 
-//
-// Watch and replace all fields
-//
-
-const ATTRIBUTE = "data-to-code";
-const ATTRIBUTE_WITH_BRACKETS = `[${ATTRIBUTE}]`;
-
 function updateTabs() {
-	document.querySelectorAll(ATTRIBUTE_WITH_BRACKETS).forEach(async (block) => {
-		const attr = block.getAttribute(ATTRIBUTE);
-		const elementToReplace =
-			attr.trim() === "" ? block : document.querySelector(attr) || block;
+	document
+		.querySelectorAll(`${ATTRIBUTE_WITH_BRACKETS}:not([data-code-processed])`)
+		.forEach(async (block) => {
+			const attr = block.getAttribute(ATTRIBUTE);
+			const elementToReplace =
+				attr.trim() === "" ? block : document.querySelector(attr) || block;
 
-		block.removeAttribute(ATTRIBUTE);
-		await replaceWithCode(block, elementToReplace);
-		addHighlightButton(elementToReplace);
-	});
+			block.setAttribute("data-code-processed", "");
+			await replaceWithCode(block, elementToReplace);
+			addHighlightButton(elementToReplace);
+		});
 }
 
 updateTabs();

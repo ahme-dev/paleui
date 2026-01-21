@@ -117,6 +117,19 @@ function fixLinksInContent(content: string) {
 		},
 	);
 
+	// for JS module imports (e.g., import { foo } from "./highlight.js")
+	content = content.replace(/from\s+"\.\/([^"]+)"/g, (match, file) => {
+		const newLink = `/${file}`;
+		const newLinkWithFrom = `from "${newLink}"`;
+		const oldLink = `assets/${file}`;
+
+		transformations.set(oldLink, {
+			type: "asset",
+			newLink,
+		});
+		return newLinkWithFrom;
+	});
+
 	// for fonts in dir
 	content = content.replace(
 		/url\("(?:\.\.\/)?assets\/([^"]+)"\)/g,
@@ -235,9 +248,33 @@ function distProject() {
 				continue;
 			}
 
-			fs.copyFileSync(oldLinkPath, newPath);
+			// js files, process and fix imports before copying
 
-			console.info(`\tCopied asset from ${oldLinkPath} to ${newPath}`);
+			if (oldLinkPath.endsWith(".js")) {
+				let jsContent = getFileContent(oldLinkPath);
+				const jsFixResult = fixLinksInContent(jsContent);
+				jsContent = jsFixResult.content;
+				fs.writeFileSync(newPath, jsContent, "utf8");
+				console.info(
+					`\tProcessed and copied JS asset from ${oldLinkPath} to ${newPath}`,
+				);
+
+				for (const [jsOldLink, jsTransform] of jsFixResult.transformations) {
+					if (jsTransform.type !== "asset") continue;
+					const jsOldPath = jsOldLink.replace(/^\.\.\//, ``);
+					if (!fs.existsSync(jsOldPath)) continue;
+					const jsNewPath = `${distDir}/${jsTransform.newLink}`;
+					if (fs.existsSync(jsNewPath)) {
+						console.info(`\tDuplicate JS import skipped`);
+						continue;
+					}
+					fs.copyFileSync(jsOldPath, jsNewPath);
+					console.info(`\tCopied JS import from ${jsOldPath} to ${jsNewPath}`);
+				}
+			} else {
+				fs.copyFileSync(oldLinkPath, newPath);
+				console.info(`\tCopied asset from ${oldLinkPath} to ${newPath}`);
+			}
 		}
 
 		// copy fonts in assets
