@@ -31,5 +31,6 @@ if (isTestMode) {
 	if (mainSection) {
 		mainSection.style.width = "100%";
 		mainSection.style.maxWidth = "100%";
+		mainSection.style.padding = 0;
 	}
 }
