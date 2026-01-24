@@ -2,19 +2,31 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 
 const SITE_PAGES = path.resolve(import.meta.dirname, "../src/pages/components");
+const PALEUI_SRC = path.resolve(import.meta.dirname, "../../paleui/src");
 
-async function generateDocs(componentName: string, dryRun = false) {
+type DocModule = Record<string, any>;
+
+function extractDocsFromModule(mod: DocModule, componentName: string) {
+	const docsKey = `${componentName}Docs`;
+	const docs = mod[docsKey];
+
+	if (!docs || !docs.header || !docs.examples) {
+		return null;
+	}
+
+	return docs;
+}
+
+async function generateDocs(mod: DocModule, componentName: string) {
 	console.log(`Generating documentation for ${componentName}...`);
 
-	const mod = await import(`../../paleui/src/${componentName}.ts`);
-	const { [`${componentName}Meta`]: meta, [`${componentName}Docs`]: docs } =
-		mod;
-
-	if (!meta || !docs) {
-		throw new Error(
-			`Missing ${componentName}Meta or ${componentName}Docs exports`,
-		);
+	const docs = extractDocsFromModule(mod, componentName);
+	if (!docs) {
+		console.log(`⊘ Skipping ${componentName} (no Docs export)`);
+		return;
 	}
+
+	const { header } = docs;
 
 	const astro = `---
 import Header from "@/components/Header.astro";
@@ -23,13 +35,13 @@ import Subsection from "@/components/Subsection.astro";
 import ComponentLayout from "../../layouts/ComponentLayout.astro";
 ---
 
-<ComponentLayout title="${meta.title} - PaleUI">
+<ComponentLayout title="${header.title} - PaleUI">
 	<Header
-		title="${meta.title}"
-		subtitle="${meta.subtitle}"
-		links={${JSON.stringify(meta.mdn || [])}}
+		title="${header.title}"
+		subtitle="${header.subtitle}"
+		links={${JSON.stringify(header.mdn || [])}}
 	>
-		${docs.examples[0]?.examples?.[docs.header?.defaultValue ? docs.examples.findIndex((e: any) => e.title === "Variants") : 0] || ""}
+		${docs.examples[0]?.examples?.[0] || ""}
 	</Header>
 
 	<Section title="Examples" >
@@ -56,25 +68,27 @@ ${Array.isArray(ex.notes) ? ex.notes.map((n: string) => `\t\t\t\t<p>${n}</p>`).j
 
 	const outputFile = path.join(SITE_PAGES, `${componentName}.astro`);
 
-	if (dryRun) {
-		console.log("\n=== DRY RUN ===");
-		console.log(`Would write to: ${outputFile}`);
-		console.log("\n=== GENERATED CONTENT ===");
-		console.log(astro);
-	} else {
-		fs.writeFileSync(outputFile, astro, "utf-8");
-		console.log(`✓ Generated: ${outputFile}`);
+	fs.writeFileSync(outputFile, astro, "utf-8");
+	console.log(`✓ Generated: ${outputFile}`);
+}
+
+console.log("Discovering component files...\n");
+
+const files = fs.readdirSync(PALEUI_SRC);
+const componentFiles = files.filter(
+	(file) => file.endsWith(".ts") && !file.startsWith("_"),
+);
+
+console.log(`Found ${componentFiles.length} component files\n`);
+
+for (const file of componentFiles) {
+	const componentName = path.basename(file, ".ts");
+	try {
+		const mod = await import(`../../paleui/src/${componentName}.ts`);
+		await generateDocs(mod, componentName);
+	} catch (error) {
+		console.error(`✗ Error processing ${componentName}:`, error);
 	}
 }
 
-const args = process.argv.slice(2);
-const componentArg = args.find((arg) => arg.startsWith("--component="));
-const dryRun = args.includes("--dry-run");
-
-if (componentArg) {
-	const component = componentArg.split("=")[1];
-	await generateDocs(component, dryRun);
-} else {
-	console.error("Usage: tsx generate-docs.ts --component=<name> [--dry-run]");
-	process.exit(1);
-}
+console.log("\nDone!");

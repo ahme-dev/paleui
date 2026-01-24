@@ -28,7 +28,7 @@
 		"./lib/*.css": "./lib/*.css"
 	},
 	"scripts": {
-		"validate": "tsx validate.ts",
+		"validate": "tsx scripts/validate.ts",
 		"dist": "sass src:lib && postcss lib/*.css --dir lib",
 		"dev": "concurrently -n sass,postcss \"sass src:lib --watch\" \"postcss lib/*.css --dir lib --watch\""
 	},
