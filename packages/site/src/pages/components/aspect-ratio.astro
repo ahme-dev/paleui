@@ -1,0 +1,68 @@
+---
+import ComponentLayout from "../../layouts/ComponentLayout.astro";
+import Header from "@/components/Header.astro";
+import Section from "@/components/Section.astro";
+import Subsection from "@/components/Subsection.astro";
+---
+
+<ComponentLayout title="Aspect Ratio - PaleUI">
+	<Header
+		title="Aspect Ratio"
+		subtitle="Defines a ratio between the width and height of an element."
+		links={[
+			{
+				name: "MDN: aspect-ratio",
+				link: "https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio",
+			}
+		]}
+	>
+		<div class="aspect" style="--ratio: 3/1; height: 60px;">
+			<p>
+				Aspect Ratio
+				<br />
+				2:1
+			</p>
+		</div>
+	</Header>
+
+	<Section title="Structure">
+		<Subsection>
+			<Fragment slot="above">
+				<p>
+					As it is not possible to set a dynamic value with wide browser support, the aspect ratio is set
+					with a custom CSS property (<code>--ratio</code>), working on components with the <code
+						>aspect</code
+					> class.
+				</p>
+
+				<p>Note that the aspect ratio property is not as well supported in older browsers.</p>
+			</Fragment>
+
+			<div class="aspect" style="--ratio: 3/1;">
+				<!-- content -->
+			</div>
+		</Subsection>
+	</Section>
+
+	<Section title="Examples">
+		<Subsection title="Sizing" subtitle="The aspect ratio can be set to any value.">
+			<Fragment slot="above">
+				<p>
+					The value can be assigned to the <code>--ratio</code> custom property.
+				</p>
+			</Fragment>
+
+			<div class="aspect" style="--ratio: 1/1; height: 20px;">
+				<p>1:1</p>
+			</div>
+
+			<div class="aspect" style="--ratio: 1/2; height: 80px;">
+				<p>1:2</p>
+			</div>
+
+			<div class="aspect" style="--ratio: 4/3; height: 40px;">
+				<p>4:3</p>
+			</div>
+		</Subsection>
+	</Section>
+</ComponentLayout>

@@ -6,7 +6,8 @@
 	],
 	"scripts": {
 		"dev": "concurrently -n SITE,LIB -c bgBlue.bold,bgMagenta.bold \"bun run site:dev\" \"bun run lib:dev\"",
-		"dist": "bun run site:dist; bun run lib:dist",
+		"dist": "bun run lib:dist; bun run site:dist",
+		"preview": "bun run dist; bun run --cwd packages/site preview;",
 		"site:dev": "bun run --cwd packages/site dev",
 		"site:dist": "bun run --cwd packages/site dist",
 		"lib:dev": "bun run --cwd packages/paleui dev",

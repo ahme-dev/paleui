@@ -1,0 +1,76 @@
+---
+import ComponentLayout from "../../layouts/ComponentLayout.astro";
+import Header from "@/components/Header.astro";
+import Section from "@/components/Section.astro";
+import Subsection from "@/components/Subsection.astro";
+---
+
+<ComponentLayout title="Card - PaleUI">
+	<Header
+		title="Card"
+		subtitle="Displays a card, separating a piece of content into distinct sections."
+		links={[
+			{
+				name: "MDN: <article>",
+				link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article",
+			}
+		]}
+	>
+		<article style="max-width: 400px;">
+			<header style="display: flex; flex-direction: row;">
+				<div role="group">
+					<hgroup>
+						<h2>Bluetooth Keyboard Case</h2>
+						<p>
+							A versatile keyboard case that transforms your tablet into a laptop-like
+							experience.
+						</p>
+					</hgroup>
+					<span role="none"></span>
+					<section>
+						<img
+							class="rounded"
+							src="https://placehold.co/100x100"
+							alt="not a real image"
+						/>
+					</section>
+				</div>
+			</header>
+
+			<footer style="display: flex; flex-direction: row; align-items: center;">
+				<button>Buy Now</button>
+				<span role="none"></span>
+				<span role="status" class="secondary"> $49.99 </span>
+			</footer>
+		</article>
+	</Header>
+
+	<Section title="Structure">
+		<Subsection>
+			<Fragment slot="above">
+				<p>
+					The card is made out of semantic HTML, using the <code>&lt;article&gt;</code> element to represent
+					a self-contained piece of content that can be distributed and reused independently.
+				</p>
+
+				<p>
+					While not required, it also uses the <code>&lt;header&gt;</code> and
+					<code>&lt;footer&gt;</code> elements, where now in the <code>&lt;article&gt;</code> they represent
+					the header and footer of the card rather than the page.
+				</p>
+			</Fragment>
+
+			<article>
+				<header>
+					<!-- header content -->
+				</header>
+
+				<!-- body content -->
+
+				<footer>
+					<!-- footer content -->
+				</footer>
+			</article>
+		</Subsection>
+	</Section>
+</ComponentLayout>

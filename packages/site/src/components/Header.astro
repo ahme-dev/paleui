@@ -1,0 +1,68 @@
+---
+import CodeExample from './CodeExample.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  links: {
+	name:string;
+	link: string;
+  }[];
+}
+
+const { title, subtitle, links } = Astro.props;
+---
+
+<section>
+	<hgroup>
+		<h1>{title}</h1>
+		<p>{subtitle}</p>
+	</hgroup>
+
+	<br>
+
+	{links.length > 0 && (
+		<div role="group">
+			{
+				links.map(el=>(
+					<div role="status" class="secondary">
+					<a
+						target="_blank"
+						rel="noopener noreferrer"
+						href={el.link}
+					>
+						{el.name}
+					</a>
+					</div>
+				))
+			}
+		</div>
+	)}
+
+	<br>
+
+	<CodeExample name='header'>
+      	<slot />
+	</CodeExample>
+
+	<slot name="below" />
+</section>
+
+<style>
+	section hgroup {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	section hgroup h1 {
+		font-weight: 600;
+		font-size: 1.878rem;
+		margin-top: 3rem;
+	}
+	@media (max-width: 768px) {
+		section hgroup h1 {
+			margin-top: 2rem;
+		}
+	}
+</style>

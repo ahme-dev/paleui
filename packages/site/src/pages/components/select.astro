@@ -1,0 +1,83 @@
+---
+import ComponentLayout from "../../layouts/ComponentLayout.astro";
+import Header from "@/components/Header.astro";
+import Section from "@/components/Section.astro";
+import Subsection from "@/components/Subsection.astro";
+---
+
+<ComponentLayout title="Select - PaleUI">
+	<Header
+		title="Select"
+		subtitle="Semantic HTML select element."
+		links={[
+			{
+				name: "MDN: <select>",
+				link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select",
+			},
+			{
+				name: "MDN: <option>",
+				link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option",
+			},
+			{
+				name: "MDN: <optgroup>",
+				link: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/optgroup",
+			}
+		]}
+	>
+		<select>
+			<option disabled selected value="">Pick a color</option>
+			<option value="red">Red</option>
+			<option value="blue">Blue</option>
+			<option value="white">White</option>
+		</select>
+	</Header>
+
+	<Section title="Examples">
+		<Subsection
+			title="States"
+			subtitle="Select elements can be put in different states, such as disabled or loading, to indicate their current status."
+		>
+			<Fragment slot="above">
+				<p>
+					The <code>disabled</code> and <code>aria-busy</code> attributes can be used for this purpose.
+				</p>
+			</Fragment>
+
+			<select disabled>
+				<option disabled selected>Disabled Select</option>
+				<option>Option 1</option>
+				<option>Option 2</option>
+			</select>
+
+			<select aria-busy="true">
+				<option disabled selected>Loading Select</option>
+				<option>Option 1</option>
+				<option>Option 2</option>
+			</select>
+		</Subsection>
+
+		<Subsection title="Item Grouping" subtitle="Items in the select can be grouped to organize them better.">
+			<Fragment slot="above">
+				<p>
+					Use the <code>&lt;optgroup&gt;</code> element to group options together, and the <code
+						>label</code
+					> attribute to provide a label for the group.
+				</p>
+			</Fragment>
+
+			<select>
+				<option disabled selected value="">Grouped select</option>
+				<hr />
+				<optgroup label="Group1">
+					<option value="item1">Item 1</option>
+					<option value="item2">Item 2</option>
+				</optgroup>
+				<hr />
+				<optgroup label="Group2">
+					<option value="item3">Item 3</option>
+					<option value="item4">Item 4</option>
+				</optgroup>
+			</select>
+		</Subsection>
+	</Section>
+</ComponentLayout>

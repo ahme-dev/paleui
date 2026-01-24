@@ -1,0 +1,105 @@
+---
+import ComponentLayout from "../../layouts/ComponentLayout.astro";
+import Header from "@/components/Header.astro";
+import Section from "@/components/Section.astro";
+import Subsection from "@/components/Subsection.astro";
+---
+
+<ComponentLayout title="Badge - PaleUI">
+	<Header
+		title="Badge"
+		subtitle="Small status indicator."
+		links={[
+			{
+				name: "MDN: role=\"status\"",
+				link: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/status_role",
+			}
+		]}
+	>
+		<div role="status">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+				<path
+					fill="currentColor"
+					d="m13 24l-9-9l1.414-1.414L13 21.171L26.586 7.586L28 9z"></path>
+			</svg>
+			Verified
+		</div>
+	</Header>
+
+	<Section title="Examples">
+		<Subsection
+			title="Styles"
+			subtitle="Several badge styles are available to choose from. These only change the colors, background and border of the badge."
+		>
+			<Fragment slot="above">
+				<p>
+					The <code>primary</code>, <code>secondary</code>, <code>destructive</code>, <code>ghost</code>,
+					and
+					<code>outline</code> classes can be used to apply these styles.
+				</p>
+			</Fragment>
+
+			<div role="status">Default</div>
+			<div role="status" class="secondary">Secondary</div>
+			<div role="status" class="destructive">Destructive</div>
+			<div role="status" class="outline">Outline</div>
+			<div role="status" class="ghost">Ghost</div>
+		</Subsection>
+
+		<Subsection
+			title="Icons"
+			subtitle="Icons can be added to badges to enhance their visual appeal and usability. They can also be the only content of a badge."
+		>
+			<Fragment slot="above">
+				<p>Simply add an <code>&lt;svg&gt;</code> element inside the badge.</p>
+			</Fragment>
+
+			<div role="status">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+					<path
+						fill="none"
+						d="m16 7l1.912 3.667l4.088.506l-3 2.753l.6 4.074l-3.6-2.292L12.4 18l.6-4.074l-3-2.753l4.2-.506z"
+					></path>
+					<path
+						fill="currentColor"
+						d="M16 2A11.013 11.013 0 0 0 5 13a10.9 10.9 0 0 0 2.216 6.6s.3.395.349.452L16 30l8.439-9.953c.044-.053.345-.447.345-.447l.001-.003A10.9 10.9 0 0 0 27 13A11.013 11.013 0 0 0 16 2m3.6 16L16 15.709L12.4 18l.6-4.074l-3-2.753l4.2-.507L16 7l1.912 3.667l4.088.506l-3 2.753Z"
+					></path>
+				</svg>
+
+				Marked
+			</div>
+
+			<div role="status" class="destructive">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+					<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"></path>
+					<path
+						fill="currentColor"
+						d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"
+					></path>
+				</svg>
+
+				Archived
+			</div>
+		</Subsection>
+
+		<Subsection title="Sizing" subtitle="Badges can be sized to fit the content inside them.">
+			<Fragment slot="above">
+				<p>
+					Simply add the <code>fit</code> class to the badge.
+				</p>
+			</Fragment>
+
+			<div role="status" class="fit destructive">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+					<path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"></path>
+					<path
+						fill="currentColor"
+						d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"
+					></path>
+				</svg>
+			</div>
+
+			<div role="status" class="fit outline">99+</div>
+		</Subsection>
+	</Section>
+</ComponentLayout>
