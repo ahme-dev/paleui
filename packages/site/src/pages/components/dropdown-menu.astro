@@ -66,10 +66,12 @@ import ComponentLayout from "../../layouts/ComponentLayout.astro";
 			<details>
 				<summary role="button" class="secondary">Secondary</summary>
 				<div role="dialog">
-					<ul>
-						<li>
-							<a href="#option4">Option 4</a>
-						</li>
+					<ul role="menu" style="min-width: 180px;">
+						<li role="menuitem">New File<small>%N</small></li>
+						<li role="menuitem">Open<small>%O</small></li>
+						<li role="menuitem">Save<small>%S</small></li>
+						<hr />
+						<li role="menuitem">Close</li>
 					</ul>
 				</div>
 			</details>
@@ -77,10 +79,12 @@ import ComponentLayout from "../../layouts/ComponentLayout.astro";
 			<details>
 				<summary role="button" class="destructive">Destructive</summary>
 				<div role="dialog">
-					<ul>
-						<li>
-							<a href="#option5">Option 5</a>
-						</li>
+					<ul role="menu" style="min-width: 180px;">
+						<p>Danger Zone</p>
+						<li role="menuitem">Delete Account</li>
+						<li role="menuitem">Reset Data</li>
+						<hr />
+						<li role="menuitem">Sign Out</li>
 					</ul>
 				</div>
 			</details>
@@ -88,10 +92,12 @@ import ComponentLayout from "../../layouts/ComponentLayout.astro";
 			<details>
 				<summary role="button" class="outline">Outline</summary>
 				<div role="dialog">
-					<ul>
-						<li>
-							<a href="#option3">Option 3</a>
-						</li>
+					<ul role="menu" style="min-width: 180px;">
+						<li role="menuitem">Edit<small>%E</small></li>
+						<li role="menuitem">Copy<small>%C</small></li>
+						<li role="menuitem">Paste<small>%V</small></li>
+						<hr />
+						<li role="menuitem">Preferences</li>
 					</ul>
 				</div>
 			</details>

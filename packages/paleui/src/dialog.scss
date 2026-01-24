@@ -1,4 +1,4 @@
-@use "utils.scss";
+@use "utils";
 
 dialog {
 	@include utils.transition-outline-with;
@@ -30,7 +30,7 @@ dialog {
 		background-color: transparent;
 	}
 
-	::backdrop {
+	&::backdrop {
 		background-color: black;
 		opacity: 50%;
 	}

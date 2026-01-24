@@ -153,7 +153,7 @@ picture {
   border-radius: 100%;
   flex-shrink: 0;
 }
-picture.square {
+picture .square {
   border-radius: var(--radius-md);
 }
 picture > img {
@@ -625,7 +625,7 @@ dialog > .close:hover {
   box-shadow: none;
   background-color: transparent;
 }
-dialog ::backdrop {
+dialog::backdrop {
   background-color: black;
   opacity: 50%;
 }
@@ -652,6 +652,9 @@ dialog h6 {
   margin-top: 0;
 }
 
+details[open] > [role=button]::after {
+  all: unset;
+}
 details > [role=button] {
   width: -moz-fit-content;
   width: fit-content;
@@ -661,9 +664,6 @@ details > [role=button]:hover {
   text-decoration: none;
 }
 details > [role=button]::after {
-  all: unset;
-}
-details[open] > [role=button]::after {
   all: unset;
 }
 details > [role=dialog] {
@@ -683,6 +683,45 @@ details > [role=dialog] {
   font-size: 0.875rem;
   line-height: 1;
   box-shadow: var(--shadow-md);
+}
+details > [role=dialog] [role=menu] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+details > [role=dialog] [role=menu] > p {
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 2);
+  color: var(--card-foreground);
+  line-height: 1;
+  font-weight: 500;
+}
+details > [role=dialog] [role=menu] [role=menuitem] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2);
+  border-radius: var(--radius-sm);
+  color: var(--card-foreground);
+  transition: background-color var(--transition-speed) ease-in-out;
+  line-height: 1;
+  cursor: var(--cursor-interactive);
+}
+details > [role=dialog] [role=menu] [role=menuitem]:hover {
+  background-color: var(--secondary);
+}
+details > [role=dialog] [role=menu] [role=menuitem] a {
+  text-decoration: none;
+  color: inherit;
+}
+details > [role=dialog] [role=menu] [role=menuitem] small {
+  color: var(--muted-foreground);
+  font-size: 0.66rem;
+  line-height: 1;
 }
 
 label {
@@ -750,6 +789,12 @@ label[role=textbox] {
 }
 label[role=textbox]:focus-within {
   outline-width: 3px;
+}
+label[role=textbox] > svg {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  width: 1rem;
+  height: 1rem;
 }
 label[role=textbox] input,
 label[role=textbox] textarea {
@@ -882,51 +927,6 @@ label[role=textbox] textarea {
     transform: rotate(360deg);
   }
 }
-[role=menu] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-[role=menu] > p {
-  box-sizing: border-box;
-  font-size: 0.875rem;
-  padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 2);
-  color: var(--card-foreground);
-  line-height: 1;
-  font-weight: 500;
-}
-
-[role=menu] [role=menuitem] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 0.875rem;
-  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2);
-  border-radius: var(--radius-sm);
-  color: var(--card-foreground);
-  transition: background-color var(--transition-speed) ease-in-out;
-  line-height: 1;
-  cursor: var(--cursor-interactive);
-}
-
-[role=menu] [role=menuitem]:hover {
-  background-color: var(--secondary);
-}
-
-[role=menu] [role=menuitem] a {
-  text-decoration: none;
-  color: inherit;
-}
-
-[role=menu] [role=menuitem] small {
-  color: var(--muted-foreground);
-  font-size: 0.66rem;
-  line-height: 1;
-}
-
 select {
   display: inline-flex;
   align-items: center;

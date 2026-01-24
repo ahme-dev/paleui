@@ -1,4 +1,4 @@
-@use "utils.scss";
+@use "utils";
 
 [role="alert"] {
 	@include utils.reset;

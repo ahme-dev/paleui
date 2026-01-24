@@ -15,7 +15,7 @@ picture {
   border-radius: 100%;
   flex-shrink: 0;
 }
-picture.square {
+picture .square {
   border-radius: var(--radius-md);
 }
 picture > img {

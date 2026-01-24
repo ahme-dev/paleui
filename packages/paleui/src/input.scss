@@ -1,4 +1,4 @@
-@use "utils.scss";
+@use "utils";
 
 input,
 textarea {
@@ -46,6 +46,13 @@ label[role="textbox"] {
 
 	&:focus-within {
 		@include utils.transition-outline-visible;
+	}
+
+	>svg {
+		flex-shrink: 0;
+		color: var(--muted-foreground);
+		width: 1rem;
+		height: 1rem;
 	}
 
 	input,

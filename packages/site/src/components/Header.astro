@@ -5,8 +5,8 @@ interface Props {
 	title: string;
 	subtitle: string;
 	links: {
-		name: string;
-		link: string;
+		title: string;
+		url: string;
 	}[];
 }
 
@@ -29,9 +29,9 @@ const { title, subtitle, links } = Astro.props;
 					<a
 						target="_blank"
 						rel="noopener noreferrer"
-						href={el.link}
+						href={el.url}
 					>
-						{el.name}
+						{el.title}
 					</a>
 					</div>
 				))

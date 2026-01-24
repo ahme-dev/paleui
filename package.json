@@ -3,28 +3,23 @@
 	"private": true,
 	"packageManager": "pnpm@10.28.0",
 	"scripts": {
-		"dev": "concurrently -n SITE,LIB -c bgBlue.bold,bgMagenta.bold \"pnpm run site:dev\" \"pnpm run lib:dev\"",
-		"dist": "pnpm run lib:dist; pnpm run site:dist",
+		"dev": "concurrently -n SITE,LIB \"pnpm run --filter site dev\" \"pnpm run --filter paleui dev\"",
+		"dist": "pnpm run --filter paleui dist; pnpm run --filter site dist",
 		"preview": "pnpm run dist; pnpm run --filter site preview;",
-		"site:dev": "pnpm run --filter site dev",
-		"site:dist": "pnpm run --filter site dist",
-		"lib:dev": "pnpm run --filter paleui dev",
-		"lib:dist": "pnpm run --filter paleui dist",
-
 		"check": "biome check",
 		"fix": "biome check --fix",
-
 		"test:update": "playwright test --update-snapshots",
 		"test:run": "playwright test",
 		"test:run:ui": "playwright test --ui --ui-port=9323",
 		"test:report": "playwright show-report --port 9323",
-
 		"test:run:docker-up": "docker compose -f docker-compose.playwright.yml up -d --wait && PW_TEST_CONNECT_WS_ENDPOINT=ws://localhost:3000/ playwright test",
 		"test:run:docker-down": "docker compose -f docker-compose.playwright.yml down"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.0.6",
 		"@playwright/test": "^1.57.0",
-		"concurrently": "^9.1.2"
+		"@types/node": "^25.0.10",
+		"concurrently": "^9.1.2",
+		"typescript": "^5.9.3"
 	}
 }
