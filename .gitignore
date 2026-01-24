@@ -5,6 +5,7 @@ bun.lockb
 dist
 static
 build
+.pnpm-store
 
 packages/old*
 

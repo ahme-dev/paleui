@@ -21,6 +21,6 @@
     }
   },
   "forwardPorts": [4321, 9323],
-  "postCreateCommand": "bun install",
-  "remoteUser": "root"
+  "postCreateCommand": "pnpm install",
+  "remoteUser": "dc"
 }
