@@ -1,13 +1,13 @@
 ---
-import CodeExample from './CodeExample.astro';
+import CodeExample from "./CodeExample.astro";
 
 interface Props {
-  title: string;
-  subtitle: string;
-  links: {
-	name:string;
-	link: string;
-  }[];
+	title: string;
+	subtitle: string;
+	links: {
+		name: string;
+		link: string;
+	}[];
 }
 
 const { title, subtitle, links } = Astro.props;

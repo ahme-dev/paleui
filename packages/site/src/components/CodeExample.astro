@@ -1,56 +1,60 @@
 ---
 interface Props {
-  name: string;
-  class?: string;
+	name: string;
+	class?: string;
 }
 
 const { class: className = "" } = Astro.props;
-const slotHtml = await Astro.slots.render('default');
+const slotHtml = await Astro.slots.render("default");
 
 function formatHtml(html: string, indentSize: number = 2): string {
-  const tokens = html.split(/(<[^>]+>)/g).filter(token => token.trim());
-  let indent = 0;
-  const formatted: string[] = [];
-  
-  for (let i = 0; i < tokens.length; i++) {
-    const token = tokens[i];
-    
-    // check if token is an html tag
-    if (token.startsWith('<')) {
-      const isClosing = token.startsWith('</');
-      const isSelfClosing = token.endsWith('/>') || token.match(/^<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)/i);
-      const isComment = token.startsWith('<!--');
-      
-      if (isClosing) {
-        indent = Math.max(0, indent - 1);
-        formatted.push(' '.repeat(indent * indentSize) + token);
-      } else if (isSelfClosing || isComment) {
-        formatted.push(' '.repeat(indent * indentSize) + token);
-      } else {
-        formatted.push(' '.repeat(indent * indentSize) + token);
-        indent++;
-      }
-    } else {
-      // text content - trim and add if not empty
-      const trimmed = token.trim();
-      if (trimmed) {
-        formatted.push(' '.repeat(indent * indentSize) + trimmed);
-      }
-    }
-  }
-  
-  return formatted.join('\n');
+	const tokens = html.split(/(<[^>]+>)/g).filter((token) => token.trim());
+	let indent = 0;
+	const formatted: string[] = [];
+
+	for (let i = 0; i < tokens.length; i++) {
+		const token = tokens[i];
+
+		// check if token is an html tag
+		if (token.startsWith("<")) {
+			const isClosing = token.startsWith("</");
+			const isSelfClosing =
+				token.endsWith("/>") ||
+				token.match(
+					/^<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)/i,
+				);
+			const isComment = token.startsWith("<!--");
+
+			if (isClosing) {
+				indent = Math.max(0, indent - 1);
+				formatted.push(" ".repeat(indent * indentSize) + token);
+			} else if (isSelfClosing || isComment) {
+				formatted.push(" ".repeat(indent * indentSize) + token);
+			} else {
+				formatted.push(" ".repeat(indent * indentSize) + token);
+				indent++;
+			}
+		} else {
+			// text content - trim and add if not empty
+			const trimmed = token.trim();
+			if (trimmed) {
+				formatted.push(" ".repeat(indent * indentSize) + trimmed);
+			}
+		}
+	}
+
+	return formatted.join("\n");
 }
 
 const formattedCode = formatHtml(slotHtml);
 
 function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+	return str
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#039;");
 }
 
 const escapedCode = escapeHtml(formattedCode);
