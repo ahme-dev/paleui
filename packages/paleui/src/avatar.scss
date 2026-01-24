@@ -1,4 +1,4 @@
-@use "utils.scss";
+@use "utils";
 
 picture {
 	@include utils.reset;
@@ -14,7 +14,7 @@ picture {
 	border-radius: 100%;
 	flex-shrink: 0;
 
-	&.square {
+	.square {
 		border-radius: var(--radius-md);
 	}
 

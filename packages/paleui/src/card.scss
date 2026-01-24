@@ -1,4 +1,4 @@
-@use "utils.scss";
+@use "utils";
 
 article {
 	@include utils.pad(5, 6);

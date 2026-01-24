@@ -26,7 +26,7 @@ dialog > .close:hover {
   box-shadow: none;
   background-color: transparent;
 }
-dialog ::backdrop {
+dialog::backdrop {
   background-color: black;
   opacity: 50%;
 }

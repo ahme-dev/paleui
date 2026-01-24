@@ -5,15 +5,17 @@
 	"scripts": {
 		"dev": "astro dev --host",
 		"build": "astro build",
-		"dist": "astro build",
-		"preview": "astro preview --host"
+		"dist": "pnpm run generate:docs && astro build",
+		"preview": "astro preview --host",
+		"generate:docs": "tsx scripts/generate-docs.ts"
 	},
 	"dependencies": {
 		"astro": "^5.0.0",
 		"paleui": "workspace:*"
 	},
 	"devDependencies": {
-		"@types/bun": "latest"
+		"@types/bun": "latest",
+		"tsx": "^4.19.2"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

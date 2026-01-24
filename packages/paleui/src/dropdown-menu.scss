@@ -1,4 +1,8 @@
 details {
+	&[open] > [role="button"]::after {
+		all: unset;
+	}
+
 	>[role="button"] {
 		width: fit-content;
 		position: relative;
@@ -12,9 +16,6 @@ details {
 		}
 	}
 
-	&[open]>[role="button"]::after {
-		all: unset;
-	}
 
 	>[role="dialog"] {
 		position: absolute;
@@ -32,5 +33,49 @@ details {
 		font-size: 0.875rem;
 		line-height: 1;
 		box-shadow: var(--shadow-md);
+
+		[role="menu"] {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			> p {
+				box-sizing: border-box;
+				font-size: 0.875rem;
+				padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 2);
+				color: var(--card-foreground);
+				line-height: 1;
+				font-weight: 500;
+			}
+
+			[role="menuitem"] {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				width: 100%;
+				box-sizing: border-box;
+				font-size: 0.875rem;
+				padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2);
+				border-radius: var(--radius-sm);
+				color: var(--card-foreground);
+				transition: background-color var(--transition-speed) ease-in-out;
+				line-height: 1;
+				cursor: var(--cursor-interactive);
+
+				&:hover {
+					background-color: var(--secondary);
+				}
+
+				a {
+					text-decoration: none;
+					color: inherit;
+				}
+				small {
+					color: var(--muted-foreground);
+					font-size: 0.66rem;
+					line-height: 1;
+				}
+			}
+		}
 	}
 }

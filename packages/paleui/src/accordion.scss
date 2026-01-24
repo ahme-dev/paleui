@@ -1,4 +1,4 @@
-@use "utils.scss";
+@use "utils";
 
 details[role="region"] {
 	@include utils.reset;
