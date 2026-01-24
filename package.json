@@ -1,17 +1,15 @@
 {
 	"name": "paleui-monorepo",
 	"private": true,
-	"workspaces": [
-		"packages/*"
-	],
+	"packageManager": "pnpm@10.28.0",
 	"scripts": {
-		"dev": "concurrently -n SITE,LIB -c bgBlue.bold,bgMagenta.bold \"bun run site:dev\" \"bun run lib:dev\"",
-		"dist": "bun run lib:dist; bun run site:dist",
-		"preview": "bun run dist; bun run --cwd packages/site preview;",
-		"site:dev": "bun run --cwd packages/site dev",
-		"site:dist": "bun run --cwd packages/site dist",
-		"lib:dev": "bun run --cwd packages/paleui dev",
-		"lib:dist": "bun run --cwd packages/paleui dist",
+		"dev": "concurrently -n SITE,LIB -c bgBlue.bold,bgMagenta.bold \"pnpm run site:dev\" \"pnpm run lib:dev\"",
+		"dist": "pnpm run lib:dist; pnpm run site:dist",
+		"preview": "pnpm run dist; pnpm run --filter site preview;",
+		"site:dev": "pnpm run --filter site dev",
+		"site:dist": "pnpm run --filter site dist",
+		"lib:dev": "pnpm run --filter paleui dev",
+		"lib:dist": "pnpm run --filter paleui dist",
 
 		"check": "biome check",
 		"fix": "biome check --fix",
