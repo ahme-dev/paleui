@@ -1,14 +1,19 @@
 {
 	"name": "site",
 	"private": true,
+	"type": "module",
 	"scripts": {
-		"dist": "bun ./scripts/staticframe.ts",
-		"dev": "bun run dist && concurrently -n watch,serve -c yellow,cyan \"nodemon --watch . --watch ../paleui/lib --ext ts,js,json,html,css --ignore dist/ --exec 'bun run dist'\" \"bunx serve dist\""
+		"dev": "astro dev --host",
+		"build": "astro build",
+		"dist": "astro build",
+		"preview": "astro preview --host"
+	},
+	"dependencies": {
+		"astro": "^5.0.0",
+		"paleui": "workspace:*"
 	},
 	"devDependencies": {
-		"@types/bun": "latest",
-		"concurrently": "^9.1.2",
-		"nodemon": "^3.1.10"
+		"@types/bun": "latest"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

@@ -17,3 +17,5 @@ packages/old*
 NOTES.md
 playwright-report
 test-results
+
+packages/site/.astro
