@@ -43,7 +43,7 @@ export const buttonDocs = {
 				"Several button styles are available to choose from. These only change the colors, background and border of the button.",
 			notes: [
 				`The ${variants
-					.filter((el) => el !== "link")
+					.filter((el) => !["link", "default"].includes(el))
 					.map((el) => `<code>${el}</code>`)
 					.join(", ")} classes can be used to apply these styles.`,
 				'It\'s recommended to use the link style (and its <code>link</code> class) only for <code>&lt;a&gt;</code> elements with a <code>role="button"</code>.',
