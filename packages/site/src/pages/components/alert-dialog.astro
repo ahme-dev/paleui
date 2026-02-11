@@ -2,10 +2,10 @@
 import Header from "@/components/Header.astro";
 import Section from "@/components/Section.astro";
 import Subsection from "@/components/Subsection.astro";
-import ComponentLayout from "../../layouts/ComponentLayout.astro";
+import SideLayout from "../../layouts/SideLayout.astro";
 ---
 
-<ComponentLayout title="Alert Dialog - PaleUI">
+<SideLayout title="Alert Dialog - PaleUI">
 	<Header
 		title="Alert Dialog"
 		subtitle="Modal that requires user attention and confirmation."
@@ -13,17 +13,19 @@ import ComponentLayout from "../../layouts/ComponentLayout.astro";
 			{
 				title: "MDN: <dialog>",
 				url: "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog",
-			}
+			},
 		]}
 	>
-		<button class="destructive" onclick="remove_modal.showModal()"> Remove </button>
+		<button class="destructive" onclick="remove_modal.showModal()">
+			Remove
+		</button>
 
 		<dialog id="remove_modal">
 			<hgroup>
 				<h3>Remove item?</h3>
 				<p>
-					This action cannot be undone, and it will permanently delete the item from our
-					systems without the ability to recover it.
+					This action cannot be undone, and it will permanently delete the item
+					from our systems without the ability to recover it.
 				</p>
 			</hgroup>
 
@@ -40,14 +42,16 @@ import ComponentLayout from "../../layouts/ComponentLayout.astro";
 					rel="noopener noreferrer"
 					href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#browser_compatibility"
 					>wide support</a
-				> in browsers, aside from some features of it not utilized here. However the addition of Javascript
-				is required to toggle the modal (though, less than one-line), and because of this a different approach
-				will be provided in future releases.
+				> in browsers, aside from some features of it not utilized here. However the
+				addition of Javascript is required to toggle the modal (though, less than
+				one-line), and because of this a different approach will be provided in future
+				releases.
 			</p>
 
 			<p>
-				The alert dialog should only be used for actions that require user attention and confirmation. A
-				regular dialog should be used for non-critical information or content.
+				The alert dialog should only be used for actions that require user
+				attention and confirmation. A regular dialog should be used for
+				non-critical information or content.
 			</p>
 		</Fragment>
 	</Header>
@@ -56,19 +60,23 @@ import ComponentLayout from "../../layouts/ComponentLayout.astro";
 		<Subsection>
 			<Fragment slot="above">
 				<p>
-					The alert dialog is made out of semantic HTML, natively supported by browsers to trigger a modal
-					without special styling.
+					The alert dialog is made out of semantic HTML, natively supported by
+					browsers to trigger a modal without special styling.
 				</p>
 
 				<p>
-					It uses the <code>&lt;dialog&gt;</code> element, which is a native HTML element that provides a way
-					to create modal dialogs, and has to be opened by using an id and <code>showModal()</code>.
+					It uses the <code>&lt;dialog&gt;</code> element, which is a native HTML
+					element that provides a way to create modal dialogs, and has to be opened
+					by using an id and <code>showModal()</code>.
 				</p>
 
 				<p>
-					The dialog can contain any content, but it is recommended to use a <code>&lt;hgroup&gt;</code> element
-					for the title and description, and a <code>&lt;form&gt;</code> element (as last child) for the buttons
-					which is styled to automatically align to the right.
+					The dialog can contain any content, but it is recommended to use a <code
+						>&lt;hgroup&gt;</code
+					> element for the title and description, and a <code
+						>&lt;form&gt;</code
+					> element (as last child) for the buttons which is styled to automatically
+					align to the right.
 				</p>
 			</Fragment>
 
@@ -86,4 +94,4 @@ import ComponentLayout from "../../layouts/ComponentLayout.astro";
 			</dialog>
 		</Subsection>
 	</Section>
-</ComponentLayout>
+</SideLayout>

@@ -1,25 +1,28 @@
 {
 	"name": "paleui-monorepo",
+	"type": "module",
 	"private": true,
 	"packageManager": "pnpm@10.28.0",
 	"scripts": {
-		"dev": "concurrently -n SITE,LIB \"pnpm run --filter site dev\" \"pnpm run --filter paleui dev\"",
-		"dist": "pnpm run --filter paleui dist; pnpm run --filter site dist",
-		"preview": "pnpm run dist; pnpm run --filter site preview;",
+		"dev": "concurrently -n SITE,LIB,DOCS \"pnpm run --filter site dev\" \"pnpm run --filter paleui dev\" \"tsx scripts/generate-docs.ts --watch\"",
+		"prebuild": "tsx scripts/generate-docs.ts",
+		"build": "pnpm run --filter paleui build && pnpm run --filter site build",
 		"check": "biome check",
-		"fix": "biome check --fix",
+		"fix": "biome check --fix && prettier --write \"**/*.astro\"",
 		"test:update": "playwright test --update-snapshots",
 		"test:run": "playwright test",
 		"test:run:ui": "playwright test --ui --ui-port=9323",
-		"test:report": "playwright show-report --port 9323",
 		"test:run:docker-up": "docker compose -f docker-compose.playwright.yml up -d --wait && PW_TEST_CONNECT_WS_ENDPOINT=ws://localhost:3000/ playwright test",
 		"test:run:docker-down": "docker compose -f docker-compose.playwright.yml down"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.0.6",
+		"@biomejs/biome": "2.3.13",
 		"@playwright/test": "^1.57.0",
 		"@types/node": "^25.0.10",
 		"concurrently": "^9.1.2",
+		"prettier": "3.8.1",
+		"prettier-plugin-astro": "0.14.1",
+		"tsx": "^4.21.0",
 		"typescript": "^5.9.3"
 	}
 }

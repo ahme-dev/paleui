@@ -12,11 +12,13 @@ services:
       # allows playwright server to reach dev server
       - BASE_URL=http://dev:3000
     ports:
-      - "3000:3000" 
+      - "3000:3000"
       - "9323:9323"
     depends_on:
       playwright:
         condition: service_healthy
+    networks:
+      - paleui_net
 
   playwright:
     build:
@@ -27,7 +29,7 @@ services:
     environment:
       - CI=true
     healthcheck:
-      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000').then(r => r.ok || process.exit(1)).catch(() => process.exit(1))\""]
+      test: [ "CMD-SHELL", "node -e \"fetch('http://localhost:3000').then(r => r.ok || process.exit(1)).catch(() => process.exit(1))\"" ]
       interval: 2s
       timeout: 5s
       retries: 10
@@ -35,3 +37,7 @@ services:
     # internal only - dev container connects via service name
     expose:
       - "3000"
+
+networks:
+  paleui_net:
+    name: paleui_devcontainer_net

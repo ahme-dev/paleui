@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -10,9 +10,9 @@
 		"includes": [
 			"tests/**/*",
 			"packages/**/*",
-			"!packages/paleui/lib/**/*",
+			"!packages/paleui/src/**/*.css",
 			"!packages/site/dist/**/*",
-			"!packages/site/.astro"
+			"!packages/site/src/**/*.astro"
 		]
 	},
 	"formatter": {
@@ -29,7 +29,8 @@
 				"useFocusableInteractive": "info"
 			},
 			"suspicious": {
-				"noDuplicateProperties": "info"
+				"noDuplicateProperties": "info",
+				"noExplicitAny": "info"
 			}
 		}
 	},
@@ -60,6 +61,15 @@
 						"noUnusedImports": "off"
 					}
 				}
+			}
+		},
+		{
+			"includes": ["packages/paleui/lib/**/*"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": true
 			}
 		}
 	]

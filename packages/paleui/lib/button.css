@@ -1,143 +1,182 @@
 button,
-[role=button] {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: inherit;
-  vertical-align: baseline;
-  outline-offset: 0;
-  outline: 0px solid var(--ring);
-  transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out, opacity var(--transition-speed) ease-in-out;
-  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
-  display: inline-flex;
-  align-items: center;
-  gap: calc(var(--spacing) * 2);
-  justify-content: center;
-  white-space: nowrap;
-  min-width: 0;
-  height: calc(var(--spacing) * 9);
-  border-radius: var(--radius-md);
-  cursor: var(--cursor-interactive);
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1;
-  flex-shrink: 0;
-  text-decoration: none;
-  box-shadow: var(--shadow-xs);
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  border: 0;
+[role="button"] {
+	margin: 0;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
+	box-sizing: border-box;
+	font-family: inherit;
+	vertical-align: baseline;
+	outline-offset: 0;
+	outline: 0px solid var(--ring);
+	transition:
+		outline-width calc(var(--transition-speed) * 0.5) ease-in-out,
+		opacity var(--transition-speed) ease-in-out;
+	display: inline-flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	justify-content: center;
+	white-space: nowrap;
+	min-width: 0;
+	height: calc(var(--spacing) * 9);
+	border-radius: var(--radius-md);
+	cursor: var(--cursor-interactive);
+	font-weight: 500;
+	font-size: 0.875rem;
+	line-height: 1;
+	flex-shrink: 0;
+	-webkit-text-decoration: none;
+	text-decoration: none;
+	box-shadow: var(--shadow-xs);
+	background-color: var(--primary);
+	color: var(--primary-foreground);
+	border: 0;
 }
-button.icon,
-[role=button].icon {
-  aspect-ratio: 1;
-  padding: calc(var(--spacing) * 2);
+button[aria-busy="true"]:not(.does-not-exist)::before {
+	content: "";
+	width: 1rem;
+	height: 1rem;
+	border: 2px solid currentColor;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
 }
-button > svg,
-[role=button] > svg {
-  width: 1rem;
-  height: 1rem;
+[aria-busy="true"][role="button"]::before {
+	content: "";
+	width: 1rem;
+	height: 1rem;
+	border: 2px solid currentColor;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
 }
-button.outline,
-[role=button].outline {
-  outline-offset: 0;
-  outline: 0px solid var(--ring);
-  transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out, background-color var(--transition-speed) ease-in-out;
-  border: solid 1px var(--border);
-  color: var(--foreground);
-  background-color: var(--background);
+button:not(.does-not-exist) > svg,
+[role="button"] > svg {
+	width: 1rem;
+	height: 1rem;
+	flex-shrink: 0;
 }
-button.outline:hover,
-[role=button].outline:hover {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
+button.outline:not(.does-not-exist),
+.outline[role="button"] {
+	border: solid 1px var(--border);
+	color: var(--foreground);
+	background-color: var(--background);
+	transition:
+		outline-width calc(var(--transition-speed) * 0.5) ease-in-out,
+		background-color var(--transition-speed) ease-in-out;
 }
-button.ghost,
-[role=button].ghost {
-  outline-offset: 0;
-  outline: 0px solid var(--ring);
-  transition: outline-width calc(var(--transition-speed) * 0.5) ease-in-out, background-color var(--transition-speed) ease-in-out;
-  border: 0;
-  color: var(--foreground);
-  background-color: transparent;
-  box-shadow: none;
+button.outline:not(.does-not-exist):hover,
+.outline[role="button"]:hover {
+	opacity: 1;
+	background-color: var(--accent);
+	color: var(--accent-foreground);
 }
-button.ghost:hover,
-[role=button].ghost:hover {
-  background-color: var(--accent);
-  color: var(--accent-foreground);
+button.ghost:not(.does-not-exist),
+.ghost[role="button"] {
+	border: 0;
+	color: var(--foreground);
+	background-color: transparent;
+	box-shadow: none;
+	transition:
+		outline-width calc(var(--transition-speed) * 0.5) ease-in-out,
+		background-color var(--transition-speed) ease-in-out;
 }
-button.link,
-[role=button].link {
-  border: 0;
-  color: var(--foreground);
-  background-color: transparent;
-  text-decoration: none;
-  box-shadow: none;
+button.ghost:not(.does-not-exist):hover,
+.ghost[role="button"]:hover {
+	opacity: 1;
+	background-color: var(--accent);
+	color: var(--accent-foreground);
 }
-button.link:hover,
-[role=button].link:hover {
-  opacity: 100%;
-  background-color: transparent;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+button.link:not(.does-not-exist),
+.link[role="button"] {
+	border: 0;
+	color: var(--foreground);
+	background-color: transparent;
+	box-shadow: none;
 }
-button.link:focus-visible,
-[role=button].link:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 2px;
+button.link:not(.does-not-exist):hover,
+.link[role="button"]:hover {
+	opacity: 1;
+	-webkit-text-decoration: underline;
+	text-decoration: underline;
+	text-underline-offset: 2px;
 }
-button.destructive,
-[role=button].destructive {
-  border: 0;
-  background-color: var(--destructive);
-  color: var(--destructive-foreground);
+button.link:not(.does-not-exist):focus-visible {
+	outline-width: 3px;
+	-webkit-text-decoration: underline;
+	text-decoration: underline;
+	text-underline-offset: 2px;
 }
-button.destructive:hover,
-[role=button].destructive:hover {
-  opacity: 80%;
-  background-color: var(--destructive);
+.link[role="button"]:focus-visible {
+	outline-width: 3px;
+	-webkit-text-decoration: underline;
+	text-decoration: underline;
+	text-underline-offset: 2px;
 }
-button.secondary,
-[role=button].secondary {
-  border: 0;
-  background-color: var(--secondary);
-  color: var(--secondary-foreground);
+button.destructive:not(.does-not-exist),
+.destructive[role="button"] {
+	background-color: var(--destructive);
+	color: var(--destructive-foreground);
 }
-button.secondary:hover,
-[role=button].secondary:hover {
-  opacity: 80%;
-  background-color: var(--secondary);
+button.secondary:not(.does-not-exist),
+.secondary[role="button"] {
+	background-color: var(--secondary);
+	color: var(--secondary-foreground);
 }
-button:focus-visible,
-[role=button]:focus-visible {
-  outline-width: 3px;
+button.sm:not(.does-not-exist),
+.sm[role="button"] {
+	height: calc(var(--spacing) * 7);
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 3);
+	font-size: 0.75rem;
 }
-button:hover,
-[role=button]:hover {
-  opacity: 80%;
-  background-color: var(--primary);
+button.lg:not(.does-not-exist),
+.lg[role="button"] {
+	height: calc(var(--spacing) * 11);
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 6);
+	font-size: 1rem;
 }
-button:disabled, button[aria-disabled=true], button[aria-busy=true],
-[role=button]:disabled,
-[role=button][aria-disabled=true],
-[role=button][aria-busy=true] {
-  opacity: 50%;
-  pointer-events: none;
+button.icon:not(.does-not-exist),
+.icon[role="button"] {
+	aspect-ratio: 1;
+	padding: calc(var(--spacing) * 2);
 }
-button[aria-busy=true] > svg,
-[role=button][aria-busy=true] > svg {
-  display: none;
+button:not(.does-not-exist):hover,
+[role="button"]:hover {
+	opacity: 0.8;
 }
-button[aria-busy=true]::before,
-[role=button][aria-busy=true]::before {
-  content: "";
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid currentColor;
-  border-bottom: 2px solid transparent;
-  box-sizing: border-box;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+button:not(.does-not-exist):focus-visible {
+	outline-width: 3px;
 }
-/*# sourceMappingURL=button.css.map */
+[role="button"]:focus-visible {
+	outline-width: 3px;
+}
+button:not(.does-not-exist):active {
+	transform: scale(0.98);
+}
+[role="button"]:active {
+	transform: scale(0.98);
+}
+button:not(.does-not-exist):disabled {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+[role="button"]:disabled {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+button[aria-disabled="true"]:not(.does-not-exist),
+[aria-disabled="true"][role="button"] {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+button[aria-busy="true"]:not(.does-not-exist),
+[aria-busy="true"][role="button"] {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: wait;
+}
+button[aria-busy="true"]:not(.does-not-exist) > svg,
+[aria-busy="true"][role="button"] > svg {
+	display: none;
+}

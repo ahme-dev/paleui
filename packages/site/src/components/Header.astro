@@ -19,30 +19,26 @@ const { title, subtitle, links } = Astro.props;
 		<p>{subtitle}</p>
 	</hgroup>
 
-	<br>
+	<br />
 
-	{links.length > 0 && (
-		<div role="group">
-			{
-				links.map(el=>(
+	{
+		links.length > 0 && (
+			<div role="group">
+				{links.map((el) => (
 					<div role="status" class="secondary">
-					<a
-						target="_blank"
-						rel="noopener noreferrer"
-						href={el.url}
-					>
-						{el.title}
-					</a>
+						<a target="_blank" rel="noopener noreferrer" href={el.url}>
+							{el.title}
+						</a>
 					</div>
-				))
-			}
-		</div>
-	)}
+				))}
+			</div>
+		)
+	}
 
-	<br>
+	<br />
 
-	<CodeExample name='header'>
-      	<slot />
+	<CodeExample name="header">
+		<slot />
 	</CodeExample>
 
 	<slot name="below" />

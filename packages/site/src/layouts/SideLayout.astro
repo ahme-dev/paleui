@@ -1,0 +1,216 @@
+---
+import RootLayout from "./RootLayout.astro";
+
+interface Props {
+	title?: string;
+}
+
+const { title = "PaleUI" } = Astro.props;
+
+const componentPages = [
+	"Accordion",
+	"Alert",
+	"Alert Dialog",
+	"Aspect Ratio",
+	"Avatar",
+	"Badge",
+	"Breadcrumbs",
+	"Button",
+	"Card",
+	"Checkbox",
+	"Dialog",
+	"Dropdown Menu",
+	"Input",
+	"Select",
+	"Separator",
+	"Tabs",
+];
+
+function pathIs(...expected: string[]) {
+	return (
+		Astro.url.pathname ===
+		`/${expected.map((el) => el.toLowerCase()).join("/")}`
+	);
+}
+
+function toSnakeCase(text: string) {
+	return text.toLowerCase().replaceAll(" ", "-");
+}
+---
+
+<RootLayout title={title}>
+	<div>
+		<input type="checkbox" id="sidebar-toggle" />
+		<label
+			for="sidebar-toggle"
+			id="sidebar-label"
+			aria-label="Toggle navigation"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+			>
+				<path fill="currentColor" d="M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"
+				></path>
+			</svg>
+		</label>
+
+		<aside>
+			<small>Components</small>
+			<ul>
+				{
+					componentPages.map((el) => (
+						<li>
+							<a
+								role="button"
+								class={
+									pathIs("components", toSnakeCase(el)) ? "secondary" : "ghost"
+								}
+								href={"/components/" + toSnakeCase(el)}
+							>
+								{el}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+
+			<small>Utilities</small>
+		</aside>
+
+		<main>
+			<slot />
+		</main>
+	</div>
+</RootLayout>
+
+<style>
+	div {
+		display: flex;
+		flex-direction: row;
+		gap: 2rem;
+	}
+
+	aside {
+		padding: 0 1.5rem;
+		display: flex;
+		gap: calc(var(--spacing) * 2);
+		flex-direction: column;
+		position: sticky;
+		top: 2rem;
+		align-self: flex-start;
+		max-height: 100vh;
+		overflow-y: auto;
+	}
+
+	@media (max-width: 768px) {
+		aside {
+			position: fixed;
+			top: 0;
+			left: -100%;
+			width: 280px;
+			max-width: 80vw;
+			height: 100vh;
+			max-height: 100vh;
+			overflow-y: auto;
+			overflow-x: hidden;
+			background-color: var(--background);
+			border-right: 1px solid var(--border);
+			z-index: 999;
+			transition: left 0.3s ease;
+			padding: 1rem 1.5rem;
+			-webkit-overflow-scrolling: touch;
+		}
+	}
+
+	aside small {
+		display: inline-flex;
+		flex-direction: column;
+		font-weight: 500;
+		gap: 0;
+		padding: 0 0.5rem;
+		margin-top: 3rem;
+		color: var(--muted-foreground);
+	}
+
+	aside ul {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+	}
+
+	aside ul li {
+		box-sizing: border-box;
+		line-height: 1;
+		display: flex;
+		flex-direction: column;
+		border-radius: var(--radius);
+		height: auto;
+		width: fit-content;
+	}
+
+	aside ul li:hover {
+		background-color: var(--secondary);
+	}
+
+	aside a {
+		padding: 0.6rem;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+		max-width: 40rem;
+		margin: 0 auto;
+		width: 100%;
+		margin-bottom: 2rem;
+		box-sizing: border-box;
+	}
+
+	@media (max-width: 768px) {
+		main {
+			padding: 0 1.5rem;
+		}
+	}
+
+	main a {
+		color: inherit;
+	}
+
+	#sidebar-toggle {
+		display: none;
+	}
+	#sidebar-label {
+		display: none;
+		position: fixed;
+		top: 4rem;
+		right: 1rem;
+		z-index: 1000;
+		background-color: var(--secondary);
+		color: var(--secondary-foreground);
+		box-shadow: var(--shadow-xs);
+		border-radius: var(--radius-md);
+		width: 2.5rem;
+		height: 2.5rem;
+		cursor: pointer;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.3s ease;
+	}
+	#sidebar-label svg {
+		width: 1rem;
+		height: 1rem;
+	}
+
+	@media (max-width: 768px) {
+		#sidebar-label {
+			display: flex;
+		}
+
+		#sidebar-toggle:checked ~ aside {
+			left: 0;
+		}
+	}
+</style>

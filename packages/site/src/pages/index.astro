@@ -1,68 +1,53 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
 ---
 
-<BaseLayout title="PaleUI">
-	<div id="landing">
-		<section>
-			<img
-				height="200"
-				src="/logo.svg"
-				alt="PaleUI Logo"
-				aria-label="PaleUI Logo"
-			/>
+<RootLayout title="PaleUI">
+	<section>
+		<img
+			height="200"
+			src="/logo.svg"
+			alt="PaleUI Logo"
+			aria-label="PaleUI Logo"
+		/>
 
-			<hgroup>
-				<h1>PaleUI</h1>
-				<p>
-					The sleek design of <strong>shadcn/ui</strong>, with 0 JavaScript.
-					<br />
-					Build beautiful and responsive user interfaces with ease.
-				</p>
-			</hgroup>
+		<hgroup>
+			<h1>PaleUI</h1>
+			<p>
+				The sleek design of <strong>shadcn/ui</strong>, with 0 JavaScript.
+				<br />
+				Build beautiful and responsive user interfaces with ease.
+			</p>
+		</hgroup>
 
-			<div>
-				<button>Get Started</button>
+		<div>
+			<button>Get Started</button>
 
-				<a role="button" class="ghost" href="/components/button">View Components</a>
-			</div>
-		</section>
-
-		<section>
-			<hgroup>
-				<h2>Features</h2>
-				<p>A list of features.</p>
-			</hgroup>
-
-			<ul>
-				<li>To</li>
-				<li>Be</li>
-				<li>Added</li>
-			</ul>
-		</section>
-	</div>
-</BaseLayout>
+			<a role="button" class="ghost" href="/components/button"
+				>View Components</a
+			>
+		</div>
+	</section>
+</RootLayout>
 
 <style>
-	#landing {
-		max-width: 700px;
+	section {
+		max-width: 40rem;
 		margin: 0 auto;
-	}
 
-	#landing section {
+		min-height: 85vh;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		min-height: 80vh;
 		gap: 1rem;
 	}
 
-	#landing hgroup {
+	hgroup {
 		text-align: center;
 	}
 
-	#landing h1 {
+	hgroup h1 {
 		font-size: 3rem;
 		margin: 0;
 	}

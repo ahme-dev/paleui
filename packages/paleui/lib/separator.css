@@ -1,14 +1,5 @@
-[role=separator] {
-  border: none;
-  width: 1px;
-  background-color: var(--border);
-  align-self: stretch;
-}
-
+[role="separator"],
 hr {
-  border: none;
-  height: 1px;
-  width: 100%;
-  background-color: var(--border);
+	border: none;
+	background-color: var(--border);
 }
-/*# sourceMappingURL=separator.css.map */
