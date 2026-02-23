@@ -35,8 +35,8 @@ For quick prototyping or static sites, include PaleUI directly from a CDN:
 ```html
 <link rel="stylesheet" href="https://unpkg.com/paleui/lib/all.css">
 
-<link rel="stylesheet" href="https://unpkg.com/paleui/lib/main.css">
 <link rel="stylesheet" href="https://unpkg.com/paleui/lib/button.css">
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/card.css">
 ```
 
 #### Theming
@@ -119,8 +119,8 @@ Contributions to PaleUI are welcome. The project uses a monorepo structure and i
 
 The monorepo contains two packages:
 
-- `packages/paleui` - Core CSS library (Sass source in `src/`, compiled output in `lib/`)
-- `packages/site` - Documentation site (build scripts in `scripts/`, built output in `dist/`)
+- `packages/paleui` - Core CSS library (using ts in `src/ui/`, generates css (gitignored), compiled by postcss to `lib/`)
+- `packages/site` - Documentation site (using astro, component pages generated directly from core)
 
 #### Setup
 
@@ -134,20 +134,14 @@ The setup can be achieved in two main ways:
 
 *Development:*
 - `bun run dev` - Start development mode (library + site)
-- `bun run lib:dev` - Watch and build library only
-- `bun run site:dev` - Watch and build site only
-
-*Building:*
-- `bun run dist` - Build both library and site for production
-- `bun run lib:dist` - Build library for production
-- `bun run site:dist` - Build site for production
+- `bun run dist` - Build for production (library + site)
+- `bun run preview` - View production site
 
 *Testing and Formatting:*
 - `bun run test:run` - Run Playwright tests (local + devcontainer)
 - `bun run test:run:docker-up` - Run Playwright tests in container (local, but using docker for tests)
 - `bun run test:run:ui` - Run Playwright tests with UI (local)
 - `bun run test:update` - Update Playwright snapshots (local + devcontainer)
-- `bun run test:report` - Check test report (local, in devcontainer it's auto setup on :9323 so not needed)
 - `bun run fix` - Run Biome to lint and format code
 
 #### Committing

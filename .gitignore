@@ -8,6 +8,7 @@ build
 .pnpm-store
 
 packages/old*
+packages/example*
 
 .DS_Store
 *.tgz
@@ -19,3 +20,6 @@ playwright-report
 test-results
 
 packages/site/.astro
+packages/site/src/assets/all.css
+
+packages/paleui/src/**/*.css

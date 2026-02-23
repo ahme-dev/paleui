@@ -9,12 +9,14 @@ interface Props {
 const { title, subtitle } = Astro.props;
 ---
 
-{title && (
-	<>
-		<h3 id={title}>{title}</h3>
-		{subtitle && <p>{subtitle}</p>}
-	</>
-)}
+{
+	title && (
+		<>
+			<h3 id={title}>{title}</h3>
+			{subtitle && <p>{subtitle}</p>}
+		</>
+	)
+}
 
 <slot name="above" />
 

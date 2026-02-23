@@ -28,16 +28,16 @@
 		"./lib/*.css": "./lib/*.css"
 	},
 	"scripts": {
-		"validate": "tsx scripts/validate.ts",
-		"dist": "sass src:lib && postcss lib/*.css --dir lib",
-		"dev": "concurrently -n sass,postcss \"sass src:lib --watch\" \"postcss lib/*.css --dir lib --watch\""
+		"prebuild": "tsx src/generate-css.ts",
+		"build": "postcss src/ui/*.css --base src/ui --dir lib",
+		"dev": "concurrently \"tsx src/generate-css.ts --watch\" \"postcss src/ui/*.css --base src/ui --dir lib --watch\""
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.21",
 		"concurrently": "^9.1.2",
 		"postcss": "^8.5.6",
 		"postcss-cli": "^11.0.1",
-		"sass": "^1.89.2",
+		"postcss-preset-env": "^11.1.1",
 		"tsx": "^4.21.0"
 	}
 }
