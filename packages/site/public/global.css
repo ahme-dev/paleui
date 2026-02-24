@@ -25,7 +25,7 @@ body {
 	}
 }
 
-/* flex */
+/* utils */
 
 .flex-col {
 	display: flex;
@@ -44,8 +44,6 @@ body {
 		align-items: stretch;
 	}
 }
-
-/* utils */
 
 .rounded {
 	border-radius: var(--radius);

@@ -2,6 +2,8 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import type { TAnatomy, TSchema } from "../packages/paleui/src/shared/types";
 
+const red = (s: string) => `\x1b[41m ${s} \x1b[0m`;
+
 const SITE_PAGES = path.resolve(
 	import.meta.dirname,
 	"../packages/site/src/pages/components",
@@ -15,6 +17,8 @@ const PALEUI_SHARED = path.resolve(
 	"../packages/paleui/src/shared",
 );
 const WATCH_MODE = process.argv.includes("--watch");
+
+const lastGenerated = new Map<string, number>();
 
 function generateAnatomyDescription(anatomy: TAnatomy): string[] {
 	const descriptions: string[] = [];
@@ -98,11 +102,9 @@ function generateDocsFromSchema(mod: { schema: TSchema }) {
 }
 
 async function generateDocs(mod: { schema: TSchema }, componentName: string) {
-	console.log(`Generating documentation for ${componentName}...`);
-
 	const docs = generateDocsFromSchema(mod);
 	if (!docs) {
-		console.log(`⊘ Skipping ${componentName} (no schema/examples export)`);
+		// console.log(`⊘ Skipping "${componentName}" (no schema/examples export)`);
 		return;
 	}
 
@@ -143,7 +145,8 @@ ${structureSection}${examplesSection}
 	const outputFile = path.join(SITE_PAGES, `${componentName}.astro`);
 
 	fs.writeFileSync(outputFile, astro, "utf-8");
-	console.log(`✓ Generated: ${outputFile}`);
+	console.log(`\t✓ Generated: ${outputFile}`);
+	lastGenerated.set(componentName, Date.now());
 }
 
 async function generateAllDocs() {
@@ -155,6 +158,9 @@ async function generateAllDocs() {
 	let generated = 0;
 	for (const file of componentFiles) {
 		const componentName = path.basename(file, ".ts");
+		const filePath = path.join(PALEUI_UI, file);
+		const mtime = fs.statSync(filePath).mtimeMs;
+		if (mtime <= (lastGenerated.get(componentName) ?? 0)) continue;
 		try {
 			const mod = await import(
 				`../packages/paleui/src/ui/${componentName}.ts?t=${Date.now()}`
@@ -162,7 +168,7 @@ async function generateAllDocs() {
 			await generateDocs(mod, componentName);
 			generated++;
 		} catch (error) {
-			console.error(`✗ Error processing ${componentName}:`, error);
+			console.error(`\t✗ Error processing ${componentName}:`, error);
 		}
 	}
 
@@ -170,22 +176,31 @@ async function generateAllDocs() {
 }
 
 if (WATCH_MODE) {
-	console.log("Watching for changes in paleui/src/ui/*.ts and shared/*.ts...\n");
+	console.log(red("Watching for changes in paleui/src/ui/*.ts and shared/*.ts..."));
 	generateAllDocs();
 
 	fs.watch(PALEUI_UI, { recursive: true }, async (_, filename) => {
 		if (filename?.endsWith(".ts") && !filename.startsWith("_")) {
-			await generateAllDocs();
+			const componentName = path.basename(filename, ".ts");
+			try {
+				const mod = await import(
+					`../packages/paleui/src/ui/${componentName}.ts?t=${Date.now()}`
+				);
+				await generateDocs(mod, componentName);
+			} catch (error) {
+				console.error(`✗ Error processing ${componentName}:`, error);
+			}
 		}
 	});
 
 	fs.watch(PALEUI_SHARED, { recursive: true }, async (_, filename) => {
 		if (filename?.endsWith(".ts")) {
+			lastGenerated.clear();
 			await generateAllDocs();
 		}
 	});
 } else {
-	console.log("Discovering component files...\n");
+	console.log(red("Discovering component files..."));
 	const generated = await generateAllDocs();
-	console.log(`\nDone! Generated ${generated} doc(s).`);
+	console.log(red(`Done! Generated ${generated} doc(s)`)+"\n");
 }

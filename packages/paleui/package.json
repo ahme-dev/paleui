@@ -28,8 +28,7 @@
 		"./lib/*.css": "./lib/*.css"
 	},
 	"scripts": {
-		"prebuild": "tsx src/generate-css.ts",
-		"build": "postcss src/ui/*.css --base src/ui --dir lib",
+		"build": "tsx src/generate-css.ts; postcss src/ui/*.css --base src/ui --dir lib",
 		"dev": "concurrently \"tsx src/generate-css.ts --watch\" \"postcss src/ui/*.css --base src/ui --dir lib --watch\""
 	},
 	"devDependencies": {
