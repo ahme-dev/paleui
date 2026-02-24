@@ -11,32 +11,32 @@ export type TCSS = readonly string[];
 
 export type TAnatomyChild = {
 	selector?: string;
-	description: string[];
+	description: readonly string[];
 	type: "pseudo" | "element" | "text";
 	direct?: boolean;
 	optional?: boolean;
 	visibleWhen?: string;
 };
 
-export type TAnatomyRoot = {
+export type TAnatomyRoot<C extends string = string> = {
 	selector: Selector;
-	description: string[];
-	children?: Record<string, TAnatomyChild>;
-	childrenCombinations?: readonly (readonly string[])[];
+	description: readonly string[];
+	children?: Record<C, TAnatomyChild>;
+	childrenCombinations?: readonly (readonly C[])[];
 	example?: string;
 };
 
-export type TAnatomy = Record<string, TAnatomyRoot>;
+export type TAnatomy = { root: TAnatomyRoot };
 
 export type TStateOption = {
 	selector: string;
 	htmlAttrs?: Record<string, string | boolean>;
 };
 
-export type TStates = {
+export type TStates<K extends string = string> = {
 	meta?: TMeta;
-	options: Record<string, TStateOption>;
-	optionsCombinations?: readonly (readonly string[])[];
+	options: Record<K, TStateOption>;
+	optionsCombinations?: readonly (readonly K[])[];
 };
 
 export type TStyleBlock<TStates extends string = string> = {
@@ -51,7 +51,7 @@ export type TDimension<
 	meta?: TMeta;
 	options: Record<
 		string,
-		Partial<Record<TParts, TStyleBlock<TStates>>> | object
+		Partial<Record<TParts, TStyleBlock<TStates>>> | Record<string, never>
 	>;
 };
 
@@ -60,20 +60,17 @@ export type TDimensions<
 	TStates extends string = string,
 > = Record<string, TDimension<TParts, TStates>>;
 
-type HasOptions<T> = { options: T };
-
 type HasChildren = { children?: Record<string, unknown> };
 
 type StateKeys<T extends TStates> = keyof T["options"] & string;
 
-type AnatomyParts<T extends TAnatomy> = {
-	[K in keyof T]:
-		| K
-		| (T[K] extends HasChildren ? keyof T[K]["children"] & string : never);
-}[keyof T] &
-	string;
+type AnatomyParts<T extends TAnatomy> =
+	| "root"
+	| (T["root"] extends HasChildren
+			? keyof T["root"]["children"] & string
+			: never);
 
-type ActivatableStateKeys<T extends HasOptions<object>> = {
+type ActivatableStateKeys<T extends { options: Record<string, unknown> }> = {
 	[K in keyof T["options"]]: T["options"][K] extends {
 		htmlAttrs: Record<string, unknown>;
 	}
@@ -99,7 +96,9 @@ export function defineAnatomy<T extends TAnatomy>(anatomy: T): T {
 	return anatomy;
 }
 
-export function defineStates<T extends TStates>(states: T): T {
+export function defineStates<K extends string, T extends TStates<K>>(
+	states: T,
+): T {
 	return states;
 }
 
@@ -121,7 +120,7 @@ export function defineDimensions<TAnat extends TAnatomy, TSt extends TStates>(
 			options: Record<
 				string,
 				| Partial<Record<AnatomyParts<TAnat>, TStyleBlock<StateKeys<TSt>>>>
-				| object
+				| Record<string, never>
 			>;
 		}
 	>,
@@ -169,12 +168,15 @@ export function defineExamples<
 // Schema type (the shape of each component's `schema` export)
 // =============================================================================
 
-export type TSchema = {
+export type TSchema<
+	TParts extends string = string,
+	TStateKeys extends string = string,
+> = {
 	meta: TMeta;
 	anatomy: TAnatomy;
-	states: TStates;
-	styles: Record<string, TStyleBlock>;
-	dimensions: TDimensions;
+	states: TStates<TStateKeys>;
+	styles: Record<TParts, TStyleBlock<TStateKeys>>;
+	dimensions: TDimensions<TParts, TStateKeys>;
 	examples: string[][];
 };
 

@@ -41,7 +41,9 @@ const { title, subtitle, links } = Astro.props;
 		<slot />
 	</CodeExample>
 
-	<slot name="below" />
+	<div class="below">
+		<slot name="below" />
+	</div>
 </section>
 
 <style>
@@ -60,5 +62,14 @@ const { title, subtitle, links } = Astro.props;
 		section hgroup h1 {
 			margin-top: 2rem;
 		}
+	}
+	.below {
+		margin-top: 1.5rem;
+	}
+	.below :global(p) {
+		margin-bottom: 0.75rem;
+	}
+	.below :global(p:last-child) {
+		margin-bottom: 0;
 	}
 </style>

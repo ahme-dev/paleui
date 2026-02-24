@@ -63,7 +63,7 @@ function generateStructureSection(schema: TSchema): string {
 			? `<Fragment slot="above">${descriptions.map((d) => `<p>${d}</p>`).join("")}</Fragment>`
 			: "";
 
-	return `<Section title="Structure"><Subsection>${aboveSlot}${example || ""}</Subsection></Section>`;
+	return `<Section title="Usage"><Subsection codeOnly>${aboveSlot}${example || ""}</Subsection></Section>`;
 }
 
 function generateDocsFromSchema(mod: { schema: TSchema }) {

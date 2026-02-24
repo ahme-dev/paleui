@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import type {
-	TAnatomyRoot,
+	TAnatomy,
 	TCSS,
 	TSchema,
 	TStates,
@@ -36,7 +36,7 @@ function resolveStateSelector(states: TStates, state: string): string | null {
 }
 
 function resolveAnatomyChild(
-	anatomy: Record<string, TAnatomyRoot>,
+	anatomy: TAnatomy,
 	part: string,
 ): { selector: string; direct: boolean; visibleWhen: string | null } | null {
 	if (part === "root")

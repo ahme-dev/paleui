@@ -7,18 +7,19 @@ static
 build
 .pnpm-store
 
-packages/ignore-*
-
 .DS_Store
 *.tgz
 .logs
 .env.local
 
-NOTES.md
 playwright-report
 test-results
 
+packages/ignore-*
 packages/site/.astro
 packages/site/src/assets/all.css
+packages/site/src/pages/components/*.astro
+!packages/site/src/pages/components/index.astro
 
+packages/paleui/lib/
 packages/paleui/src/**/*.css

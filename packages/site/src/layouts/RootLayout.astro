@@ -25,75 +25,6 @@ const { title = "PaleUI" } = Astro.props;
 		/>
 
 		<script type="module" src="/test-mode.js"></script>
-
-		<style>
-			header {
-				position: sticky;
-				top: 0;
-				background-color: var(--background);
-				z-index: 4;
-				padding: 1rem 1.5rem;
-			}
-
-			header a {
-				text-decoration: none;
-				color: inherit;
-			}
-
-			header > nav {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				z-index: 4;
-				gap: 1.5rem;
-				font-size: 0.8rem;
-			}
-
-			header > nav ul {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				width: 100%;
-				gap: 1.5rem;
-				list-style: none;
-				margin: 0;
-				padding: 0;
-				font-weight: 500;
-				box-sizing: border-box;
-			}
-
-			header > nav li {
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				padding: 0;
-				margin: 0;
-				box-sizing: border-box;
-			}
-
-			header > nav a {
-				padding: 0;
-				height: min-content;
-				line-height: 1;
-				margin: 0;
-				box-sizing: border-box;
-			}
-
-			@media (max-width: 768px) {
-				header {
-					padding: 1rem;
-				}
-
-				header > nav {
-					gap: 1rem;
-					font-size: 0.75rem;
-				}
-
-				header > nav ul {
-					gap: 1rem;
-				}
-			}
-		</style>
 	</head>
 
 	<body data-htswap>
@@ -146,3 +77,72 @@ const { title = "PaleUI" } = Astro.props;
 		<slot />
 	</body>
 </html>
+
+<style>
+	header {
+		position: sticky;
+		top: 0;
+		background-color: var(--background);
+		z-index: 4;
+		padding: 1rem 1.5rem;
+	}
+
+	header a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	header > nav {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		z-index: 4;
+		gap: 1.5rem;
+		font-size: 0.8rem;
+	}
+
+	header > nav ul {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 100%;
+		gap: 1.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		font-weight: 500;
+		box-sizing: border-box;
+	}
+
+	header > nav li {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;
+	}
+
+	header > nav a {
+		padding: 0;
+		height: min-content;
+		line-height: 1;
+		margin: 0;
+		box-sizing: border-box;
+	}
+
+	@media (max-width: 768px) {
+		header {
+			padding: 1rem;
+		}
+
+		header > nav {
+			gap: 1rem;
+			font-size: 0.75rem;
+		}
+
+		header > nav ul {
+			gap: 1rem;
+		}
+	}
+</style>

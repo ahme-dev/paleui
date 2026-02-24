@@ -1,3 +1,4 @@
+import { pad, reset } from "../shared/mixins";
 import {
 	defineAnatomy,
 	defineDimensions,
@@ -27,6 +28,24 @@ const meta = defineMeta({
 	],
 });
 
+const states = defineStates({
+	meta: {
+		title: "States",
+		description: [
+			"By default, all items can be opened at once. To make sure that only one item is open at a time, add a shared <code>name</code> attribute to the <code>&lt;details&gt;</code> elements.",
+		],
+	},
+	options: {
+		hover: { selector: ":hover" },
+		focus: { selector: ":has(summary:focus-visible)" },
+		open: {
+			selector: "[open]",
+			htmlAttrs: { open: true },
+		},
+	},
+	optionsCombinations: [["open"], ["hover"], ["focus"]],
+});
+
 const anatomy = defineAnatomy({
 	root: {
 		selector: 'details[role="region"]' as const,
@@ -47,47 +66,35 @@ const anatomy = defineAnatomy({
 				type: "element",
 				direct: true,
 			},
+			summaryChevron: {
+				selector: "summary::after",
+				description: ["Chevron indicator showing open/closed state"],
+				type: "pseudo",
+				direct: true,
+			},
 		},
 		example:
 			'<div data-accordion>\n  <details role="region" name="group">\n    <summary>\n      <!-- title -->\n    </summary>\n    <div>\n      <!-- content -->\n    </div>\n  </details>\n  <details role="region" name="group">\n    <summary>\n      <!-- title -->\n    </summary>\n    <div>\n      <!-- content -->\n    </div>\n  </details>\n</div>',
 	},
 });
 
-const states = defineStates({
-	meta: {
-		title: "Variants",
-		description: [
-			"By default, all items can be opened at once. To make sure that only one item is open at a time, add a shared <code>name</code> attribute to the <code>&lt;details&gt;</code> elements.",
-		],
-	},
-	options: {
-		hover: { selector: ":hover" },
-	},
-});
-
 const styles = defineStyles(anatomy, states, {
 	root: {
 		base: [
-			"margin: 0;",
-			"padding: 0;",
-			"box-sizing: border-box;",
-			"font-family: inherit;",
-			"vertical-align: baseline;",
+			...reset(),
 			"display: flex;",
 			"overflow: hidden;",
 			"flex-direction: column;",
 			"width: 100%;",
 			"border-bottom: 1px solid var(--border);",
+			"&:last-child { border-bottom: 0; }",
 		],
 		states: {},
 	},
 	summary: {
 		base: [
-			"margin: 0;",
-			"padding: calc(var(--spacing) * 4) 0;",
-			"box-sizing: border-box;",
-			"font-family: inherit;",
-			"vertical-align: baseline;",
+			...reset(),
+			...pad(4, 0),
 			"display: flex;",
 			"gap: calc(var(--spacing) * 4);",
 			"justify-content: space-between;",
@@ -99,18 +106,16 @@ const styles = defineStyles(anatomy, states, {
 			"font-size: 0.875rem;",
 			"color: var(--foreground);",
 			"line-height: 1;",
+			"list-style: none;",
 		],
 		states: {
 			hover: ["text-decoration: underline;"],
+			focus: ["outline: 2px solid var(--ring);", "outline-offset: 2px;"],
 		},
 	},
 	div: {
 		base: [
-			"margin: 0;",
-			"padding: 0;",
-			"box-sizing: border-box;",
-			"font-family: inherit;",
-			"vertical-align: baseline;",
+			...reset(),
 			"display: flex;",
 			"width: 100%;",
 			"flex-direction: column;",
@@ -120,6 +125,18 @@ const styles = defineStyles(anatomy, states, {
 			"padding-bottom: calc(var(--spacing) * 4);",
 		],
 		states: {},
+	},
+	summaryChevron: {
+		base: [
+			'content: "⌄";',
+			"font-size: 0.875rem;",
+			"flex-shrink: 0;",
+			"line-height: 1;",
+			"color: var(--muted-foreground);",
+		],
+		states: {
+			open: ['content: "⌃";'],
+		},
 	},
 });
 

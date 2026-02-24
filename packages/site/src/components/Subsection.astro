@@ -4,9 +4,10 @@ import CodeExample from "./CodeExample.astro";
 interface Props {
 	title?: string;
 	subtitle?: string;
+	codeOnly?: boolean;
 }
 
-const { title, subtitle } = Astro.props;
+const { title, subtitle, codeOnly = false } = Astro.props;
 ---
 
 {
@@ -18,9 +19,11 @@ const { title, subtitle } = Astro.props;
 	)
 }
 
-<slot name="above" />
+<div class="above">
+	<slot name="above" />
+</div>
 
-<CodeExample name="subsection" class="flex-col gap">
+<CodeExample name="subsection" class="flex-col gap" codeOnly={codeOnly}>
 	<slot />
 </CodeExample>
 
@@ -31,6 +34,16 @@ const { title, subtitle } = Astro.props;
 		font-weight: 500;
 		font-size: 1.15rem;
 		margin-top: 2rem;
-		margin-bottom: 1.5rem;
+	}
+	p {
+		margin-top: 0.25rem;
+		margin-bottom: 0.25rem;
+	}
+	.above {
+		margin-top: 0.75rem;
+		margin-bottom: 1rem;
+	}
+	.above :global(p + p) {
+		margin-top: 0.5rem;
 	}
 </style>

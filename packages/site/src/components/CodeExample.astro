@@ -2,9 +2,10 @@
 interface Props {
 	name: string;
 	class?: string;
+	codeOnly?: boolean;
 }
 
-const { class: className = "" } = Astro.props;
+const { class: className = "", codeOnly = false } = Astro.props;
 const slotHtml = await Astro.slots.render("default");
 
 function formatHtml(html: string, indentSize: number = 2): string {
@@ -61,11 +62,15 @@ const escapedCode = escapeHtml(formattedCode);
 ---
 
 <div class="code-example">
-	<div class="preview-panel">
-		<div class:list={["max-width", className]}>
-			<slot />
-		</div>
-	</div>
+	{
+		!codeOnly && (
+			<div class="preview-panel">
+				<div class:list={["max-width", className]} data-paleui>
+					<slot />
+				</div>
+			</div>
+		)
+	}
 
 	<div class="code-panel" data-expandable data-state="collapsed">
 		<span class="overlay"></span>
@@ -104,9 +109,14 @@ const escapedCode = escapeHtml(formattedCode);
 		border-bottom: 1px solid var(--border);
 	}
 
+	.code-example:not(:has(.preview-panel)) .code-panel {
+		border-radius: var(--radius);
+	}
+
 	.code-panel {
 		position: relative;
 		background: var(--color-muted);
+		padding: 1rem;
 		max-height: 12rem;
 		overflow: hidden;
 		transition: max-height 0.3s ease;
