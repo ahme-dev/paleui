@@ -67,82 +67,69 @@ For dark mode, add the `dark` class to any parent element (typically `<html>` or
 }
 ```
 
-### Goals 
+### Goals
 
 Note: this is an early draft, and will likely be updated somewhat until a stable release is made.
 
-PaleUI has several aims, and they come in order of priority, where an aim is ignored if it conflicts with any above it:  
+PaleUI has several aims, in order of priority — a lower aim is ignored if it conflicts with a higher one:
 
-#### 1. Use CSS only.
+**1. Use CSS only.** A modern, semantic, accessible UI foundation doesn't need JavaScript. PaleUI ships no JS and minimizes how much the user has to write when it's unavoidable.
 
-JavaScript is necessary for many things, but a modern, semantic, and accessible UI foundation is not one of them. It should be possible to have a nearly complete set of components that can be used without any additional JavaScript, and that can be used with any JavaScript framework or library, across browsers and devices.
+**2. Enforce semantic HTML and accessibility.** Semantic elements, role attributes, and ARIA attributes are required — not optional. Examples include them too, to encourage proper practices.
 
-Obviously JavaScript or any abstraction over it is required for complex interactivity and dynamic behavior when using these components: client-side validation with custom error messages, real-time data updates, drag-and-drop interactions, complex animations, dynamic content loading, and state management across components. But this doesn't mean that just by adding the UI library, you have to include 100KBs of JavaScript.
+**3. Support older browsers.** PaleUI targets at minimum the "widely available" [Baseline](https://web.dev/baseline/) (all major browsers for 30+ months), with polyfills and alternative builds where possible.
 
-PaleUI will not include any JavaScript, and will do its best to minimize the amount that the user will need to write when it's needed.
+**4. Stay compatible with `shadcn/ui` themes and components.** PaleUI uses the same CSS variables and covers the same component set.
 
-#### 2. Enforce semantic HTML elements and accessibility features.
+**5. Stay small and modular.** Distributed as both a single file and individual component files — use only what you need.
 
-Using semantic HTML elements, role attributes, and ARIA attributes make writing UI much more accessible and cleaner to look at than class-heavy markup. This approach also ensures that the components are accessible to all users, including those using assistive technologies like screen readers.
-
-PaleUI will use semantic HTML elements whenever possible, and role attributes if semantic elements are not available. Even in examples, ARIA attributes will be included to encourage their use and demonstrate proper accessibility practices.
-
-#### 3. Support older browsers.
-
-Not all users have the latest browsers, or even devices that support those. At the very least UI libraries should support the "widely available" baseline (as defined by [Baseline](https://web.dev/baseline/) - features supported across all major browsers for at least 30 months), and even older whenever possible. Features can be polyfilled and alternatives are often possible.
-
-PaleUI will support older browsers, at the minimum the "widely available" baseline, and will provide alternative builds and polyfills when possible for older browsers.
-
-#### 4. Maintain compatibility with `shadcn/ui` themes and include the components it provides.
-
-PaleUI will stay compatible with `shadcn/ui` themes, and provide all the components it provides to cover the same use cases.
-
-#### 5. Keep distribution small and modular.
-
-PaleUI will be distributed both as a single file and as multiple files to use in a modular way. The user shouldn't be forced to include parts they don't need. 
-
-#### 6. Support usage in modern Javascript frameworks.
-
-PaleUI will not be just a library for plain HTML, backends, and non-JavaScript frameworks. It will also support usage in modern JavaScript frameworks like React, Vue, and Svelte, providing a light alternative with the same familiar design that those developers expect.
+**6. Work in modern JS frameworks.** PaleUI targets React, Vue, Svelte, and similar, not just plain HTML.
 
 ### Contributing
 
 Contributions to PaleUI are welcome. The project uses a monorepo structure and is built with the following:
 
-- *Bun* - Runtime and package manager
-- *Sass* - CSS preprocessor for writing modular styles
-- *PostCSS* with Autoprefixer - Ensures browser compatibility
+- *pnpm* - Package manager
+- *Node.js* with *tsx* - For running TypeScript scripts
+- *TypeScript* - Component schemas in `src/ui/` define styles, variants, and examples
+- *PostCSS* with `postcss-preset-env` and Autoprefixer - Compiles generated CSS to `lib/`
 - *Biome* - Linter and formatter
+- *Prettier* with `prettier-plugin-astro` - Formats `.astro` files
 - *Playwright* - End-to-end testing
+
+#### Generation
+
+Both the library CSS and the documentation site are generated from the same TypeScript schema files:
+
+1. **Component schemas** in `packages/paleui/src/ui/*.ts` define anatomy, styles, dimensions, states, and examples.
+2. **CSS**: `src/generate-css.ts` renders each schema to a CSS file, which PostCSS compiles to `lib/*.css`.
+3. **Docs**: `scripts/generate-docs.ts` renders each schema to an Astro page in `packages/site/src/pages/components/` (gitignored, generated before each build).
 
 #### Structure
 
-The monorepo contains two packages:
-
-- `packages/paleui` - Core CSS library (using ts in `src/ui/`, generates css (gitignored), compiled by postcss to `lib/`)
-- `packages/site` - Documentation site (using astro, component pages generated directly from core)
+- `packages/paleui` - Core CSS library (TypeScript schemas in `src/ui/`, compiled by PostCSS to `lib/`)
+- `packages/site` - Documentation site (Astro, pages generated from core schemas)
 
 #### Setup
 
-The setup can be achieved in two main ways:
+*1. Dev Container:* Open in VS Code and use "Dev Containers: Reopen in Dev Container". Includes pnpm, Biome, and Playwright pre-configured.
 
-*1. Dev Container:* Open in VS Code and use "Dev Containers: Reopen in Dev Container". Includes Bun, Biome, and Playwright pre-configured.
-
-*2. Local:* Install Bun (v1.0 or later), clone the repo, and install the packages. Playwright must also be set up on the device along with required browsers, unless Docker is available to spin up the preconfigured image.
+*2. Local:* Install Node.js and pnpm, clone the repo, and run `pnpm install`. Playwright must also be configured with required browsers, unless Docker is available for the preconfigured test image.
 
 #### Tasks
 
 *Development:*
-- `bun run dev` - Start development mode (library + site)
-- `bun run dist` - Build for production (library + site)
-- `bun run preview` - View production site
+- `pnpm run dev` - Start development mode (library + site + doc generation watching for changes)
+- `pnpm run build` - Build for production (generates docs, builds library, then site)
 
 *Testing and Formatting:*
-- `bun run test:run` - Run Playwright tests (local + devcontainer)
-- `bun run test:run:docker-up` - Run Playwright tests in container (local, but using docker for tests)
-- `bun run test:run:ui` - Run Playwright tests with UI (local)
-- `bun run test:update` - Update Playwright snapshots (local + devcontainer)
-- `bun run fix` - Run Biome to lint and format code
+- `pnpm run test:run` - Run Playwright tests (local + devcontainer)
+- `pnpm run test:run:docker-up` - Run Playwright tests using Docker
+- `pnpm run test:run:docker-down` - Stop the Docker test container
+- `pnpm run test:run:ui` - Run Playwright tests with UI (local)
+- `pnpm run test:update` - Update Playwright snapshots
+- `pnpm run check` - Run Biome checks without fixing
+- `pnpm run fix` - Run Biome and Prettier to lint and format code
 
 #### Committing
 
