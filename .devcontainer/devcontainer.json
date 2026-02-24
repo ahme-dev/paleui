@@ -9,7 +9,8 @@
       "extensions": [
         "biomejs.biome",
         "ms-playwright.playwright",
-        "astro-build.astro-vscode"
+        "astro-build.astro-vscode",
+        "esbenp.prettier-vscode"
       ],
       "settings": {
         "editor.defaultFormatter": "biomejs.biome",

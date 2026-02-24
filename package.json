@@ -8,7 +8,7 @@
 		"prebuild": "tsx scripts/generate-docs.ts",
 		"build": "pnpm run --filter paleui build && pnpm run --filter site build",
 		"check": "biome check",
-		"fix": "biome check --fix && prettier --write \"**/*.astro\"",
+		"fix": "biome check --fix && prettier --write --log-level warn \"**/*.astro\"",
 		"test:update": "playwright test --update-snapshots",
 		"test:run": "playwright test",
 		"test:run:ui": "playwright test --ui --ui-port=9323",

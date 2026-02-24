@@ -7,8 +7,7 @@ static
 build
 .pnpm-store
 
-packages/old*
-packages/example*
+packages/ignore-*
 
 .DS_Store
 *.tgz
