@@ -61,7 +61,7 @@ function escapeHtml(str: string): string {
 const escapedCode = escapeHtml(formattedCode);
 ---
 
-<div class="code-example">
+<div class="example">
 	{
 		!codeOnly && (
 			<div class="preview-panel max" data-paleui>
@@ -91,7 +91,7 @@ const escapedCode = escapeHtml(formattedCode);
 </div>
 
 <style>
-	.code-example {
+	.example {
 		border: 1px solid var(--border);
 		margin-top: 1rem;
 		border-radius: var(--radius);
@@ -109,7 +109,7 @@ const escapedCode = escapeHtml(formattedCode);
 		aspect-ratio: 9 / 5;
 	}
 
-	.code-example:not(:has(.preview-panel)) .code-panel {
+	.example:not(:has(.preview-panel)) .code-panel {
 		border-radius: var(--radius);
 	}
 
@@ -130,6 +130,11 @@ const escapedCode = escapeHtml(formattedCode);
 	.code-panel pre {
 		margin: 0;
 		overflow-x: auto;
+	}
+
+	.code-panel[data-state="expanded"] pre {
+		max-height: calc(60rem - 2rem);
+		overflow-y: auto;
 	}
 
 	.code-panel code {
@@ -178,41 +183,38 @@ const escapedCode = escapeHtml(formattedCode);
 
 <script>
 	// copy functionality
-	document.addEventListener("click", (e: MouseEvent) => {
-		const btn = (e.target as HTMLElement).closest(".copy-btn[data-code]");
-		if (!btn) return;
-
-		const code = btn.getAttribute("data-code") || "";
-		navigator.clipboard
-			.writeText(code)
-			.then(() => {
-				btn.textContent = "\u2714";
-				setTimeout(() => {
-					btn.textContent = "\u2398";
-				}, 2000);
-			})
-			.catch(() => {
-				btn.textContent = "\u2718";
-				setTimeout(() => {
-					btn.textContent = "\u2398";
-				}, 2000);
-			});
+	document.querySelectorAll<HTMLButtonElement>(".copy-btn[data-code]").forEach((btn) => {
+		btn.addEventListener("click", () => {
+			const code = btn.getAttribute("data-code") || "";
+			navigator.clipboard
+				.writeText(code)
+				.then(() => {
+					btn.textContent = "\u2714";
+					setTimeout(() => {
+						btn.textContent = "\u2398";
+					}, 2000);
+				})
+				.catch(() => {
+					btn.textContent = "\u2718";
+					setTimeout(() => {
+						btn.textContent = "\u2398";
+					}, 2000);
+				});
+		});
 	});
 
 	// expand/collapse functionality
-	document.addEventListener("click", (e: MouseEvent) => {
-		const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-expand]");
-		if (!btn) return;
+	document.querySelectorAll<HTMLElement>("[data-expand]").forEach((btn) => {
+		btn.addEventListener("click", () => {
+			const panel = btn.closest<HTMLElement>("[data-expandable]");
+			if (!panel) return;
 
-		const panel = btn.closest<HTMLElement>("[data-expandable]");
-		if (!panel) return;
+			const isExpanded = panel.getAttribute("data-state") === "expanded";
+			const newState = !isExpanded;
 
-		const isExpanded = panel.getAttribute("data-state") === "expanded";
-		const newState = !isExpanded;
-
-		panel.setAttribute("data-state", newState ? "expanded" : "collapsed");
-
-		btn.setAttribute("aria-expanded", String(newState));
-		btn.setAttribute("aria-label", newState ? "Collapse code" : "Expand code");
+			panel.setAttribute("data-state", newState ? "expanded" : "collapsed");
+			btn.setAttribute("aria-expanded", String(newState));
+			btn.setAttribute("aria-label", newState ? "Collapse code" : "Expand code");
+		});
 	});
 </script>
