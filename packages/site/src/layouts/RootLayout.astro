@@ -1,5 +1,6 @@
 ---
 import "paleui/lib/all.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 interface Props {
 	title?: string;
@@ -27,11 +28,12 @@ const { title = "PaleUI" } = Astro.props;
 		<script type="module" src="/test-mode.js"></script>
 	</head>
 
-	<body data-htswap class="dark">
+	<body data-htswap>
 		<header>
 			<nav>
 				<a href="/">
 					<img
+						class="dark-invert"
 						height="24"
 						src="/logo.svg"
 						alt="PaleUI Logo"
@@ -51,6 +53,8 @@ const { title = "PaleUI" } = Astro.props;
 				<span role="none"></span>
 
 				<span role="separator"></span>
+
+				<ThemeToggle />
 
 				<a
 					target="_blank"
