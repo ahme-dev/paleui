@@ -2,32 +2,43 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import type {
 	TAnatomy,
+	TAnatomyChild,
+	TAnatomyGrandchild,
 	TCSS,
 	TSchema,
-	TStates,
+	TSelectors,
 	TStyleBlock,
 } from "./shared/types";
 
 const red = (s: string) => `\x1b[41m ${s} \x1b[0m`;
 
-function indent(str: string, level = 1): string {
-	const tabs = "\t".repeat(level);
-	return str
-		.split("\n")
-		.map((line) => (line.trim() ? tabs + line.trim() : line))
-		.join("\n");
-}
-
 function block(selector: string, css: string): string {
-	return `${selector} {\n${indent(css)}\n}`;
+	return `${selector} {\n${css}\n}`;
 }
 
 function joinCss(css: TCSS): string {
-	return css.join("\n");
+	return css.map((decl) => (decl.endsWith(";") ? decl : `${decl};`)).join("\n");
 }
 
-function resolveStateSelector(states: TStates, state: string): string | null {
-	const opt = states.options[state];
+//
+// Select
+//
+
+const SELECTOR_MAP: Record<TSelectors, string> = {
+	lastChild: "&:last-child",
+	firstChild: "&:first-child",
+	notLastChild: "&:not(:last-child)",
+	notFirstChild: "&:not(:first-child)",
+	onlyChild: "&:only-child",
+	odd: "&:nth-child(odd)",
+	even: "&:nth-child(even)",
+};
+
+function resolvePartState(
+	partStates: Record<string, { selector: string }> | undefined,
+	stateKey: string,
+): string | null {
+	const opt = partStates?.[stateKey];
 	if (!opt?.selector) return null;
 	return opt.selector
 		.split(",")
@@ -35,81 +46,191 @@ function resolveStateSelector(states: TStates, state: string): string | null {
 		.join(",\n");
 }
 
-function resolveAnatomyChild(
-	anatomy: TAnatomy,
-	part: string,
-): { selector: string; direct: boolean; visibleWhen: string | null } | null {
-	if (part === "root")
-		return { selector: "&", direct: false, visibleWhen: null };
-	const child = anatomy.root?.children?.[part];
-	if (!child?.selector) return null;
-	return {
-		selector: child.selector,
-		direct: child.direct === true,
-		visibleWhen: child.visibleWhen ?? null,
-	};
-}
-
-function nestingSelector(rawSelector: string, isDirect: boolean): string {
-	if (rawSelector.startsWith("::")) return `&${rawSelector}`;
-	const prefix = isDirect ? "> " : "";
-	return rawSelector
+function childPartSel(
+	child: Pick<TAnatomyChild, "selector" | "direct">,
+): string {
+	const raw = child.selector ?? "";
+	if (!raw) return "";
+	if (raw.startsWith("::")) return `&${raw}`;
+	const prefix = child.direct ? "> " : "";
+	return raw
 		.split(",")
 		.map((s) => `${prefix}${s.trim()}`)
 		.join(",\n");
 }
 
-function statePrefixedSelector(
-	stateSel: string,
-	rawSelector: string,
-	isDirect: boolean,
+function gcPartSel(
+	gc: Pick<TAnatomyGrandchild, "selector" | "direct">,
 ): string {
-	const stateParts = stateSel.split(",").map((s) => s.trim());
-	if (rawSelector.startsWith("::")) {
-		return stateParts.map((sp) => `${sp}${rawSelector}`).join(",\n");
-	}
-	const childParts = rawSelector.split(",").map((s) => s.trim());
-	const combinator = isDirect ? " > " : " ";
-	return stateParts
-		.flatMap((sp) => childParts.map((cp) => `${sp}${combinator}${cp}`))
+	const raw = gc.selector ?? "";
+	if (!raw) return "";
+	if (raw.startsWith("::")) return `&${raw}`;
+	const prefix = gc.direct ? "> " : "";
+	return raw
+		.split(",")
+		.map((s) => `${prefix}${s.trim()}`)
 		.join(",\n");
+}
+
+function gcWithParentStateSel(
+	parentStateSel: string,
+	gc: Pick<TAnatomyGrandchild, "selector" | "direct">,
+): string {
+	const raw = gc.selector ?? "";
+	if (!raw) return "";
+	const combinator = gc.direct ? " > " : " ";
+	return parentStateSel
+		.split(",")
+		.map((s) => s.trim())
+		.flatMap((ps) =>
+			raw.split(",").map((gs) => `&${ps}${combinator}${gs.trim()}`),
+		)
+		.join(",\n");
+}
+
+//
+// Render
+//
+
+function renderSelectorBlocks(
+	selectors: Partial<Record<TSelectors, TCSS>> | undefined,
+): string[] {
+	if (!selectors) return [];
+	return Object.entries(selectors).flatMap(([key, css]) => {
+		if (!css?.length) return [];
+		const sel = SELECTOR_MAP[key as TSelectors];
+		return sel ? [block(sel, joinCss(css))] : [];
+	});
+}
+
+function renderGrandchildParts(
+	gcDef: TAnatomyGrandchild,
+	gcStyle: Partial<TStyleBlock> | undefined,
+	parentStates: Record<string, { selector: string }> | undefined,
+): { main: string | null; siblings: string[] } {
+	if (!gcDef.selector || !gcStyle) return { main: null, siblings: [] };
+
+	const gcParts: string[] = [];
+	const siblings: string[] = [];
+
+	if (gcStyle.base?.length) {
+		gcParts.push(joinCss(gcStyle.base));
+	}
+
+	for (const [stateKey, css] of Object.entries(gcStyle.states ?? {})) {
+		if (!css?.length) continue;
+		if (gcDef.states?.[stateKey]) {
+			const sel = resolvePartState(gcDef.states, stateKey);
+			if (sel) gcParts.push(block(sel, joinCss(css)));
+		} else if (parentStates?.[stateKey]) {
+			const parentStateSel = parentStates[stateKey].selector;
+			siblings.push(
+				block(gcWithParentStateSel(parentStateSel, gcDef), joinCss(css)),
+			);
+		}
+	}
+
+	const sel = gcPartSel(gcDef);
+	const main = gcParts.length ? block(sel, gcParts.join("\n")) : null;
+	return { main, siblings };
+}
+
+function renderChildBlock(
+	childKey: string,
+	childDef: TAnatomyChild,
+	styles: Record<string, Partial<TStyleBlock>>,
+): string | null {
+	if (!childDef.selector) return null;
+
+	const childStyle = styles[childKey];
+	const parts: string[] = [];
+
+	if (childStyle?.base?.length) {
+		parts.push(joinCss(childStyle.base));
+	}
+
+	for (const [stateKey, css] of Object.entries(childStyle?.states ?? {})) {
+		if (!css?.length) continue;
+		const sel = resolvePartState(childDef.states, stateKey);
+		if (sel) parts.push(block(sel, joinCss(css)));
+	}
+
+	parts.push(...renderSelectorBlocks(childStyle?.selectors));
+
+	for (const [gcKey, gcDef] of Object.entries(childDef.children ?? {})) {
+		if (!gcDef.selector) continue;
+		const { main, siblings } = renderGrandchildParts(
+			gcDef,
+			styles[gcKey],
+			childDef.states,
+		);
+		if (main) parts.push(main);
+		parts.push(...siblings);
+	}
+
+	if (!parts.length) return null;
+	return block(childPartSel(childDef), parts.join("\n"));
 }
 
 function renderDimensionOption(
 	name: string,
 	optionStyles: Record<string, Partial<TStyleBlock>>,
-	anatomy: TSchema["anatomy"],
-	states: TStates,
+	anatomy: TAnatomy,
 ): string | null {
-	const content = Object.entries(optionStyles).flatMap(([part, partStyle]) => {
-		const child = resolveAnatomyChild(anatomy, part);
+	const content: string[] = [];
 
-		if (part === "root" || child?.selector === "&") {
-			return [
-				...(partStyle.base?.length ? [joinCss(partStyle.base)] : []),
-				...Object.entries(partStyle.states ?? {}).flatMap(([state, css]) => {
-					if (!css?.length) return [];
-					const sel = resolveStateSelector(states, state);
-					return sel ? [block(sel, joinCss(css))] : [];
-				}),
-			];
+	for (const [part, partStyle] of Object.entries(optionStyles)) {
+		const hasCss =
+			partStyle.base?.length ||
+			Object.values(partStyle.states ?? {}).some((c) => c?.length) ||
+			Object.values(partStyle.selectors ?? {}).some((c) => c?.length);
+		if (!hasCss) continue;
+
+		if (part === "root") {
+			if (partStyle.base?.length) content.push(joinCss(partStyle.base));
+			for (const [sk, css] of Object.entries(partStyle.states ?? {})) {
+				if (!css?.length) continue;
+				const sel = resolvePartState(anatomy.root.states, sk);
+				if (sel) content.push(block(sel, joinCss(css)));
+			}
+			content.push(...renderSelectorBlocks(partStyle.selectors));
+			continue;
 		}
 
-		if (!child || !partStyle.base?.length) return [];
-		return [
-			block(
-				nestingSelector(child.selector, child.direct),
-				joinCss(partStyle.base),
-			),
-		];
-	});
+		const childDef = anatomy.root.children?.[part];
+		if (childDef?.selector) {
+			const lines: string[] = [];
+			if (partStyle.base?.length) lines.push(joinCss(partStyle.base));
+			for (const [sk, css] of Object.entries(partStyle.states ?? {})) {
+				if (!css?.length) continue;
+				const sel = resolvePartState(childDef.states, sk);
+				if (sel) lines.push(block(sel, joinCss(css)));
+			}
+			lines.push(...renderSelectorBlocks(partStyle.selectors));
+			if (lines.length)
+				content.push(block(childPartSel(childDef), lines.join("\n")));
+			continue;
+		}
+
+		for (const parentChild of Object.values(anatomy.root.children ?? {})) {
+			const gcDef = parentChild.children?.[part];
+			if (!gcDef?.selector) continue;
+			const { main } = renderGrandchildParts(
+				gcDef,
+				partStyle,
+				parentChild.states,
+			);
+			if (main) content.push(main);
+			break;
+		}
+	}
 
 	if (!content.length) return null;
-	return indent(block(`&.${name}`, content.join("\n\n")));
+	return block(`&.${name}`, content.join("\n"));
 }
 
 function renderComponent(schema: TSchema, prefix: string): string {
-	const { anatomy, states, styles, dimensions } = schema;
+	const { anatomy, styles, dimensions } = schema;
 
 	const rootSelectors = Array.isArray(anatomy.root.selector)
 		? [...anatomy.root.selector]
@@ -118,95 +239,44 @@ function renderComponent(schema: TSchema, prefix: string): string {
 		prefix ? rootSelectors.map((s) => `${prefix} ${s}`) : rootSelectors
 	).join(",\n");
 
-	// precompute child parts (reused for base styles and state overrides)
-	const childParts = Object.entries(styles).filter(
-		([part]) => part !== "root" && part !== "text",
-	);
+	const body: string[] = [];
 
-	const body = [
-		// root base
-		...(styles.root?.base?.length ? [indent(joinCss(styles.root.base))] : []),
+	if (styles.root?.base?.length) {
+		body.push(joinCss(styles.root.base));
+	}
 
-		// child base styles (grouped under state selector if visibleWhen)
-		...childParts.flatMap(([part, style]) => {
-			const child = resolveAnatomyChild(anatomy, part);
-			if (!child || child.selector === "&" || !style.base?.length) return [];
-			if (child.visibleWhen) {
-				const sel = resolveStateSelector(states, child.visibleWhen);
-				if (!sel) return [];
-				return [
-					indent(
-						block(
-							statePrefixedSelector(sel, child.selector, child.direct),
-							joinCss(style.base),
-						),
-					),
-				];
-			}
-			return [
-				indent(
-					block(
-						nestingSelector(child.selector, child.direct),
-						joinCss(style.base),
-					),
-				),
-			];
-		}),
+	for (const [sk, css] of Object.entries(styles.root?.states ?? {})) {
+		if (!css?.length) continue;
+		const sel = resolvePartState(anatomy.root.states, sk);
+		if (sel) body.push(block(sel, joinCss(css)));
+	}
 
-		// dimension variants → .className blocks
-		...Object.values(dimensions).flatMap((dim) =>
-			Object.entries(dim.options)
-				.filter(([name]) => name !== "default")
-				.flatMap(([name, optionStyles]) => {
-					const rendered = renderDimensionOption(
-						name,
-						optionStyles as Record<string, Partial<TStyleBlock>>,
-						anatomy,
-						states,
-					);
-					return rendered ? [rendered] : [];
-				}),
-		),
+	for (const s of renderSelectorBlocks(styles.root?.selectors)) {
+		body.push(s);
+	}
 
-		// root states
-		...Object.entries(styles.root?.states ?? {}).flatMap(([state, css]) => {
-			if (!css?.length) return [];
-			const sel = resolveStateSelector(states, state);
-			return sel ? [indent(block(sel, joinCss(css)))] : [];
-		}),
+	for (const dim of Object.values(dimensions ?? {})) {
+		for (const [name, optionStyles] of Object.entries(dim.options)) {
+			if (name === "default") continue;
+			const rendered = renderDimensionOption(
+				name,
+				optionStyles as Record<string, Partial<TStyleBlock>>,
+				anatomy,
+			);
+			if (rendered) body.push(rendered);
+		}
+	}
 
-		// child element states (visibleWhen children already handled above)
-		...childParts.flatMap(([part, style]) => {
-			const child = resolveAnatomyChild(anatomy, part);
-			if (
-				!child ||
-				child.selector === "&" ||
-				child.visibleWhen ||
-				!style.states
-			)
-				return [];
-			return Object.entries(style.states).flatMap(([state, css]) => {
-				if (!css?.length) return [];
-				const sel = resolveStateSelector(states, state);
-				if (!sel) return [];
-				return [
-					indent(
-						block(
-							statePrefixedSelector(sel, child.selector, child.direct),
-							joinCss(css),
-						),
-					),
-				];
-			});
-		}),
-	].join("\n");
+	for (const [childKey, childDef] of Object.entries(
+		anatomy.root.children ?? {},
+	)) {
+		const cb = renderChildBlock(childKey, childDef, styles);
+		if (cb) body.push(cb);
+	}
 
-	return `${selectorStr} {\n${body}\n}`;
+	return `${selectorStr} {\n${body.join("\n")}\n}`;
 }
 
-const UI_DIR = path.resolve(import.meta.dirname, "ui");
-const SHARED_DIR = path.resolve(import.meta.dirname, "shared");
-const WATCH_MODE = process.argv.includes("--watch");
 const prefixArg = process.argv.find((a) => a.startsWith("--prefix="));
 const PREFIX =
 	prefixArg !== undefined
@@ -220,6 +290,14 @@ function renderSchema(schema: unknown): string | null {
 		return renderComponent(s as TSchema, PREFIX);
 	return null;
 }
+
+//
+// Generate
+//
+
+const UI_DIR = path.resolve(import.meta.dirname, "ui");
+const SHARED_DIR = path.resolve(import.meta.dirname, "shared");
+const WATCH_MODE = process.argv.includes("--watch");
 
 async function generateCSS() {
 	const tsFiles = fs

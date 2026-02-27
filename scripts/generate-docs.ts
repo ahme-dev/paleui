@@ -22,26 +22,35 @@ const lastGenerated = new Map<string, number>();
 
 function generateAnatomyDescription(anatomy: TAnatomy): string[] {
 	const descriptions: string[] = [];
+	const root = anatomy.root;
 
-	for (const root of Object.values(anatomy)) {
-		if (root.description) {
-			descriptions.push(...root.description);
-		} else {
-			const sel =
-				typeof root.selector === "string" ? root.selector : root.selector[0];
-			descriptions.push(`Built on the <code>&lt;${sel}&gt;</code> element.`);
+	if (root.description) {
+		descriptions.push(...root.description);
+	} else {
+		const sel =
+			typeof root.selector === "string" ? root.selector : root.selector[0];
+		descriptions.push(`Built on the <code>&lt;${sel}&gt;</code> element.`);
+	}
+
+	if (!root.children) return descriptions;
+
+	for (const child of Object.values(root.children)) {
+		if (child.type !== "pseudo" && child.type !== "text") {
+			if (child.description?.length) {
+				descriptions.push(...child.description);
+			}
 		}
 
-		if (!root.children) continue;
+		if (!child.children) continue;
 
-		for (const child of Object.values(root.children)) {
-			if (child.type === "pseudo" || child.type === "text") continue;
-			const childSel = (child.selector || "")
+		for (const gc of Object.values(child.children)) {
+			if (gc.type === "pseudo" || gc.type === "text") continue;
+			const gcSel = (gc.selector ?? "")
 				.replace(/</g, "&lt;")
 				.replace(/>/g, "&gt;");
-			const opt = child.optional ? " (optional)" : "";
+			const opt = gc.optional ? " (optional)" : "";
 			descriptions.push(
-				`<code>${childSel}</code> — ${child.description.join(" ")}${opt}.`,
+				`<code>${gcSel}</code> — ${gc.description.join(" ")}${opt}.`,
 			);
 		}
 	}
@@ -52,9 +61,9 @@ function generateAnatomyDescription(anatomy: TAnatomy): string[] {
 function generateStructureSection(schema: TSchema): string {
 	if (!schema.anatomy) return "";
 
-	const roots = Object.values(schema.anatomy);
+	const root = schema.anatomy.root;
 	const descriptions = generateAnatomyDescription(schema.anatomy);
-	const example = roots.find((r) => r.example)?.example;
+	const example = root.example;
 
 	if (descriptions.length === 0 && !example) return "";
 
@@ -68,37 +77,42 @@ function generateStructureSection(schema: TSchema): string {
 
 function generateDocsFromSchema(mod: { schema: TSchema }) {
 	const { schema } = mod;
-	if (
-		!schema?.meta ||
-		!schema?.examples ||
-		!schema?.dimensions ||
-		!schema?.states
-	) {
+	if (!schema?.meta || !schema?.examples || !schema?.dimensions) {
 		return null;
 	}
 
-	const { meta, dimensions, states, examples } = schema;
+	const { meta, dimensions, examples } = schema;
 
-	const dimensionEntries = Object.values(dimensions);
-	const sections = dimensionEntries.map((dim, i) => ({
-		title: dim.meta?.title || "Options",
-		description: dim.meta?.description,
-		examples: examples[i] || [],
-	}));
+	const headerRawHtml = examples[Object.keys(dimensions)[0]]?.[0] ?? "";
 
-	if (examples.length > dimensionEntries.length) {
+	const sections = Object.entries(dimensions).map(([dimKey, dim]) => {
+		const optionNames = Object.keys(dim.options);
+		const wrappedExamples = (examples[dimKey] ?? []).map((html, i) => {
+			const variant = optionNames[i] ?? String(i);
+			return `<div data-example="${dimKey}" data-variant="${variant}">${html}</div>`;
+		});
+		return {
+			title: dim.meta?.title || "Options",
+			description: dim.meta?.description,
+			examples: wrappedExamples,
+		};
+	});
+
+	if (examples["states"]?.length) {
+		const wrappedStates = examples["states"].map(
+			(html, i) =>
+				`<div data-example="states" data-variant="${i}">${html}</div>`,
+		);
 		sections.push({
-			title: states.meta?.title || "States",
-			description: states.meta?.description || [
-				"Use <code>disabled</code> and <code>aria-busy</code> attributes to indicate status.",
-			],
-			examples: examples[dimensionEntries.length],
+			title: "States",
+			description: [`Similar to all components, the ${meta.title?.toLowerCase()} and its parts can be in certain states.`],
+			examples: wrappedStates,
 		});
 	}
 
 	const structureSection = generateStructureSection(schema);
 
-	return { meta, sections, structureSection };
+	return { meta, sections, structureSection, headerRawHtml };
 }
 
 async function generateDocs(mod: { schema: TSchema }, componentName: string) {
@@ -108,7 +122,7 @@ async function generateDocs(mod: { schema: TSchema }, componentName: string) {
 		return;
 	}
 
-	const { meta, sections, structureSection } = docs;
+	const { meta, sections, structureSection, headerRawHtml } = docs;
 
 	const belowSlot = meta.description?.length
 		? `<Fragment slot="below">${meta.description.map((d: string) => `<p>${d}</p>`).join("")}</Fragment>`
@@ -126,6 +140,10 @@ async function generateDocs(mod: { schema: TSchema }, componentName: string) {
 					.join("")}</Section>`
 			: "";
 
+	const headerHtml = headerRawHtml
+		? `<div data-header>${headerRawHtml}</div>`
+		: "";
+
 	const astro = `---
 // AUTO-GENERATED BY GENERATE-DOCS.TS
 // DO NOT EDIT
@@ -136,7 +154,7 @@ import SideLayout from "../../layouts/SideLayout.astro";
 ---
 <SideLayout title="${meta.title} - PaleUI">
 <Header title="${meta.title}" subtitle="${meta.subtitle}" links={${JSON.stringify(meta.tags || [])}}>
-${sections[0]?.examples?.[0] || ""}${belowSlot}
+${headerHtml}${belowSlot}
 </Header>
 ${structureSection}${examplesSection}
 </SideLayout>
@@ -202,5 +220,5 @@ if (WATCH_MODE) {
 } else {
 	console.log(red("Discovering component files..."));
 	const generated = await generateAllDocs();
-	console.log(red(`Done! Generated ${generated} doc(s)`)+"\n");
+	console.log(red(`Done! Generated ${generated} doc(s)`) + "\n");
 }

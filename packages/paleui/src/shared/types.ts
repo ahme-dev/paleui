@@ -1,3 +1,7 @@
+//
+// Base
+//
+
 export type Selector = string | readonly string[];
 
 export type TMeta = {
@@ -9,18 +13,70 @@ export type TMeta = {
 
 export type TCSS = readonly string[];
 
-export type TAnatomyChild = {
+export type TStateOption = {
+	selector: string;
+	htmlAttrs?: Record<string, string | boolean>;
+};
+
+export type TSelectors =
+	| "lastChild"
+	| "firstChild"
+	| "notLastChild"
+	| "notFirstChild"
+	| "onlyChild"
+	| "odd"
+	| "even";
+
+export type TStyleBlock<TStates extends string = string> = {
+	base?: TCSS;
+	states?: Partial<Record<TStates, TCSS>>;
+	selectors?: Partial<Record<TSelectors, TCSS>>;
+	htmlAttrs?: Record<string, string | boolean>;
+};
+
+export type TSchema = {
+	meta: TMeta;
+	anatomy: TAnatomy;
+	styles: Record<string, TStyleBlock>;
+	dimensions: TDimensions;
+	examples: Partial<Record<string, string[]>>;
+};
+
+//
+// Anatomy
+//
+
+export type TAnatomyGrandchild = {
 	selector?: string;
 	description: readonly string[];
 	type: "pseudo" | "element" | "text";
 	direct?: boolean;
 	optional?: boolean;
 	visibleWhen?: string;
+	multitude?: "single" | "multiple";
+	states?: Record<string, TStateOption>;
+	optionsCombinations?: readonly (readonly string[])[];
+};
+
+export type TAnatomyChild<GC extends string = string> = {
+	selector?: string;
+	description: readonly string[];
+	type: "pseudo" | "element" | "text";
+	direct?: boolean;
+	optional?: boolean;
+	visibleWhen?: string;
+	multitude?: "single" | "multiple";
+	states?: Record<string, TStateOption>;
+	optionsCombinations?: readonly (readonly string[])[];
+	children?: Record<GC, TAnatomyGrandchild>;
 };
 
 export type TAnatomyRoot<C extends string = string> = {
 	selector: Selector;
 	description: readonly string[];
+	multitude?: "single" | "multiple";
+	states?: Record<string, TStateOption>;
+	optionsCombinations?: readonly (readonly string[])[];
 	children?: Record<C, TAnatomyChild>;
 	childrenCombinations?: readonly (readonly C[])[];
 	example?: string;
@@ -28,65 +84,92 @@ export type TAnatomyRoot<C extends string = string> = {
 
 export type TAnatomy = { root: TAnatomyRoot };
 
-export type TStateOption = {
-	selector: string;
-	htmlAttrs?: Record<string, string | boolean>;
-};
+//
+// Keys
+//
 
-export type TStates<K extends string = string> = {
-	meta?: TMeta;
-	options: Record<K, TStateOption>;
-	optionsCombinations?: readonly (readonly K[])[];
-};
-
-export type TStyleBlock<TStates extends string = string> = {
-	base: TCSS;
-	states?: Partial<Record<TStates, TCSS>>;
-};
-
-export type TDimension<
-	TParts extends string = string,
-	TStates extends string = string,
-> = {
-	meta?: TMeta;
-	options: Record<
-		string,
-		Partial<Record<TParts, TStyleBlock<TStates>>> | Record<string, never>
-	>;
-};
-
-export type TDimensions<
-	TParts extends string = string,
-	TStates extends string = string,
-> = Record<string, TDimension<TParts, TStates>>;
-
-type HasChildren = { children?: Record<string, unknown> };
-
-type StateKeys<T extends TStates> = keyof T["options"] & string;
-
-type AnatomyParts<T extends TAnatomy> =
-	| "root"
-	| (T["root"] extends HasChildren
-			? keyof T["root"]["children"] & string
-			: never);
-
-type ActivatableStateKeys<T extends { options: Record<string, unknown> }> = {
-	[K in keyof T["options"]]: T["options"][K] extends {
-		htmlAttrs: Record<string, unknown>;
-	}
-		? K
+type ChildKeys<T extends TAnatomy> =
+	T["root"]["children"] extends Record<string, unknown>
+		? keyof T["root"]["children"] & string
 		: never;
-}[keyof T["options"]] &
-	string;
 
-export function stateAttrsToString(state: {
-	htmlAttrs?: Record<string, string | boolean>;
-}): string {
-	if (!state.htmlAttrs) return "";
-	return Object.entries(state.htmlAttrs)
-		.map(([k, v]) => (v === true ? k : `${k}="${v}"`))
-		.join(" ");
-}
+type GrandchildKeys<T extends TAnatomy> =
+	T["root"]["children"] extends Record<string, TAnatomyChild>
+		? {
+				[CK in keyof T["root"]["children"]]: T["root"]["children"][CK]["children"] extends Record<
+					string,
+					unknown
+				>
+					? keyof T["root"]["children"][CK]["children"] & string
+					: never;
+			}[keyof T["root"]["children"]]
+		: never;
+
+export type AnatomyParts<T extends TAnatomy> =
+	| "root"
+	| ChildKeys<T>
+	| GrandchildKeys<T>;
+
+type OwnStateKeys<T extends { states?: Record<string, unknown> }> =
+	T["states"] extends Record<string, unknown>
+		? keyof T["states"] & string
+		: never;
+
+type RootStateKeys<T extends TAnatomy> = OwnStateKeys<T["root"]>;
+
+type ChildStateKeys<
+	T extends TAnatomy,
+	K extends string,
+> = T["root"]["children"] extends Record<K, TAnatomyChild>
+	? OwnStateKeys<T["root"]["children"][K]> | OwnStateKeys<T["root"]>
+	: never;
+
+type GrandchildStateKeys<
+	T extends TAnatomy,
+	K extends string,
+> = T["root"]["children"] extends Record<string, TAnatomyChild>
+	? {
+			[CK in keyof T["root"]["children"]]: T["root"]["children"][CK]["children"] extends Record<
+				K,
+				TAnatomyGrandchild
+			>
+				?
+						| OwnStateKeys<T["root"]["children"][CK]["children"][K]>
+						| OwnStateKeys<T["root"]["children"][CK]>
+						| OwnStateKeys<T["root"]>
+				: never;
+		}[keyof T["root"]["children"]]
+	: never;
+
+type StateKeysForPart<T extends TAnatomy, P extends string> = P extends "root"
+	? RootStateKeys<T>
+	: P extends ChildKeys<T>
+		? ChildStateKeys<T, P>
+		: P extends GrandchildKeys<T>
+			? GrandchildStateKeys<T, P>
+			: never;
+
+type StylesForAnatomy<T extends TAnatomy> = {
+	[P in AnatomyParts<T>]: TStyleBlock<StateKeysForPart<T, P> & string>;
+};
+
+//
+// Dimensions
+//
+
+export type TDimension<T extends TAnatomy = TAnatomy> = {
+	meta?: TMeta;
+	options: Record<string, Partial<StylesForAnatomy<T>> | Record<string, never>>;
+};
+
+export type TDimensions<T extends TAnatomy = TAnatomy> = Record<
+	string,
+	TDimension<T>
+>;
+
+//
+// Define
+//
 
 export function defineMeta<T extends TMeta>(meta: T): T {
 	return meta;
@@ -96,31 +179,22 @@ export function defineAnatomy<T extends TAnatomy>(anatomy: T): T {
 	return anatomy;
 }
 
-export function defineStates<K extends string, T extends TStates<K>>(
-	states: T,
-): T {
-	return states;
-}
-
-export function defineStyles<TAnat extends TAnatomy, TSt extends TStates>(
+export function defineStyles<TAnat extends TAnatomy>(
 	_anatomy: TAnat,
-	_states: TSt,
-	styles: Record<AnatomyParts<TAnat>, TStyleBlock<StateKeys<TSt>>>,
+	styles: StylesForAnatomy<TAnat>,
 ): typeof styles {
 	return styles;
 }
 
-export function defineDimensions<TAnat extends TAnatomy, TSt extends TStates>(
+export function defineDimensions<TAnat extends TAnatomy>(
 	_anatomy: TAnat,
-	_states: TSt,
 	dimensions: Record<
 		string,
 		{
 			meta?: TMeta;
 			options: Record<
 				string,
-				| Partial<Record<AnatomyParts<TAnat>, TStyleBlock<StateKeys<TSt>>>>
-				| Record<string, never>
+				Partial<StylesForAnatomy<TAnat>> | Record<string, never>
 			>;
 		}
 	>,
@@ -134,53 +208,24 @@ type DimensionKeysMap<
 	[K in keyof TDims]: (keyof TDims[K]["options"] & string)[];
 };
 
-type ExampleKeys<
-	TDims extends Record<string, { options: Record<string, unknown> }>,
-	TSt extends TStates,
-> = DimensionKeysMap<TDims> & {
-	activatableStates: ActivatableStateKeys<TSt>[];
+type TExamplesRecord<TDims extends Record<string, unknown>> = {
+	[K in (keyof TDims & string) | "states"]?: string[];
 };
 
 export function defineExamples<
 	TDims extends Record<string, { options: Record<string, unknown> }>,
-	TSt extends TStates,
+	TAnat extends TAnatomy,
 >(
 	dimensions: TDims,
-	states: TSt,
-	builder: (keys: ExampleKeys<TDims, TSt>, states: TSt) => string[][],
-): string[][] {
-	const keys = {} as ExampleKeys<TDims, TSt>;
-
+	anatomy: TAnat,
+	builder: (
+		keys: DimensionKeysMap<TDims>,
+		anatomy: TAnat,
+	) => TExamplesRecord<TDims>,
+): TExamplesRecord<TDims> {
+	const keys = {} as DimensionKeysMap<TDims>;
 	for (const [dimName, dim] of Object.entries(dimensions)) {
 		(keys as Record<string, string[]>)[dimName] = Object.keys(dim.options);
 	}
-
-	keys.activatableStates = Object.keys(states.options).filter(
-		(k) =>
-			"htmlAttrs" in
-			(states.options as Record<string, { htmlAttrs?: unknown }>)[k],
-	) as ActivatableStateKeys<TSt>[];
-
-	return builder(keys, states);
+	return builder(keys, anatomy);
 }
-
-// =============================================================================
-// Schema type (the shape of each component's `schema` export)
-// =============================================================================
-
-export type TSchema<
-	TParts extends string = string,
-	TStateKeys extends string = string,
-> = {
-	meta: TMeta;
-	anatomy: TAnatomy;
-	states: TStates<TStateKeys>;
-	styles: Record<TParts, TStyleBlock<TStateKeys>>;
-	dimensions: TDimensions<TParts, TStateKeys>;
-	examples: string[][];
-};
-
-export type TPartialSchema = {
-	partial: true;
-	raw: string;
-} & Partial<TSchema>;

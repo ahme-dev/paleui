@@ -52,7 +52,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: "bun run dev",
+    command: "pnpm run --filter site dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },

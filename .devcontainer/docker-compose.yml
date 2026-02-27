@@ -37,6 +37,8 @@ services:
     # internal only - dev container connects via service name
     expose:
       - "3000"
+    networks:
+      - paleui_net
 
 networks:
   paleui_net:

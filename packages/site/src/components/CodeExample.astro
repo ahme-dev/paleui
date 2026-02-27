@@ -64,10 +64,8 @@ const escapedCode = escapeHtml(formattedCode);
 <div class="code-example">
 	{
 		!codeOnly && (
-			<div class="preview-panel">
-				<div class:list={["max-width", className]} data-paleui>
-					<slot />
-				</div>
+			<div class="preview-panel max" data-paleui>
+				<slot />
 			</div>
 		)
 	}
@@ -102,11 +100,13 @@ const escapedCode = escapeHtml(formattedCode);
 
 	.preview-panel {
 		display: flex;
-		align-items: center;
+		flex-direction: column;
 		justify-content: center;
-		padding: 1rem;
+		gap: 2rem;
+		padding: 4rem 1rem;
+		max-width: 400px;
+		margin: 0 auto;
 		aspect-ratio: 9 / 5;
-		border-bottom: 1px solid var(--border);
 	}
 
 	.code-example:not(:has(.preview-panel)) .code-panel {
@@ -115,9 +115,10 @@ const escapedCode = escapeHtml(formattedCode);
 
 	.code-panel {
 		position: relative;
-		background: var(--color-muted);
+		background: var(--muted);
 		padding: 1rem;
 		max-height: 12rem;
+		border-top: 1px solid var(--border);
 		overflow: hidden;
 		transition: max-height 0.3s ease;
 	}
