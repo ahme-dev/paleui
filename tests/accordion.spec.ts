@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { schema } from "../packages/paleui/src/ui/accordion";
 import {
 	acc,
@@ -52,49 +52,47 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				});
 			}
 
-			test(
-				`${trigger.name} › ${trigger.states.hover.name}`,
-				async ({ page }) => {
-					const summary = page
-						.locator(pageAnatomy.header)
-						.locator(anatomy.root.selector)
-						.locator(item.selector)
-						.first()
-						.locator(trigger.selector);
+			test(`${trigger.name} › ${trigger.states.hover.name}`, async ({
+				page,
+			}) => {
+				const summary = page
+					.locator(pageAnatomy.header)
+					.locator(anatomy.root.selector)
+					.locator(item.selector)
+					.first()
+					.locator(trigger.selector);
 
-					await summary.hover();
+				await summary.hover();
 
-					await expectSnap(
-						schema,
-						summary,
-						trigger.name,
-						trigger.states.hover.name,
-						viewport,
-					);
-				},
-			);
+				await expectSnap(
+					schema,
+					summary,
+					trigger.name,
+					trigger.states.hover.name,
+					viewport,
+				);
+			});
 
-			test(
-				`${trigger.name} › ${trigger.states.focus.name}`,
-				async ({ page }) => {
-					const summary = page
-						.locator(pageAnatomy.header)
-						.locator(anatomy.root.selector)
-						.locator(item.selector)
-						.first()
-						.locator(trigger.selector);
+			test(`${trigger.name} › ${trigger.states.focus.name}`, async ({
+				page,
+			}) => {
+				const summary = page
+					.locator(pageAnatomy.header)
+					.locator(anatomy.root.selector)
+					.locator(item.selector)
+					.first()
+					.locator(trigger.selector);
 
-					await summary.focus();
+				await summary.focus();
 
-					await expectSnap(
-						schema,
-						summary,
-						trigger.name,
-						trigger.states.focus.name,
-						viewport,
-					);
-				},
-			);
+				await expectSnap(
+					schema,
+					summary,
+					trigger.name,
+					trigger.states.focus.name,
+					viewport,
+				);
+			});
 		});
 
 		test.describe("Dimensions", () => {
@@ -116,6 +114,11 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 		});
 
 		test.describe("Behavior", () => {
+			test.skip(
+				viewport !== "mobile",
+				"Behavior tested at mobile viewport only",
+			);
+
 			const { multi, single } = dimensions.mode.options;
 
 			test(`${item.name} toggles on click`, async ({ page }) => {
@@ -130,49 +133,46 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				await expect(closedItem).not.toHaveAttribute("open");
 			});
 
-			test(
-				`${modeTitle} › ${multi.name}: multiple items open simultaneously`,
-				async ({ page }) => {
-					const example = exLocator(page, modeKey, "multi");
-					const items = example.locator(item.selector);
+			test(`${modeTitle} › ${multi.name}: multiple items open simultaneously`, async ({
+				page,
+			}) => {
+				const example = exLocator(page, modeKey, "multi");
+				const items = example.locator(item.selector);
 
-					await items.nth(1).locator(trigger.selector).click();
-					await items.nth(2).locator(trigger.selector).click();
+				await items.nth(1).locator(trigger.selector).click();
+				await items.nth(2).locator(trigger.selector).click();
 
-					await expect(items.nth(0)).toHaveAttribute("open");
-					await expect(items.nth(1)).toHaveAttribute("open");
-					await expect(items.nth(2)).toHaveAttribute("open");
-				},
-			);
+				await expect(items.nth(0)).toHaveAttribute("open");
+				await expect(items.nth(1)).toHaveAttribute("open");
+				await expect(items.nth(2)).toHaveAttribute("open");
+			});
 
-			test(
-				`${modeTitle} › ${single.name}: opening one closes others`,
-				async ({ page }) => {
-					const example = exLocator(page, modeKey, "single");
-					const items = example.locator(item.selector);
+			test(`${modeTitle} › ${single.name}: opening one closes others`, async ({
+				page,
+			}) => {
+				const example = exLocator(page, modeKey, "single");
+				const items = example.locator(item.selector);
 
-					await expect(items.nth(0)).toHaveAttribute("open");
-					await items.nth(1).locator(trigger.selector).click();
+				await expect(items.nth(0)).toHaveAttribute("open");
+				await items.nth(1).locator(trigger.selector).click();
 
-					await expect(items.nth(0)).not.toHaveAttribute("open");
-					await expect(items.nth(1)).toHaveAttribute("open");
-				},
-			);
+				await expect(items.nth(0)).not.toHaveAttribute("open");
+				await expect(items.nth(1)).toHaveAttribute("open");
+			});
 
-			test(
-				`${item.name} › ${item.states.disabled.name}: not interactive`,
-				async ({ page }) => {
-					const disabledItem = exLocator(
-						page,
-						statesKey,
-						"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
-					).locator(
-						item.selector + attrsSelector(item.states.disabled.htmlAttrs),
-					);
+			test(`${item.name} › ${item.states.disabled.name}: not interactive`, async ({
+				page,
+			}) => {
+				const disabledItem = exLocator(
+					page,
+					statesKey,
+					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
+				).locator(
+					item.selector + attrsSelector(item.states.disabled.htmlAttrs),
+				);
 
-					await expect(disabledItem).toHaveCSS("pointer-events", "none");
-				},
-			);
+				await expect(disabledItem).toHaveCSS("pointer-events", "none");
+			});
 		});
 	});
 }
