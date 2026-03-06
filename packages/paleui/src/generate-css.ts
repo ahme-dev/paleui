@@ -104,7 +104,9 @@ function childWithRootStateSel(
 	return rootStateSel
 		.split(",")
 		.map((s) => s.trim())
-		.flatMap((rs) => raw.split(",").map((cs) => `&${rs}${combinator}${cs.trim()}`))
+		.flatMap((rs) =>
+			raw.split(",").map((cs) => `&${rs}${combinator}${cs.trim()}`),
+		)
 		.join(",\n");
 }
 
@@ -178,7 +180,10 @@ function renderChildBlock(
 			parts.push(block(childStateSel, joinCss(css)));
 		} else if (rootStates?.[stateKey]) {
 			siblings.push(
-				block(childWithRootStateSel(rootStates[stateKey].selector, childDef), joinCss(css)),
+				block(
+					childWithRootStateSel(rootStates[stateKey].selector, childDef),
+					joinCss(css),
+				),
 			);
 		}
 	}
@@ -299,7 +304,12 @@ function renderComponent(schema: TSchema, prefix: string): string {
 	for (const [childKey, childDef] of Object.entries(
 		anatomy.root.children ?? {},
 	)) {
-		const { main, siblings } = renderChildBlock(childKey, childDef, styles, anatomy.root.states);
+		const { main, siblings } = renderChildBlock(
+			childKey,
+			childDef,
+			styles,
+			anatomy.root.states,
+		);
 		if (main) body.push(main);
 		body.push(...siblings);
 	}

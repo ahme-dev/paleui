@@ -169,10 +169,7 @@ export type TDimension<T extends TAnatomy = TAnatomy> = {
 	meta: TDimensionMeta;
 	options: Record<
 		string,
-		{ name?: string } & (
-			| Partial<StylesForAnatomy<T>>
-			| Record<string, never>
-		)
+		{ name?: string } & (Partial<StylesForAnatomy<T>> | Record<string, never>)
 	>;
 };
 
@@ -194,16 +191,16 @@ type AllStateKeys<TAnat extends TAnatomy> =
 					[CK in keyof TAnat["root"]["children"] & string]:
 						| OwnStateKeys<TAnat["root"]["children"][CK]>
 						| (TAnat["root"]["children"][CK]["children"] extends Record<
-									string,
-									TAnatomyGrandchild
-							  >
-									? {
-											[GK in keyof TAnat["root"]["children"][CK]["children"] &
-												string]: OwnStateKeys<
-												TAnat["root"]["children"][CK]["children"][GK]
-											>;
-										}[keyof TAnat["root"]["children"][CK]["children"] & string]
-									: never);
+								string,
+								TAnatomyGrandchild
+						  >
+								? {
+										[GK in keyof TAnat["root"]["children"][CK]["children"] &
+											string]: OwnStateKeys<
+											TAnat["root"]["children"][CK]["children"][GK]
+										>;
+									}[keyof TAnat["root"]["children"][CK]["children"] & string]
+								: never);
 				}[keyof TAnat["root"]["children"] & string]
 			: never);
 
@@ -211,7 +208,9 @@ type TExamplesRecord<
 	TDims extends Record<string, unknown>,
 	TAnat extends TAnatomy = TAnatomy,
 > = {
-	[K in (keyof TDims & string) | typeof STATES_EXAMPLE_KEY]?: K extends typeof STATES_EXAMPLE_KEY
+	[K in
+		| (keyof TDims & string)
+		| typeof STATES_EXAMPLE_KEY]?: K extends typeof STATES_EXAMPLE_KEY
 		? Partial<Record<AllStateKeys<TAnat>, string>>
 		: Record<string, string>;
 };
