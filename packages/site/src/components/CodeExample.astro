@@ -183,25 +183,27 @@ const escapedCode = escapeHtml(formattedCode);
 
 <script>
 	// copy functionality
-	document.querySelectorAll<HTMLButtonElement>(".copy-btn[data-code]").forEach((btn) => {
-		btn.addEventListener("click", () => {
-			const code = btn.getAttribute("data-code") || "";
-			navigator.clipboard
-				.writeText(code)
-				.then(() => {
-					btn.textContent = "\u2714";
-					setTimeout(() => {
-						btn.textContent = "\u2398";
-					}, 2000);
-				})
-				.catch(() => {
-					btn.textContent = "\u2718";
-					setTimeout(() => {
-						btn.textContent = "\u2398";
-					}, 2000);
-				});
+	document
+		.querySelectorAll<HTMLButtonElement>(".copy-btn[data-code]")
+		.forEach((btn) => {
+			btn.addEventListener("click", () => {
+				const code = btn.getAttribute("data-code") || "";
+				navigator.clipboard
+					.writeText(code)
+					.then(() => {
+						btn.textContent = "\u2714";
+						setTimeout(() => {
+							btn.textContent = "\u2398";
+						}, 2000);
+					})
+					.catch(() => {
+						btn.textContent = "\u2718";
+						setTimeout(() => {
+							btn.textContent = "\u2398";
+						}, 2000);
+					});
+			});
 		});
-	});
 
 	// expand/collapse functionality
 	document.querySelectorAll<HTMLElement>("[data-expand]").forEach((btn) => {
@@ -214,7 +216,10 @@ const escapedCode = escapeHtml(formattedCode);
 
 			panel.setAttribute("data-state", newState ? "expanded" : "collapsed");
 			btn.setAttribute("aria-expanded", String(newState));
-			btn.setAttribute("aria-label", newState ? "Collapse code" : "Expand code");
+			btn.setAttribute(
+				"aria-label",
+				newState ? "Collapse code" : "Expand code",
+			);
 		});
 	});
 </script>

@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "astro dev --host",
 		"build": "astro build",
-		"preview": "pnpm build; astro preview --host"
+		"preview": "astro preview --host"
 	},
 	"dependencies": {
 		"astro": "^5.0.0",

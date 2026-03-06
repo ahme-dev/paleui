@@ -1,4 +1,4 @@
-export const DEMO = "[data-to-code]";
+import { expect, type Locator, type Page } from "@playwright/test";
 
 export const VIEWPORTS = {
 	mobile: { width: 375, height: 667 },
@@ -10,24 +10,6 @@ export const DEFAULT_TEST_PARAMS = {
 	test: "true",
 };
 
-/**
- * Build a URL with optional query parameters
-
- * @example
- * // Use default test params
- * buildUrl("/components/button.html")
- * // => "/components/button.html?test=true"
- *
- * @example
- * // Override with custom params
- * buildUrl("/components/button.html", { test: "true", theme: "dark" })
- * // => "/components/button.html?test=true&theme=dark"
- *
- * @example
- * // No params
- * buildUrl("/components/button.html", {})
- * // => "/components/button.html"
- */
 export function buildUrl(
 	path: string,
 	params: Record<string, string> = DEFAULT_TEST_PARAMS,
@@ -43,4 +25,46 @@ export function buildUrl(
 
 	const queryString = url.toString();
 	return queryString ? `${path}?${queryString}` : path;
+}
+
+export function toKebabCase(str: string | string[]) {
+	const converted = [] as string[];
+
+	for (const s of str) {
+		const parts = s.split(" ");
+		const partsConverted = parts.map((el) => el.toLowerCase()).join("-");
+		converted.push(partsConverted);
+	}
+
+	const convertedString = converted.join("-");
+	return convertedString;
+}
+
+export async function expectVisible(locator: Locator) {
+	await expect(locator).toBeVisible();
+}
+
+//
+// Selectors
+//
+
+export function exLocator(page: Page, exKey: string, variant: string) {
+	return page.locator(`[data-example="${exKey}"][data-variant="${variant}"]`);
+}
+
+export function acc(
+	page: Page,
+	exKey: string,
+	variant: string,
+	root: string,
+) {
+	return exLocator(page, exKey, variant).locator(root);
+}
+
+export function attrsSelector(
+	htmlAttrs: Record<string, string | boolean>,
+): string {
+	return Object.entries(htmlAttrs)
+		.map(([k, v]) => (v === true ? `[${k}]` : `[${k}="${v}"]`))
+		.join("");
 }

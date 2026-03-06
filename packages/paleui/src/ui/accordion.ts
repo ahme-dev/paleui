@@ -31,12 +31,14 @@ const meta = defineMeta({
 const anatomy = defineAnatomy({
 	root: {
 		selector: "[data-accordion]" as const,
+		name: "Wrapper",
 		description: [
 			`Wrapper element grouping one or more accordion items. Add <code>data-accordion</code> to a <code>&lt;div&gt;</code> to create the container.`,
 		],
 		children: {
 			item: {
 				selector: 'details[role="region"]' as const,
+				name: "Item",
 				description: [
 					`Each accordion item is a <code>&lt;details role="region"&gt;</code> element. The <code>role="region"</code> attribute is required for proper accordion styling and semantics.`,
 					`Add a shared <code>name</code> attribute across items to limit one open at a time.`,
@@ -45,12 +47,17 @@ const anatomy = defineAnatomy({
 				direct: true,
 				multitude: "multiple",
 				states: {
-					hover: { selector: ":hover" },
+					hover: {
+						name: "Hover",
+						selector: ":hover",
+					},
 					open: {
+						name: "Open",
 						selector: "[open]",
 						htmlAttrs: { open: true },
 					},
 					disabled: {
+						name: "Disabled",
 						selector: '[aria-disabled="true"]',
 						htmlAttrs: { "aria-disabled": "true" },
 					},
@@ -59,22 +66,31 @@ const anatomy = defineAnatomy({
 				children: {
 					summary: {
 						selector: "summary",
+						name: "Trigger",
 						description: ["Clickable trigger element"],
 						type: "element",
 						direct: true,
 						states: {
-							hover: { selector: ":hover" },
-							focus: { selector: ":focus-visible" },
+							hover: {
+								name: "Hover",
+								selector: ":hover",
+							},
+							focus: {
+								name: "Focus",
+								selector: ":focus-visible",
+							},
 						},
 					},
 					div: {
 						selector: "div",
+						name: "Content",
 						description: ["Collapsible content area"],
 						type: "element",
 						direct: true,
 					},
 					summaryChevron: {
 						selector: "summary::after",
+						name: "Chevron",
 						description: ["Chevron indicator showing open/closed state"],
 						type: "pseudo",
 						direct: true,
@@ -167,8 +183,9 @@ const dimensions = defineDimensions(anatomy, {
 			],
 		},
 		options: {
-			multi: {},
+			multi: { name: "Multi" },
 			single: {
+				name: "Single",
 				item: {
 					htmlAttrs: { name: "group" },
 				},
@@ -178,8 +195,8 @@ const dimensions = defineDimensions(anatomy, {
 });
 
 const examples = defineExamples(dimensions, anatomy, () => ({
-	mode: [
-		dedent(`
+	mode: {
+		multi: dedent(`
 			<div data-accordion>
 				<details role="region" open>
 					<summary>What is PaleUI?</summary>
@@ -195,7 +212,7 @@ const examples = defineExamples(dimensions, anatomy, () => ({
 				</details>
 			</div>
 		`),
-		dedent(`
+		single: dedent(`
 			<div data-accordion>
 				<details role="region" name="faq" open>
 					<summary>What is PaleUI?</summary>
@@ -211,9 +228,9 @@ const examples = defineExamples(dimensions, anatomy, () => ({
 				</details>
 			</div>
 		`),
-	],
-	states: [
-		dedent(`
+	},
+	states: {
+		open: dedent(`
 			<div data-accordion>
 				<details role="region" open>
 					<summary>Open</summary>
@@ -223,13 +240,21 @@ const examples = defineExamples(dimensions, anatomy, () => ({
 					<summary>Default</summary>
 					<div>This item is collapsed.</div>
 				</details>
+			</div>
+		`),
+		disabled: dedent(`
+			<div data-accordion>
 				<details role="region" aria-disabled="true">
 					<summary>Disabled</summary>
 					<div>This item cannot be toggled.</div>
 				</details>
+				<details role="region">
+					<summary>Default</summary>
+					<div>This item is collapsed.</div>
+				</details>
 			</div>
 		`),
-	],
+	},
 }));
 
 export const schema = {

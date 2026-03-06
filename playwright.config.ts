@@ -52,7 +52,9 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: "pnpm run --filter site dev",
+    command: process.env.CI
+      ? "pnpm run --filter site preview"
+      : "pnpm run --filter site dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },

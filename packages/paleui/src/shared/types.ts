@@ -160,15 +160,61 @@ type StylesForAnatomy<T extends TAnatomy> = {
 // Dimensions
 //
 
+export type TDimensionMeta = {
+	title: string;
+	description?: readonly string[];
+};
+
 export type TDimension<T extends TAnatomy = TAnatomy> = {
-	meta?: TMeta;
-	options: Record<string, Partial<StylesForAnatomy<T>> | Record<string, never>>;
+	meta: TDimensionMeta;
+	options: Record<
+		string,
+		{ name?: string } & (
+			| Partial<StylesForAnatomy<T>>
+			| Record<string, never>
+		)
+	>;
 };
 
 export type TDimensions<T extends TAnatomy = TAnatomy> = Record<
 	string,
 	TDimension<T>
 >;
+
+//
+// Examples
+//
+
+export const STATES_EXAMPLE_KEY = "states" as const;
+
+type AllStateKeys<TAnat extends TAnatomy> =
+	| OwnStateKeys<TAnat["root"]>
+	| (TAnat["root"]["children"] extends Record<string, TAnatomyChild>
+			? {
+					[CK in keyof TAnat["root"]["children"] & string]:
+						| OwnStateKeys<TAnat["root"]["children"][CK]>
+						| (TAnat["root"]["children"][CK]["children"] extends Record<
+									string,
+									TAnatomyGrandchild
+							  >
+									? {
+											[GK in keyof TAnat["root"]["children"][CK]["children"] &
+												string]: OwnStateKeys<
+												TAnat["root"]["children"][CK]["children"][GK]
+											>;
+										}[keyof TAnat["root"]["children"][CK]["children"] & string]
+									: never);
+				}[keyof TAnat["root"]["children"] & string]
+			: never);
+
+type TExamplesRecord<
+	TDims extends Record<string, unknown>,
+	TAnat extends TAnatomy = TAnatomy,
+> = {
+	[K in (keyof TDims & string) | typeof STATES_EXAMPLE_KEY]?: K extends typeof STATES_EXAMPLE_KEY
+		? Partial<Record<AllStateKeys<TAnat>, string>>
+		: Record<string, string>;
+};
 
 //
 // Define
@@ -194,10 +240,13 @@ export function defineDimensions<TAnat extends TAnatomy>(
 	dimensions: Record<
 		string,
 		{
-			meta?: TMeta;
+			meta: TDimensionMeta;
 			options: Record<
 				string,
-				Partial<StylesForAnatomy<TAnat>> | Record<string, never>
+				{ name?: string } & (
+					| Partial<StylesForAnatomy<TAnat>>
+					| Record<string, never>
+				)
 			>;
 		}
 	>,
@@ -211,10 +260,6 @@ type DimensionKeysMap<
 	[K in keyof TDims]: (keyof TDims[K]["options"] & string)[];
 };
 
-type TExamplesRecord<TDims extends Record<string, unknown>> = {
-	[K in (keyof TDims & string) | "states"]?: string[];
-};
-
 export function defineExamples<
 	TDims extends Record<string, { options: Record<string, unknown> }>,
 	TAnat extends TAnatomy,
@@ -224,8 +269,8 @@ export function defineExamples<
 	builder: (
 		keys: DimensionKeysMap<TDims>,
 		anatomy: TAnat,
-	) => TExamplesRecord<TDims>,
-): TExamplesRecord<TDims> {
+	) => TExamplesRecord<TDims, TAnat>,
+): TExamplesRecord<TDims, TAnat> {
 	const keys = {} as DimensionKeysMap<TDims>;
 	for (const [dimName, dim] of Object.entries(dimensions)) {
 		(keys as Record<string, string[]>)[dimName] = Object.keys(dim.options);

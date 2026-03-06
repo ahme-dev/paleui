@@ -83,25 +83,25 @@ function generateDocsFromSchema(mod: { schema: TSchema }) {
 
 	const { meta, dimensions, examples } = schema;
 
-	const headerRawHtml = examples[Object.keys(dimensions)[0]]?.[0] ?? "";
+	const firstDimExamples = examples[Object.keys(dimensions)[0]] ?? {};
+	const headerRawHtml = Object.values(firstDimExamples)[0] ?? "";
 
 	const sections = Object.entries(dimensions).map(([dimKey, dim]) => {
-		const optionNames = Object.keys(dim.options);
-		const wrappedExamples = (examples[dimKey] ?? []).map((html, i) => {
-			const variant = optionNames[i] ?? String(i);
-			return `<div data-example="${dimKey}" data-variant="${variant}">${html}</div>`;
-		});
+		const wrappedExamples = Object.entries(examples[dimKey] ?? {}).map(
+			([variant, html]) =>
+				`<div data-example="${dimKey}" data-variant="${variant}">${html}</div>`,
+		);
 		return {
-			title: dim.meta?.title || "Options",
-			description: dim.meta?.description,
+			title: dim.meta.title,
+			description: dim.meta.description,
 			examples: wrappedExamples,
 		};
 	});
 
-	if (examples["states"]?.length) {
-		const wrappedStates = examples["states"].map(
-			(html, i) =>
-				`<div data-example="states" data-variant="${i}">${html}</div>`,
+	if (examples["states"] && Object.keys(examples["states"]).length) {
+		const wrappedStates = Object.entries(examples["states"]).map(
+			([name, html]) =>
+				`<div data-example="states" data-variant="${name}">${html}</div>`,
 		);
 		sections.push({
 			title: "States",
