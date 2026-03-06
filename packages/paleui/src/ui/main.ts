@@ -1,5 +1,3 @@
-import type { TPartialSchema } from "../shared/types";
-
 const raw: { selector: string; css: string[] }[] = [
 	{
 		selector: ":root",
@@ -133,7 +131,7 @@ function renderRaw(entries: { selector: string; css: string[] }[]): string {
 		.join("\n\n");
 }
 
-export const schema: TPartialSchema = {
+export const schema = {
 	partial: true,
 	raw: renderRaw(raw),
 };

@@ -44,6 +44,20 @@ export async function expectVisible(locator: Locator) {
 	await expect(locator).toBeVisible();
 }
 
+export async function expectSnap(
+	schema: {
+		meta: {
+			title: string;
+		};
+	},
+	locator: Locator,
+	...parts: string[]
+) {
+	await expect(locator).toHaveScreenshot(
+		toKebabCase([schema.meta.title, ...parts]) + ".png",
+	);
+}
+
 //
 // Selectors
 //
@@ -52,12 +66,7 @@ export function exLocator(page: Page, exKey: string, variant: string) {
 	return page.locator(`[data-example="${exKey}"][data-variant="${variant}"]`);
 }
 
-export function acc(
-	page: Page,
-	exKey: string,
-	variant: string,
-	root: string,
-) {
+export function acc(page: Page, exKey: string, variant: string, root: string) {
 	return exLocator(page, exKey, variant).locator(root);
 }
 
