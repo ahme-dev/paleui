@@ -23,7 +23,7 @@ const { title, subtitle, codeOnly = false } = Astro.props;
 	<slot name="above" />
 </div>
 
-<CodeExample name="subsection" class="flex-col gap" codeOnly={codeOnly}>
+<CodeExample codeOnly={codeOnly}>
 	<slot />
 </CodeExample>
 

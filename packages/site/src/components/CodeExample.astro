@@ -1,11 +1,9 @@
 ---
 interface Props {
-	name: string;
-	class?: string;
 	codeOnly?: boolean;
 }
 
-const { class: className = "", codeOnly = false } = Astro.props;
+const { codeOnly = false } = Astro.props;
 const slotHtml = await Astro.slots.render("default");
 
 function formatHtml(html: string, indentSize: number = 2): string {

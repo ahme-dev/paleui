@@ -2,6 +2,7 @@
 // The generation script renders each entry and concatenates the results.
 
 import { schema as accordionSchema } from "./accordion";
+import { schema as buttonSchema } from "./button";
 import { schema as mainSchema } from "./main";
 
-export const schema = [mainSchema, accordionSchema];
+export const schema = [mainSchema, accordionSchema, buttonSchema];

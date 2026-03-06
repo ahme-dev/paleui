@@ -61,6 +61,18 @@ body {
 	gap: calc(var(--spacing) * 2);
 }
 
+.preview-panel [data-example]:has(button, [role="button"]) {
+	display: flex;
+	justify-content: center;
+	gap: calc(var(--spacing) * 2);
+}
+
+.preview-panel[data-header]:has(button, [role="button"]) {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+}
+
 [role="group"] {
 	display: flex;
 	flex-direction: row;

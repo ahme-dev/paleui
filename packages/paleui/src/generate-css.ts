@@ -88,6 +88,26 @@ function gcWithParentStateSel(
 		.join(",\n");
 }
 
+function childWithRootStateSel(
+	rootStateSel: string,
+	child: Pick<TAnatomyChild, "selector" | "direct">,
+): string {
+	const raw = child.selector ?? "";
+	if (!raw) return "";
+	if (raw.startsWith("::")) {
+		return rootStateSel
+			.split(",")
+			.map((s) => `&${s.trim()}${raw}`)
+			.join(",\n");
+	}
+	const combinator = child.direct ? " > " : " ";
+	return rootStateSel
+		.split(",")
+		.map((s) => s.trim())
+		.flatMap((rs) => raw.split(",").map((cs) => `&${rs}${combinator}${cs.trim()}`))
+		.join(",\n");
+}
+
 //
 // Render
 //
@@ -139,11 +159,13 @@ function renderChildBlock(
 	childKey: string,
 	childDef: TAnatomyChild,
 	styles: Record<string, Partial<TStyleBlock>>,
-): string | null {
-	if (!childDef.selector) return null;
+	rootStates?: Record<string, { selector: string }>,
+): { main: string | null; siblings: string[] } {
+	if (!childDef.selector) return { main: null, siblings: [] };
 
 	const childStyle = styles[childKey];
 	const parts: string[] = [];
+	const siblings: string[] = [];
 
 	if (childStyle?.base?.length) {
 		parts.push(joinCss(childStyle.base));
@@ -151,25 +173,32 @@ function renderChildBlock(
 
 	for (const [stateKey, css] of Object.entries(childStyle?.states ?? {})) {
 		if (!css?.length) continue;
-		const sel = resolvePartState(childDef.states, stateKey);
-		if (sel) parts.push(block(sel, joinCss(css)));
+		const childStateSel = resolvePartState(childDef.states, stateKey);
+		if (childStateSel) {
+			parts.push(block(childStateSel, joinCss(css)));
+		} else if (rootStates?.[stateKey]) {
+			siblings.push(
+				block(childWithRootStateSel(rootStates[stateKey].selector, childDef), joinCss(css)),
+			);
+		}
 	}
 
 	parts.push(...renderSelectorBlocks(childStyle?.selectors));
 
 	for (const [gcKey, gcDef] of Object.entries(childDef.children ?? {})) {
 		if (!gcDef.selector) continue;
-		const { main, siblings } = renderGrandchildParts(
+		const { main, siblings: gcSiblings } = renderGrandchildParts(
 			gcDef,
 			styles[gcKey],
 			childDef.states,
 		);
 		if (main) parts.push(main);
-		parts.push(...siblings);
+		siblings.push(...gcSiblings);
 	}
 
-	if (!parts.length) return null;
-	return block(childPartSel(childDef), parts.join("\n"));
+	const sel = childPartSel(childDef);
+	const main = parts.length ? block(sel, parts.join("\n")) : null;
+	return { main, siblings };
 }
 
 function renderDimensionOption(
@@ -270,8 +299,9 @@ function renderComponent(schema: TSchema, prefix: string): string {
 	for (const [childKey, childDef] of Object.entries(
 		anatomy.root.children ?? {},
 	)) {
-		const cb = renderChildBlock(childKey, childDef, styles);
-		if (cb) body.push(cb);
+		const { main, siblings } = renderChildBlock(childKey, childDef, styles, anatomy.root.states);
+		if (main) body.push(main);
+		body.push(...siblings);
 	}
 
 	return `${selectorStr} {\n${body.join("\n")}\n}`;
