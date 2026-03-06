@@ -31,6 +31,9 @@
 			"suspicious": {
 				"noDuplicateProperties": "info",
 				"noExplicitAny": "info"
+			},
+			"style": {
+				"useTemplate": "off"
 			}
 		}
 	},

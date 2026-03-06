@@ -48,6 +48,7 @@ export type TSchema = {
 
 export type TAnatomyGrandchild = {
 	selector?: string;
+	name: string;
 	description: readonly string[];
 	type: "pseudo" | "element" | "text";
 	direct?: boolean;
@@ -60,6 +61,7 @@ export type TAnatomyGrandchild = {
 
 export type TAnatomyChild<GC extends string = string> = {
 	selector?: string;
+	name: string;
 	description: readonly string[];
 	type: "pseudo" | "element" | "text";
 	direct?: boolean;
@@ -73,6 +75,7 @@ export type TAnatomyChild<GC extends string = string> = {
 
 export type TAnatomyRoot<C extends string = string> = {
 	selector: Selector;
+	name: string;
 	description: readonly string[];
 	multitude?: "single" | "multiple";
 	states?: Record<string, TStateOption>;
