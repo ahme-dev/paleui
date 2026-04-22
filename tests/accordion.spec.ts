@@ -30,13 +30,13 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 		test.describe("Anatomy", () => {
 			test(root.name, async ({ page }) => {
-				const wrapper = page
-					.locator(pageAnatomy.header)
-					.locator(root.selector);
+				const wrapper = page.locator(pageAnatomy.header).locator(root.selector);
 				await expectSnap(schema, wrapper, root.name, viewport);
 			});
 
-			test(`${trigger.name} › ${trigger.states.hover.name}`, async ({ page }) => {
+			test(`${trigger.name} › ${trigger.states.hover.name}`, async ({
+				page,
+			}) => {
 				const summary = page
 					.locator(pageAnatomy.header)
 					.locator(root.selector)
@@ -44,10 +44,18 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					.first()
 					.locator(trigger.selector);
 				await summary.hover();
-				await expectSnap(schema, summary, trigger.name, trigger.states.hover.name, viewport);
+				await expectSnap(
+					schema,
+					summary,
+					trigger.name,
+					trigger.states.hover.name,
+					viewport,
+				);
 			});
 
-			test(`${trigger.name} › ${trigger.states.focus.name}`, async ({ page }) => {
+			test(`${trigger.name} › ${trigger.states.focus.name}`, async ({
+				page,
+			}) => {
 				const summary = page
 					.locator(pageAnatomy.header)
 					.locator(root.selector)
@@ -55,7 +63,13 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					.first()
 					.locator(trigger.selector);
 				await summary.focus();
-				await expectSnap(schema, summary, trigger.name, trigger.states.focus.name, viewport);
+				await expectSnap(
+					schema,
+					summary,
+					trigger.name,
+					trigger.states.focus.name,
+					viewport,
+				);
 			});
 
 			test(`${item.name} › ${item.states.open.name}`, async ({ page }) => {
@@ -63,8 +77,16 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					page,
 					statesKey,
 					"open" satisfies keyof NonNullable<typeof schema.examples.states>,
-				).locator(item.selector + attrsSelector(item.states.open.htmlAttrs ?? {}));
-				await expectSnap(schema, stateItem, item.name, item.states.open.name, viewport);
+				).locator(
+					item.selector + attrsSelector(item.states.open.htmlAttrs ?? {}),
+				);
+				await expectSnap(
+					schema,
+					stateItem,
+					item.name,
+					item.states.open.name,
+					viewport,
+				);
 			});
 
 			test(`${item.name} › ${item.states.disabled.name}`, async ({ page }) => {
@@ -72,8 +94,16 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					page,
 					statesKey,
 					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
-				).locator(item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}));
-				await expectSnap(schema, stateItem, item.name, item.states.disabled.name, viewport);
+				).locator(
+					item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}),
+				);
+				await expectSnap(
+					schema,
+					stateItem,
+					item.name,
+					item.states.disabled.name,
+					viewport,
+				);
 			});
 		});
 
@@ -84,10 +114,19 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				single: dimensions.mode.options.single.name ?? "single",
 			};
 
-			for (const [key, label] of Object.entries(modeCases) as [keyof typeof dimensions.mode.options, string][]) {
+			for (const [key, label] of Object.entries(modeCases) as [
+				keyof typeof dimensions.mode.options,
+				string,
+			][]) {
 				test(label, async ({ page }) => {
 					const wrapper = acc(page, "mode", key, root.selector);
-					await expectSnap(schema, wrapper, dimensions.mode.meta.title, label, viewport);
+					await expectSnap(
+						schema,
+						wrapper,
+						dimensions.mode.meta.title,
+						label,
+						viewport,
+					);
 				});
 
 				test(`${label} › ${trigger.states.hover.name}`, async ({ page }) => {
@@ -96,7 +135,14 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 						.first()
 						.locator(trigger.selector);
 					await summary.hover();
-					await expectSnap(schema, summary, dimensions.mode.meta.title, label, trigger.states.hover.name, viewport);
+					await expectSnap(
+						schema,
+						summary,
+						dimensions.mode.meta.title,
+						label,
+						trigger.states.hover.name,
+						viewport,
+					);
 				});
 
 				test(`${label} › ${trigger.states.focus.name}`, async ({ page }) => {
@@ -105,13 +151,22 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 						.first()
 						.locator(trigger.selector);
 					await summary.focus();
-					await expectSnap(schema, summary, dimensions.mode.meta.title, label, trigger.states.focus.name, viewport);
+					await expectSnap(
+						schema,
+						summary,
+						dimensions.mode.meta.title,
+						label,
+						trigger.states.focus.name,
+						viewport,
+					);
 				});
 			}
 		});
 
 		test.describe("Behavior", () => {
-			const [firstModeKey] = Object.keys(dimensions.mode.options) as [keyof typeof dimensions.mode.options];
+			const [firstModeKey] = Object.keys(dimensions.mode.options) as [
+				keyof typeof dimensions.mode.options,
+			];
 
 			test(`${item.name} toggles on click`, async ({ page }) => {
 				const example = exLocator(page, "mode", firstModeKey);
@@ -167,7 +222,9 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					page,
 					statesKey,
 					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
-				).locator(item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}));
+				).locator(
+					item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}),
+				);
 
 				await expect(disabledItem).toHaveCSS("pointer-events", "none");
 			});

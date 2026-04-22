@@ -29,7 +29,14 @@ export function buildUrl(
 
 export function toKebabCase(str: string | string[]) {
 	const parts = Array.isArray(str) ? str : [str];
-	return parts.map((s) => s.split(" ").map((el) => el.toLowerCase()).join("-")).join("-");
+	return parts
+		.map((s) =>
+			s
+				.split(" ")
+				.map((el) => el.toLowerCase())
+				.join("-"),
+		)
+		.join("-");
 }
 
 export async function expectVisible(locator: Locator) {

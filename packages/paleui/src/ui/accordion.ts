@@ -195,7 +195,7 @@ const dimensions = defineDimensions(anatomy, {
 });
 
 const examples = defineExamples(dimensions, anatomy, (_keys) => {
-	const mode: Record<typeof _keys.mode[number], string> = {
+	const mode: Record<(typeof _keys.mode)[number], string> = {
 		multi: dedent(`
 			<div data-accordion>
 				<details role="region" open>

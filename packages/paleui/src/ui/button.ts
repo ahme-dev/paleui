@@ -318,7 +318,7 @@ const dimensions = defineDimensions(anatomy, {
 });
 
 const examples = defineExamples(dimensions, anatomy, (_keys) => {
-	const variant: Record<typeof _keys.variant[number], string> = {
+	const variant: Record<(typeof _keys.variant)[number], string> = {
 		default: dedent(`
 			<button>
 				${icons.star}
@@ -348,7 +348,7 @@ const examples = defineExamples(dimensions, anatomy, (_keys) => {
 		`),
 	};
 
-	const size: Record<typeof _keys.size[number], string> = {
+	const size: Record<(typeof _keys.size)[number], string> = {
 		xs: dedent(`
 			<button class="xs">Extra Small</button>
 		`),
@@ -369,13 +369,13 @@ const examples = defineExamples(dimensions, anatomy, (_keys) => {
 		`),
 	};
 
-	const icon: Record<typeof _keys.icon[number], string> = {
+	const icon: Record<(typeof _keys.icon)[number], string> = {
 		icon: dedent(`
 			<button class="outline icon" aria-label="Icon button">${icons.star}</button>
 		`),
 	};
 
-	const round: Record<typeof _keys.round[number], string> = {
+	const round: Record<(typeof _keys.round)[number], string> = {
 		round: dedent(`
 			<button class="icon round" aria-label="Round icon button">
 				${icons.mark}
