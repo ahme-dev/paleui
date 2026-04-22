@@ -198,7 +198,7 @@ function renderChildBlock(
 			childDef.states,
 		);
 		if (main) parts.push(main);
-		siblings.push(...gcSiblings);
+		parts.push(...gcSiblings);
 	}
 
 	const sel = childPartSel(childDef);

@@ -317,8 +317,8 @@ const dimensions = defineDimensions(anatomy, {
 	},
 });
 
-const examples = defineExamples(dimensions, anatomy, () => ({
-	variant: {
+const examples = defineExamples(dimensions, anatomy, (_keys) => {
+	const variant: Record<typeof _keys.variant[number], string> = {
 		default: dedent(`
 			<button>
 				${icons.star}
@@ -346,8 +346,9 @@ const examples = defineExamples(dimensions, anatomy, () => ({
 		link: dedent(`
 			<a role="button" href="#" class="link">Link</a>
 		`),
-	},
-	size: {
+	};
+
+	const size: Record<typeof _keys.size[number], string> = {
 		xs: dedent(`
 			<button class="xs">Extra Small</button>
 		`),
@@ -366,31 +367,37 @@ const examples = defineExamples(dimensions, anatomy, () => ({
 				Large
 			</button>
 		`),
-	},
-	icon: {
+	};
+
+	const icon: Record<typeof _keys.icon[number], string> = {
 		icon: dedent(`
-			<button class="outline xs icon" aria-label="XS icon button">${icons.star}</button>
-			<button class="outline sm icon" aria-label="SM icon button">${icons.star}</button>
 			<button class="outline icon" aria-label="Icon button">${icons.star}</button>
-			<button class="outline lg icon" aria-label="LG icon button">${icons.star}</button>
 		`),
-	},
-	round: {
+	};
+
+	const round: Record<typeof _keys.round[number], string> = {
 		round: dedent(`
 			<button class="icon round" aria-label="Round icon button">
 				${icons.mark}
 			</button>
 		`),
-	},
-	states: {
-		disabled: dedent(`
-			<button disabled class="outline">Disabled</button>
-		`),
-		busy: dedent(`
-			<button aria-busy="true" class="secondary">Loading</button>
-		`),
-	},
-}));
+	};
+
+	return {
+		variant,
+		size,
+		icon,
+		round,
+		states: {
+			disabled: dedent(`
+				<button disabled class="outline">Disabled</button>
+			`),
+			busy: dedent(`
+				<button aria-busy="true" class="secondary">Loading</button>
+			`),
+		},
+	};
+});
 
 export const schema = {
 	meta,

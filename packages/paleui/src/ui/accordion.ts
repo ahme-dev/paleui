@@ -194,8 +194,8 @@ const dimensions = defineDimensions(anatomy, {
 	},
 });
 
-const examples = defineExamples(dimensions, anatomy, () => ({
-	mode: {
+const examples = defineExamples(dimensions, anatomy, (_keys) => {
+	const mode: Record<typeof _keys.mode[number], string> = {
 		multi: dedent(`
 			<div data-accordion>
 				<details role="region" open>
@@ -228,34 +228,38 @@ const examples = defineExamples(dimensions, anatomy, () => ({
 				</details>
 			</div>
 		`),
-	},
-	states: {
-		open: dedent(`
-			<div data-accordion>
-				<details role="region" open>
-					<summary>Open</summary>
-					<div>This item is currently expanded and showing its content.</div>
-				</details>
-				<details role="region">
-					<summary>Default</summary>
-					<div>This item is collapsed.</div>
-				</details>
-			</div>
-		`),
-		disabled: dedent(`
-			<div data-accordion>
-				<details role="region" aria-disabled="true">
-					<summary>Disabled</summary>
-					<div>This item cannot be toggled.</div>
-				</details>
-				<details role="region">
-					<summary>Default</summary>
-					<div>This item is collapsed.</div>
-				</details>
-			</div>
-		`),
-	},
-}));
+	};
+
+	return {
+		mode,
+		states: {
+			open: dedent(`
+				<div data-accordion>
+					<details role="region" open>
+						<summary>Open</summary>
+						<div>This item is currently expanded and showing its content.</div>
+					</details>
+					<details role="region">
+						<summary>Default</summary>
+						<div>This item is collapsed.</div>
+					</details>
+				</div>
+			`),
+			disabled: dedent(`
+				<div data-accordion>
+					<details role="region" aria-disabled="true">
+						<summary>Disabled</summary>
+						<div>This item cannot be toggled.</div>
+					</details>
+					<details role="region">
+						<summary>Default</summary>
+						<div>This item is collapsed.</div>
+					</details>
+				</div>
+			`),
+		},
+	};
+});
 
 export const schema = {
 	meta,

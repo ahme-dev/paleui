@@ -14,6 +14,7 @@ export type TMeta = {
 export type TCSS = readonly string[];
 
 export type TStateOption = {
+	name: string;
 	selector: string;
 	htmlAttrs?: Record<string, string | boolean>;
 };
@@ -39,7 +40,7 @@ export type TSchema = {
 	anatomy: TAnatomy;
 	styles: Record<string, TStyleBlock>;
 	dimensions: TDimensions;
-	examples: Partial<Record<string, string[]>>;
+	examples: Partial<Record<string, Record<string, string>>>;
 };
 
 //
