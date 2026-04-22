@@ -10,12 +10,10 @@ import {
 } from "./test-utils";
 
 const { anatomy, dimensions } = schema;
-const item = anatomy.root.children.item;
+const root = anatomy.root;
+const item = root.children.item;
 const trigger = item.children.summary;
 
-const [modeKey] = Object.keys(dimensions);
-const [firstOptionKey] = Object.keys(dimensions.mode.options);
-const modeTitle = dimensions.mode.meta.title;
 const statesKey = "states" satisfies keyof typeof schema.examples;
 
 const pageAnatomy = {
@@ -31,98 +29,92 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 		});
 
 		test.describe("Anatomy", () => {
-			test(anatomy.root.name, async ({ page }) => {
+			test(root.name, async ({ page }) => {
 				const wrapper = page
 					.locator(pageAnatomy.header)
-					.locator(anatomy.root.selector);
-
-				await expectSnap(schema, wrapper, anatomy.root.name, viewport);
+					.locator(root.selector);
+				await expectSnap(schema, wrapper, root.name, viewport);
 			});
 
-			for (const [stateKey] of Object.entries(schema.examples.states ?? {})) {
-				const state = item.states[stateKey as keyof typeof item.states];
-				if (!("htmlAttrs" in state)) continue;
-				const { htmlAttrs } = state;
-				test(`${item.name} › ${state.name}`, async ({ page }) => {
-					const stateItem = exLocator(page, statesKey, stateKey).locator(
-						item.selector + attrsSelector(htmlAttrs),
-					);
-
-					await expectSnap(schema, stateItem, item.name, state.name, viewport);
-				});
-			}
-
-			test(`${trigger.name} › ${trigger.states.hover.name}`, async ({
-				page,
-			}) => {
+			test(`${trigger.name} › ${trigger.states.hover.name}`, async ({ page }) => {
 				const summary = page
 					.locator(pageAnatomy.header)
-					.locator(anatomy.root.selector)
+					.locator(root.selector)
 					.locator(item.selector)
 					.first()
 					.locator(trigger.selector);
-
 				await summary.hover();
-
-				await expectSnap(
-					schema,
-					summary,
-					trigger.name,
-					trigger.states.hover.name,
-					viewport,
-				);
+				await expectSnap(schema, summary, trigger.name, trigger.states.hover.name, viewport);
 			});
 
-			test(`${trigger.name} › ${trigger.states.focus.name}`, async ({
-				page,
-			}) => {
+			test(`${trigger.name} › ${trigger.states.focus.name}`, async ({ page }) => {
 				const summary = page
 					.locator(pageAnatomy.header)
-					.locator(anatomy.root.selector)
+					.locator(root.selector)
 					.locator(item.selector)
 					.first()
 					.locator(trigger.selector);
-
 				await summary.focus();
+				await expectSnap(schema, summary, trigger.name, trigger.states.focus.name, viewport);
+			});
 
-				await expectSnap(
-					schema,
-					summary,
-					trigger.name,
-					trigger.states.focus.name,
-					viewport,
-				);
+			test(`${item.name} › ${item.states.open.name}`, async ({ page }) => {
+				const stateItem = exLocator(
+					page,
+					statesKey,
+					"open" satisfies keyof NonNullable<typeof schema.examples.states>,
+				).locator(item.selector + attrsSelector(item.states.open.htmlAttrs ?? {}));
+				await expectSnap(schema, stateItem, item.name, item.states.open.name, viewport);
+			});
+
+			test(`${item.name} › ${item.states.disabled.name}`, async ({ page }) => {
+				const stateItem = exLocator(
+					page,
+					statesKey,
+					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
+				).locator(item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}));
+				await expectSnap(schema, stateItem, item.name, item.states.disabled.name, viewport);
 			});
 		});
 
 		test.describe("Dimensions", () => {
-			for (const [optionKey, option] of Object.entries(
-				dimensions.mode.options,
-			)) {
-				test(`${modeTitle}: ${option.name}`, async ({ page }) => {
-					const wrapper = acc(page, modeKey, optionKey, anatomy.root.selector);
+			// Record keyed on every option — TypeScript errors if an option is added or removed
+			const modeCases: Record<keyof typeof dimensions.mode.options, string> = {
+				multi: dimensions.mode.options.multi.name ?? "multi",
+				single: dimensions.mode.options.single.name ?? "single",
+			};
 
-					await expectSnap(
-						schema,
-						wrapper,
-						modeTitle,
-						option.name ?? optionKey,
-						viewport,
-					);
+			for (const [key, label] of Object.entries(modeCases) as [keyof typeof dimensions.mode.options, string][]) {
+				test(label, async ({ page }) => {
+					const wrapper = acc(page, "mode", key, root.selector);
+					await expectSnap(schema, wrapper, dimensions.mode.meta.title, label, viewport);
+				});
+
+				test(`${label} › ${trigger.states.hover.name}`, async ({ page }) => {
+					const summary = acc(page, "mode", key, root.selector)
+						.locator(item.selector)
+						.first()
+						.locator(trigger.selector);
+					await summary.hover();
+					await expectSnap(schema, summary, dimensions.mode.meta.title, label, trigger.states.hover.name, viewport);
+				});
+
+				test(`${label} › ${trigger.states.focus.name}`, async ({ page }) => {
+					const summary = acc(page, "mode", key, root.selector)
+						.locator(item.selector)
+						.first()
+						.locator(trigger.selector);
+					await summary.focus();
+					await expectSnap(schema, summary, dimensions.mode.meta.title, label, trigger.states.focus.name, viewport);
 				});
 			}
 		});
 
 		test.describe("Behavior", () => {
-			test.skip(
-				viewport !== "mobile",
-				"Behavior tested at mobile viewport only",
-			);
-
-			const { multi, single } = dimensions.mode.options;
+			const [firstModeKey] = Object.keys(dimensions.mode.options) as [keyof typeof dimensions.mode.options];
 
 			test(`${item.name} toggles on click`, async ({ page }) => {
-				const example = exLocator(page, modeKey, firstOptionKey);
+				const example = exLocator(page, "mode", firstModeKey);
 				const closedItem = example.locator(item.selector).nth(1);
 				const closedSummary = closedItem.locator(trigger.selector);
 
@@ -133,10 +125,14 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				await expect(closedItem).not.toHaveAttribute("open");
 			});
 
-			test(`${modeTitle} › ${multi.name}: multiple items open simultaneously`, async ({
+			test(`${dimensions.mode.meta.title} › ${dimensions.mode.options.multi.name}: multiple items open simultaneously`, async ({
 				page,
 			}) => {
-				const example = exLocator(page, modeKey, "multi");
+				const example = exLocator(
+					page,
+					"mode",
+					"multi" satisfies keyof typeof dimensions.mode.options,
+				);
 				const items = example.locator(item.selector);
 
 				await items.nth(1).locator(trigger.selector).click();
@@ -147,10 +143,14 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				await expect(items.nth(2)).toHaveAttribute("open");
 			});
 
-			test(`${modeTitle} › ${single.name}: opening one closes others`, async ({
+			test(`${dimensions.mode.meta.title} › ${dimensions.mode.options.single.name}: opening one closes others`, async ({
 				page,
 			}) => {
-				const example = exLocator(page, modeKey, "single");
+				const example = exLocator(
+					page,
+					"mode",
+					"single" satisfies keyof typeof dimensions.mode.options,
+				);
 				const items = example.locator(item.selector);
 
 				await expect(items.nth(0)).toHaveAttribute("open");
@@ -167,9 +167,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					page,
 					statesKey,
 					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
-				).locator(
-					item.selector + attrsSelector(item.states.disabled.htmlAttrs),
-				);
+				).locator(item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}));
 
 				await expect(disabledItem).toHaveCSS("pointer-events", "none");
 			});

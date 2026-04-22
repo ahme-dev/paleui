@@ -28,16 +28,8 @@ export function buildUrl(
 }
 
 export function toKebabCase(str: string | string[]) {
-	const converted = [] as string[];
-
-	for (const s of str) {
-		const parts = s.split(" ");
-		const partsConverted = parts.map((el) => el.toLowerCase()).join("-");
-		converted.push(partsConverted);
-	}
-
-	const convertedString = converted.join("-");
-	return convertedString;
+	const parts = Array.isArray(str) ? str : [str];
+	return parts.map((s) => s.split(" ").map((el) => el.toLowerCase()).join("-")).join("-");
 }
 
 export async function expectVisible(locator: Locator) {
@@ -53,6 +45,7 @@ export async function expectSnap(
 	locator: Locator,
 	...parts: string[]
 ) {
+	await locator.scrollIntoViewIfNeeded();
 	await expect(locator).toHaveScreenshot(
 		toKebabCase([schema.meta.title, ...parts]) + ".png",
 	);
