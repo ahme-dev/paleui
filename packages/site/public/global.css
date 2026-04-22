@@ -20,7 +20,7 @@ body {
 }
 
 @media (max-width: 768px) {
-	body:has(.sidebar-toggle:checked) {
+	body:has(#sidebar-toggle:checked) {
 		overflow: hidden;
 	}
 }

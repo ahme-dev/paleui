@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import type { TAnatomy, TSchema } from "../packages/paleui/src/shared/types";
+import { STATES_EXAMPLE_KEY } from "../packages/paleui/src/shared/types";
 
 const red = (s: string) => `\x1b[41m ${s} \x1b[0m`;
 
@@ -20,11 +21,26 @@ const WATCH_MODE = process.argv.includes("--watch");
 
 const lastGenerated = new Map<string, number>();
 
+function describeChild(
+	selector: string | undefined,
+	type: string,
+	description: readonly string[],
+	optional: boolean,
+): string {
+	const opt = optional ? " (optional)" : "";
+	const desc = description.join(" ");
+	if (selector && type !== "text") {
+		const safeSel = selector.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		return `<code>${safeSel}</code> — ${desc}${opt}.`;
+	}
+	return `${desc}${opt}.`;
+}
+
 function generateAnatomyDescription(anatomy: TAnatomy): string[] {
 	const descriptions: string[] = [];
 	const root = anatomy.root;
 
-	if (root.description) {
+	if (root.description?.length) {
 		descriptions.push(...root.description);
 	} else {
 		const sel =
@@ -35,23 +51,20 @@ function generateAnatomyDescription(anatomy: TAnatomy): string[] {
 	if (!root.children) return descriptions;
 
 	for (const child of Object.values(root.children)) {
-		if (child.type !== "pseudo" && child.type !== "text") {
-			if (child.description?.length) {
-				descriptions.push(...child.description);
-			}
+		if (child.description?.length) {
+			descriptions.push(
+				describeChild(child.selector, child.type, child.description, child.optional ?? false),
+			);
 		}
 
 		if (!child.children) continue;
 
 		for (const gc of Object.values(child.children)) {
-			if (gc.type === "pseudo" || gc.type === "text") continue;
-			const gcSel = (gc.selector ?? "")
-				.replace(/</g, "&lt;")
-				.replace(/>/g, "&gt;");
-			const opt = gc.optional ? " (optional)" : "";
-			descriptions.push(
-				`<code>${gcSel}</code> — ${gc.description.join(" ")}${opt}.`,
-			);
+			if (gc.description?.length) {
+				descriptions.push(
+					describeChild(gc.selector, gc.type, gc.description, gc.optional ?? false),
+				);
+			}
 		}
 	}
 
@@ -77,14 +90,13 @@ function generateStructureSection(schema: TSchema): string {
 
 function generateDocsFromSchema(mod: { schema: TSchema }) {
 	const { schema } = mod;
-	if (!schema?.meta || !schema?.examples || !schema?.dimensions) {
+	if (!schema?.meta || !schema?.anatomy || !schema?.examples || !schema?.dimensions) {
 		return null;
 	}
 
-	const { meta, dimensions, examples } = schema;
+	const { meta, anatomy, dimensions, examples } = schema;
 
-	const firstDimExamples = examples[Object.keys(dimensions)[0]] ?? {};
-	const headerRawHtml = Object.values(firstDimExamples)[0] ?? "";
+	const headerRawHtml = anatomy.root.example ?? "";
 
 	const sections = Object.entries(dimensions).map(([dimKey, dim]) => {
 		const wrappedExamples = Object.entries(examples[dimKey] ?? {}).map(
@@ -94,19 +106,19 @@ function generateDocsFromSchema(mod: { schema: TSchema }) {
 		return {
 			title: dim.meta.title,
 			description: dim.meta.description,
-			examples: wrappedExamples,
+			examples: [`<div data-dimension="${dimKey}">${wrappedExamples.join("")}</div>`],
 		};
 	});
 
-	if (examples["states"] && Object.keys(examples["states"]).length) {
-		const wrappedStates = Object.entries(examples["states"]).map(
+	if (examples[STATES_EXAMPLE_KEY] && Object.keys(examples[STATES_EXAMPLE_KEY]).length) {
+		const wrappedStates = Object.entries(examples[STATES_EXAMPLE_KEY]).map(
 			([name, html]) =>
-				`<div data-example="states" data-variant="${name}">${html}</div>`,
+				`<div data-example="${STATES_EXAMPLE_KEY}" data-variant="${name}">${html}</div>`,
 		);
 		sections.push({
 			title: "States",
 			description: [`Similar to all components, the ${meta.title?.toLowerCase()} and its parts can be in certain states.`],
-			examples: wrappedStates,
+			examples: [`<div data-dimension="${STATES_EXAMPLE_KEY}">${wrappedStates.join("")}</div>`],
 		});
 	}
 

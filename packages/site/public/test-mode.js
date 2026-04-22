@@ -22,10 +22,12 @@ if (isTestMode) {
 	const header = document.querySelector("header");
 	const footer = document.querySelector("footer");
 	const mainAside = document.querySelector("main > aside");
+	const sidebarAside = document.querySelector("aside");
 
 	if (header) header.remove();
 	if (footer) footer.remove();
 	if (mainAside) mainAside.remove();
+	if (sidebarAside) sidebarAside.remove();
 
 	const mainSection = document.querySelector("main > section");
 	if (mainSection) {
