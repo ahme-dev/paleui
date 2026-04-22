@@ -21,7 +21,10 @@
       }
     }
   },
-  "forwardPorts": [4321, 9323],
+  "forwardPorts": [
+    4321,
+    9323
+  ],
   "postCreateCommand": "pnpm install",
   "remoteUser": "dc"
 }
