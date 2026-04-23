@@ -22,10 +22,16 @@ npm install paleui
 Then import the styles you need. You can import everything at once or only specific components:
 
 ```css
-@import "paleui/lib/all.css";       /* Everything */
+@import "paleui/lib/all.css";       /* Base styles + every component */
 
+/* Modular imports */
+@import "paleui/lib/main.css";      /* Tokens, dark mode, shared animations */
+@import "paleui/lib/accordion.css"; /* Accordions */
+@import "paleui/lib/alert.css";     /* Alerts */
+@import "paleui/lib/badge.css";     /* Badges */
 @import "paleui/lib/button.css";    /* Buttons */
 @import "paleui/lib/card.css";      /* Cards */
+@import "paleui/lib/typography.css";/* Typography defaults */
 ```
 
 #### Include via CDN
@@ -35,8 +41,13 @@ For quick prototyping or static sites, include PaleUI directly from a CDN:
 ```html
 <link rel="stylesheet" href="https://unpkg.com/paleui/lib/all.css">
 
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/main.css">
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/accordion.css">
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/alert.css">
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/badge.css">
 <link rel="stylesheet" href="https://unpkg.com/paleui/lib/button.css">
 <link rel="stylesheet" href="https://unpkg.com/paleui/lib/card.css">
+<link rel="stylesheet" href="https://unpkg.com/paleui/lib/typography.css">
 ```
 
 #### Theming
