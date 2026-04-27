@@ -50,7 +50,7 @@ const { title = "PaleUI" } = Astro.props;
 					</li>
 				</ul>
 
-				<span role="none"></span>
+				<span aria-hidden="true" class="nav-spacer"></span>
 
 				<span role="separator"></span>
 
@@ -133,6 +133,12 @@ const { title = "PaleUI" } = Astro.props;
 		line-height: 1;
 		margin: 0;
 		box-sizing: border-box;
+	}
+
+	.nav-spacer {
+		display: inline-flex;
+		flex-grow: 1;
+		min-width: calc(var(--spacing) * 2);
 	}
 
 	@media (max-width: 768px) {

@@ -59,7 +59,7 @@ function escapeHtml(str: string): string {
 const escapedCode = escapeHtml(formattedCode);
 ---
 
-<div class="example">
+<div class="example" data-code-example>
 	{
 		!codeOnly && (
 			<div class="preview-panel max">
@@ -69,7 +69,8 @@ const escapedCode = escapeHtml(formattedCode);
 	}
 
 	<div class="code-panel" data-expandable data-state="collapsed">
-		<span class="overlay"></span>
+		<span class="overlay overlay-dim" aria-hidden="true"></span>
+		<span class="overlay overlay-fade" aria-hidden="true"></span>
 		<pre><code set:html={escapedCode} /></pre>
 		<button
 			type="button"
@@ -91,7 +92,6 @@ const escapedCode = escapeHtml(formattedCode);
 <style>
 	.example {
 		border: 1px solid var(--border);
-		margin-top: 1rem;
 		border-radius: var(--radius);
 		overflow: hidden;
 	}
@@ -107,38 +107,81 @@ const escapedCode = escapeHtml(formattedCode);
 		aspect-ratio: 9 / 5;
 	}
 
+	.preview-panel :global([data-dimension]) {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		width: 100%;
+	}
+
+	.preview-panel :global([data-header]) {
+		display: grid;
+		align-items: start;
+		justify-items: center;
+		width: 100%;
+	}
+
+	.preview-panel :global([data-example]) {
+		display: grid;
+		align-items: start;
+		justify-items: center;
+	}
+
+	.preview-panel :global([data-header] > [data-accordion]),
+	.preview-panel :global([data-header] > article),
+	.preview-panel :global([data-header] > [role="alert"]),
+	.preview-panel :global([data-header] > [data-typography]),
+	.preview-panel :global([data-example] > [data-accordion]),
+	.preview-panel :global([data-example] > article),
+	.preview-panel :global([data-example] > [role="alert"]),
+	.preview-panel :global([data-example] > [data-typography]) {
+		width: 100%;
+	}
+
 	.example:not(:has(.preview-panel)) .code-panel {
 		border-radius: var(--radius);
 	}
 
 	.code-panel {
+		--code-panel-collapsed-height: 192px;
 		position: relative;
 		background: var(--muted);
 		padding: 1rem;
-		max-height: 12rem;
 		border-top: 1px solid var(--border);
-		overflow: hidden;
-		transition: max-height 0.3s ease;
-	}
-
-	.code-panel[data-state="expanded"] {
-		max-height: 60rem;
 	}
 
 	.code-panel pre {
 		margin: 0;
-		overflow-x: auto;
+		width: auto;
+		overflow: auto;
+		overscroll-behavior: contain;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+	}
+
+	.code-panel[data-state="collapsed"] pre {
+		max-height: var(--code-panel-collapsed-height);
+		overflow: hidden;
+	}
+
+	.code-panel pre > code {
+		min-width: 0;
+		padding: 0;
 	}
 
 	.code-panel[data-state="expanded"] pre {
-		max-height: calc(60rem - 2rem);
-		overflow-y: auto;
+		max-height: min(60rem, calc(100vh - 14rem));
 	}
 
 	.code-panel code {
+		padding: 0;
+		border-radius: 0;
+		background: transparent;
 		font-family: var(--font-mono, ui-monospace, monospace);
 		color: var(--color-foreground);
 		font-size: 0.875rem;
+		font-weight: 400;
 		line-height: 1.5;
 		white-space: pre;
 	}
@@ -154,36 +197,107 @@ const escapedCode = escapeHtml(formattedCode);
 		position: absolute;
 		left: 50%;
 		top: 50%;
-		transform: translateX(-50%) translateY(-50%);
+		transform: translate(-50%, -50%);
 		cursor: pointer;
-		transition: transform 0.3s ease;
+		z-index: 2;
 	}
 
 	.code-panel[data-state="collapsed"] .overlay {
 		display: block;
 		position: absolute;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: var(--muted);
-		opacity: 0.5;
 		pointer-events: none;
+		z-index: 1;
 	}
 
-	.code-panel[data-state="expanded"] .overlay {
+	.code-panel[data-state="collapsed"] .overlay-dim {
+		inset: 0;
+		background-color: var(--muted);
+		opacity: 0.5;
+	}
+
+	.code-panel[data-state="collapsed"] .overlay-fade {
+		left: 1rem;
+		right: 1rem;
+		bottom: 0;
+		height: 6rem;
+		background: linear-gradient(
+			to bottom,
+			transparent 0%,
+			var(--muted) 70%,
+			var(--muted) 100%
+		);
+	}
+
+	.code-panel[data-state="expanded"] .overlay,
+	.code-panel[data-state="static"] .overlay {
 		display: none;
 	}
 
-	.code-panel[data-state="expanded"] [data-expand] {
+	.code-panel[data-collapsible="false"] [data-expand] {
+		display: none;
+	}
+
+	.code-panel [data-expand][hidden] {
 		display: none;
 	}
 </style>
 
 <script>
+	const CODE_PANEL_SELECTOR = "[data-expandable]";
+
+	function getCollapsedHeight(panel) {
+		const height = Number.parseFloat(
+			getComputedStyle(panel)
+				.getPropertyValue("--code-panel-collapsed-height")
+				.trim(),
+		);
+		return Number.isFinite(height) ? height : 192;
+	}
+
+	function updateExpandButton(panel, btn) {
+		const collapsible = panel.getAttribute("data-collapsible") === "true";
+		const expanded = panel.getAttribute("data-state") === "expanded";
+
+		btn.hidden = !collapsible || expanded;
+		btn.setAttribute("aria-expanded", collapsible ? String(expanded) : "false");
+		btn.setAttribute("aria-label", "Expand code");
+		btn.textContent = "View code";
+	}
+
+	function syncCodePanel(panel) {
+		const pre = panel.querySelector("pre");
+		const btn = panel.querySelector("[data-expand]");
+		if (!(pre instanceof HTMLElement) || !(btn instanceof HTMLButtonElement)) {
+			return;
+		}
+
+		const needsCollapse = pre.scrollHeight > getCollapsedHeight(panel) + 1;
+		const state = panel.getAttribute("data-state");
+
+		panel.setAttribute("data-collapsible", needsCollapse ? "true" : "false");
+
+		if (!needsCollapse) {
+			panel.setAttribute("data-state", "static");
+		} else if (state !== "collapsed" && state !== "expanded") {
+			panel.setAttribute("data-state", "collapsed");
+		}
+
+		updateExpandButton(panel, btn);
+	}
+
+	function syncCodePanels() {
+		document
+			.querySelectorAll(CODE_PANEL_SELECTOR)
+			.forEach((panel) => syncCodePanel(panel));
+	}
+
 	// copy functionality
 	document
 		.querySelectorAll<HTMLButtonElement>(".copy-btn[data-code]")
 		.forEach((btn) => {
+			if (btn.dataset.bound === "true") return;
+			btn.dataset.bound = "true";
+
 			btn.addEventListener("click", () => {
 				const code = btn.getAttribute("data-code") || "";
 				navigator.clipboard
@@ -204,20 +318,22 @@ const escapedCode = escapeHtml(formattedCode);
 		});
 
 	// expand/collapse functionality
-	document.querySelectorAll<HTMLElement>("[data-expand]").forEach((btn) => {
+	document.querySelectorAll<HTMLButtonElement>("[data-expand]").forEach((btn) => {
+		if (btn.dataset.bound === "true") return;
+		btn.dataset.bound = "true";
+
 		btn.addEventListener("click", () => {
 			const panel = btn.closest<HTMLElement>("[data-expandable]");
 			if (!panel) return;
+			if (panel.getAttribute("data-collapsible") !== "true") return;
+			if (panel.getAttribute("data-state") === "expanded") return;
 
-			const isExpanded = panel.getAttribute("data-state") === "expanded";
-			const newState = !isExpanded;
-
-			panel.setAttribute("data-state", newState ? "expanded" : "collapsed");
-			btn.setAttribute("aria-expanded", String(newState));
-			btn.setAttribute(
-				"aria-label",
-				newState ? "Collapse code" : "Expand code",
-			);
+			panel.setAttribute("data-state", "expanded");
+			updateExpandButton(panel, btn);
 		});
 	});
+
+	syncCodePanels();
+	window.addEventListener("load", syncCodePanels, { once: true });
+	window.addEventListener("resize", syncCodePanels);
 </script>

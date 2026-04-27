@@ -13,15 +13,16 @@ const { title } = Astro.props;
 </section>
 
 <style>
-	section h2 {
-		font-weight: 500;
-		font-size: 1.3rem;
-		margin-top: 3rem;
-		margin-bottom: 0.25rem;
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding-top: 3rem;
 	}
+
 	@media (max-width: 768px) {
-		section h2 {
-			margin-top: 2.5rem;
+		section {
+			padding-top: 2.5rem;
 		}
 	}
 </style>
