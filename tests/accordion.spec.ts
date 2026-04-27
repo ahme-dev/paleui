@@ -5,7 +5,9 @@ import {
 	attrsSelector,
 	buildUrl,
 	exLocator,
+	expectPaddedSnap,
 	expectSnap,
+	focusByKeyboard,
 	VIEWPORTS,
 } from "./test-utils";
 
@@ -24,19 +26,13 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 	test.describe(`${schema.meta.title} › ${viewport}`, () => {
 		test.use({ viewport: size });
 
-		test.beforeEach(async ({ page }) => {
-			await page.goto(buildUrl("/components/accordion"));
-		});
-
 		test.describe("Anatomy", () => {
-			test(root.name, async ({ page }) => {
+			test("captures all anatomy states", async ({ page }) => {
+				await page.goto(buildUrl("/components/accordion"));
+
 				const wrapper = page.locator(pageAnatomy.header).locator(root.selector);
 				await expectSnap(schema, wrapper, root.name, viewport);
-			});
 
-			test(`${trigger.name} › ${trigger.states.hover.name}`, async ({
-				page,
-			}) => {
 				const summary = page
 					.locator(pageAnatomy.header)
 					.locator(root.selector)
@@ -51,28 +47,18 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					trigger.states.hover.name,
 					viewport,
 				);
-			});
-
-			test(`${trigger.name} › ${trigger.states.focus.name}`, async ({
-				page,
-			}) => {
-				const summary = page
-					.locator(pageAnatomy.header)
-					.locator(root.selector)
-					.locator(item.selector)
-					.first()
-					.locator(trigger.selector);
-				await summary.focus();
-				await expectSnap(
+				await page.mouse.move(0, 0);
+				await focusByKeyboard(page, summary);
+				await expectPaddedSnap(
+					page,
 					schema,
 					summary,
+					8,
 					trigger.name,
 					trigger.states.focus.name,
 					viewport,
 				);
-			});
 
-			test(`${item.name} › ${item.states.open.name}`, async ({ page }) => {
 				const stateItem = exLocator(
 					page,
 					statesKey,
@@ -87,10 +73,8 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					item.states.open.name,
 					viewport,
 				);
-			});
 
-			test(`${item.name} › ${item.states.disabled.name}`, async ({ page }) => {
-				const stateItem = exLocator(
+				const disabledItem = exLocator(
 					page,
 					statesKey,
 					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
@@ -99,7 +83,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				);
 				await expectSnap(
 					schema,
-					stateItem,
+					disabledItem,
 					item.name,
 					item.states.disabled.name,
 					viewport,
@@ -114,11 +98,13 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				single: dimensions.mode.options.single.name ?? "single",
 			};
 
-			for (const [key, label] of Object.entries(modeCases) as [
-				keyof typeof dimensions.mode.options,
-				string,
-			][]) {
-				test(label, async ({ page }) => {
+			test("captures every mode state", async ({ page }) => {
+				await page.goto(buildUrl("/components/accordion"));
+
+				for (const [key, label] of Object.entries(modeCases) as [
+					keyof typeof dimensions.mode.options,
+					string,
+				][]) {
 					const wrapper = acc(page, "mode", key, root.selector);
 					await expectSnap(
 						schema,
@@ -127,10 +113,8 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 						label,
 						viewport,
 					);
-				});
 
-				test(`${label} › ${trigger.states.hover.name}`, async ({ page }) => {
-					const summary = acc(page, "mode", key, root.selector)
+					const summary = wrapper
 						.locator(item.selector)
 						.first()
 						.locator(trigger.selector);
@@ -143,24 +127,20 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 						trigger.states.hover.name,
 						viewport,
 					);
-				});
-
-				test(`${label} › ${trigger.states.focus.name}`, async ({ page }) => {
-					const summary = acc(page, "mode", key, root.selector)
-						.locator(item.selector)
-						.first()
-						.locator(trigger.selector);
-					await summary.focus();
-					await expectSnap(
+					await page.mouse.move(0, 0);
+					await focusByKeyboard(page, summary);
+					await expectPaddedSnap(
+						page,
 						schema,
 						summary,
+						8,
 						dimensions.mode.meta.title,
 						label,
 						trigger.states.focus.name,
 						viewport,
 					);
-				});
-			}
+				}
+			});
 		});
 
 		test.describe("Behavior", () => {
@@ -168,7 +148,9 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				keyof typeof dimensions.mode.options,
 			];
 
-			test(`${item.name} toggles on click`, async ({ page }) => {
+			test("covers interaction behavior", async ({ page }) => {
+				await page.goto(buildUrl("/components/accordion"));
+
 				const example = exLocator(page, "mode", firstModeKey);
 				const closedItem = example.locator(item.selector).nth(1);
 				const closedSummary = closedItem.locator(trigger.selector);
@@ -178,46 +160,34 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				await expect(closedItem).toHaveAttribute("open");
 				await closedSummary.click();
 				await expect(closedItem).not.toHaveAttribute("open");
-			});
 
-			test(`${dimensions.mode.meta.title} › ${dimensions.mode.options.multi.name}: multiple items open simultaneously`, async ({
-				page,
-			}) => {
-				const example = exLocator(
+				const multiExample = exLocator(
 					page,
 					"mode",
 					"multi" satisfies keyof typeof dimensions.mode.options,
 				);
-				const items = example.locator(item.selector);
+				const multiItems = multiExample.locator(item.selector);
 
-				await items.nth(1).locator(trigger.selector).click();
-				await items.nth(2).locator(trigger.selector).click();
+				await multiItems.nth(1).locator(trigger.selector).click();
+				await multiItems.nth(2).locator(trigger.selector).click();
 
-				await expect(items.nth(0)).toHaveAttribute("open");
-				await expect(items.nth(1)).toHaveAttribute("open");
-				await expect(items.nth(2)).toHaveAttribute("open");
-			});
+				await expect(multiItems.nth(0)).toHaveAttribute("open");
+				await expect(multiItems.nth(1)).toHaveAttribute("open");
+				await expect(multiItems.nth(2)).toHaveAttribute("open");
 
-			test(`${dimensions.mode.meta.title} › ${dimensions.mode.options.single.name}: opening one closes others`, async ({
-				page,
-			}) => {
-				const example = exLocator(
+				const singleExample = exLocator(
 					page,
 					"mode",
 					"single" satisfies keyof typeof dimensions.mode.options,
 				);
-				const items = example.locator(item.selector);
+				const singleItems = singleExample.locator(item.selector);
 
-				await expect(items.nth(0)).toHaveAttribute("open");
-				await items.nth(1).locator(trigger.selector).click();
+				await expect(singleItems.nth(0)).toHaveAttribute("open");
+				await singleItems.nth(1).locator(trigger.selector).click();
 
-				await expect(items.nth(0)).not.toHaveAttribute("open");
-				await expect(items.nth(1)).toHaveAttribute("open");
-			});
+				await expect(singleItems.nth(0)).not.toHaveAttribute("open");
+				await expect(singleItems.nth(1)).toHaveAttribute("open");
 
-			test(`${item.name} › ${item.states.disabled.name}: not interactive`, async ({
-				page,
-			}) => {
 				const disabledItem = exLocator(
 					page,
 					statesKey,
@@ -225,8 +195,18 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				).locator(
 					item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}),
 				);
+				const disabledSummary = disabledItem.locator(trigger.selector);
 
 				await expect(disabledItem).toHaveCSS("pointer-events", "none");
+				await expect(disabledItem).toHaveAttribute("inert", "");
+
+				await expect(disabledItem).not.toHaveAttribute("open");
+				await disabledSummary.evaluate((element) =>
+					(element as HTMLElement).focus(),
+				);
+				await expect(disabledSummary).not.toBeFocused();
+				await page.keyboard.press("Enter");
+				await expect(disabledItem).not.toHaveAttribute("open");
 			});
 		});
 	});

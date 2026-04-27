@@ -2,9 +2,10 @@ import { defineConfig, devices } from "@playwright/test";
 
 // remote playwright server endpoint (set in devcontainer/CI environments)
 const wsEndpoint = process.env.PW_TEST_CONNECT_WS_ENDPOINT;
-// - devcontainer: http://dev:3000 
-// - local/standalone: http://localhost:3000
-const baseURL = process.env.BASE_URL || "http://localhost:3000";
+const testPort = process.env.PALEUI_TEST_PORT || "4321";
+// - devcontainer/override: use BASE_URL
+// - local/standalone: use a dedicated Playwright preview port
+const baseURL = process.env.BASE_URL || `http://localhost:${testPort}`;
 
 export default defineConfig({
   testDir: "./tests",
@@ -47,15 +48,16 @@ export default defineConfig({
     },
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      use: {
+        ...devices["Desktop Safari"],
+        deviceScaleFactor: 1,
+      },
     },
   ],
 
   webServer: {
-    command: process.env.CI
-      ? "pnpm run --filter site preview"
-      : "pnpm run --filter site dev",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
+    command: `PALEUI_TEST=true pnpm run --filter site preview -- --port ${testPort}`,
+    url: baseURL,
+    reuseExistingServer: false,
   },
 });

@@ -88,8 +88,31 @@ function generateStructureSection(schema: TSchema): string {
 	return `<Section title="Usage"><Subsection codeOnly>${aboveSlot}${example || ""}</Subsection></Section>`;
 }
 
-function generateDocsFromSchema(mod: { schema: TSchema }) {
-	const { schema } = mod;
+function isDocsSchema(value: unknown): value is TSchema {
+	return Boolean(
+		value &&
+			typeof value === "object" &&
+			"meta" in value &&
+			"anatomy" in value &&
+			"dimensions" in value &&
+			"examples" in value,
+	);
+}
+
+function selectDocsSchema(input: unknown): TSchema | null {
+	if (Array.isArray(input)) {
+		return input.find(isDocsSchema) ?? null;
+	}
+
+	return isDocsSchema(input) ? input : null;
+}
+
+function generateDocsFromSchema(mod: { schema: unknown }) {
+	const schema = selectDocsSchema(mod.schema);
+	if (!schema) {
+		return null;
+	}
+
 	if (!schema?.meta || !schema?.anatomy || !schema?.examples || !schema?.dimensions) {
 		return null;
 	}
@@ -127,7 +150,7 @@ function generateDocsFromSchema(mod: { schema: TSchema }) {
 	return { meta, sections, structureSection, headerRawHtml };
 }
 
-async function generateDocs(mod: { schema: TSchema }, componentName: string) {
+async function generateDocs(mod: { schema: unknown }, componentName: string) {
 	const docs = generateDocsFromSchema(mod);
 	if (!docs) {
 		// console.log(`⊘ Skipping "${componentName}" (no schema/examples export)`);
@@ -182,7 +205,7 @@ ${structureSection}${examplesSection}
 async function generateAllDocs() {
 	const files = fs.readdirSync(PALEUI_UI);
 	const componentFiles = files.filter(
-		(file) => file.endsWith(".ts") && !file.startsWith("_"),
+		(file) => file.endsWith(".ts") && !file.startsWith("_") && file !== "all.ts",
 	);
 
 	let generated = 0;
@@ -210,7 +233,11 @@ if (WATCH_MODE) {
 	generateAllDocs();
 
 	fs.watch(PALEUI_UI, { recursive: true }, async (_, filename) => {
-		if (filename?.endsWith(".ts") && !filename.startsWith("_")) {
+		if (
+			filename?.endsWith(".ts") &&
+			!filename.startsWith("_") &&
+			filename !== "all.ts"
+		) {
 			const componentName = path.basename(filename, ".ts");
 			try {
 				const mod = await import(

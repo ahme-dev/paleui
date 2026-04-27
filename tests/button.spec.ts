@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import { schema } from "../packages/paleui/src/ui/button";
 import {
@@ -6,6 +7,7 @@ import {
 	buildUrl,
 	exLocator,
 	expectSnap,
+	focusByKeyboard,
 	VIEWPORTS,
 } from "./test-utils";
 
@@ -26,68 +28,76 @@ const pageAnatomy = {
 	header: "[data-header]",
 };
 
+test.describe(`${schema.meta.title} › Package CSS`, () => {
+	test("loading spinner animation is provided by main.css", () => {
+		const buttonCss = readFileSync(
+			new URL("../packages/paleui/lib/button.css", import.meta.url),
+			"utf-8",
+		);
+		const mainCss = readFileSync(
+			new URL("../packages/paleui/lib/main.css", import.meta.url),
+			"utf-8",
+		);
+
+		expect(buttonCss).toContain("animation: spin");
+		expect(mainCss).toContain("@keyframes spin");
+	});
+});
+
 for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 	test.describe(`${schema.meta.title} › ${viewport}`, () => {
+		test.describe.configure({ timeout: 60_000 });
 		test.use({ viewport: size });
 
-		test.beforeEach(async ({ page }) => {
-			await page.goto(buildUrl("/components/button"));
-		});
-
 		test.describe("Anatomy", () => {
-			test(root.name, async ({ page }) => {
-				const button = page.locator(pageAnatomy.header).locator(rootSel);
-				await expectSnap(schema, button, root.name, viewport);
-			});
+			test("captures all anatomy states", async ({ page }) => {
+				await page.goto(buildUrl("/components/button"));
 
-			test(`${root.name} › ${root.states.hover.name}`, async ({ page }) => {
 				const button = page.locator(pageAnatomy.header).locator(rootSel);
+				await expectSnap(page, schema, button, root.name, viewport);
 				await button.hover();
 				await expectSnap(
+					page,
 					schema,
 					button,
 					root.name,
 					root.states.hover.name,
 					viewport,
 				);
-			});
-
-			test(`${root.name} › ${root.states.focus.name}`, async ({ page }) => {
-				const button = page.locator(pageAnatomy.header).locator(rootSel);
-				await button.focus();
+				await page.mouse.move(0, 0);
+				await focusByKeyboard(page, button);
 				await expectSnap(
+					page,
 					schema,
 					button,
 					root.name,
 					root.states.focus.name,
 					viewport,
 				);
-			});
 
-			test(`${root.name} › ${root.states.disabled.name}`, async ({ page }) => {
 				const stateButton = exLocator(
 					page,
 					statesKey,
 					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
 				).locator(rootSelWithAttrs(root.states.disabled.htmlAttrs ?? {}));
 				await expectSnap(
+					page,
 					schema,
 					stateButton,
 					root.name,
 					root.states.disabled.name,
 					viewport,
 				);
-			});
 
-			test(`${root.name} › ${root.states.busy.name}`, async ({ page }) => {
-				const stateButton = exLocator(
+				const busyButton = exLocator(
 					page,
 					statesKey,
 					"busy" satisfies keyof NonNullable<typeof schema.examples.states>,
 				).locator(rootSelWithAttrs(root.states.busy.htmlAttrs ?? {}));
 				await expectSnap(
+					page,
 					schema,
-					stateButton,
+					busyButton,
 					root.name,
 					root.states.busy.name,
 					viewport,
@@ -110,47 +120,44 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					link: dimensions.variant.options.link.name ?? "link",
 				};
 
-				for (const [key, label] of Object.entries(variantCases) as [
-					keyof typeof dimensions.variant.options,
-					string,
-				][]) {
-					test(label, async ({ page }) => {
-						const button = acc(page, "variant", key, rootSel);
+				test("captures every variant state", async ({ page }) => {
+					await page.goto(buildUrl("/components/button"));
+
+					for (const [variantKey, variantLabel] of Object.entries(
+						variantCases,
+					) as [keyof typeof dimensions.variant.options, string][]) {
+						const button = acc(page, "variant", variantKey, rootSel);
 						await expectSnap(
+							page,
 							schema,
 							button,
 							dimensions.variant.meta.title,
-							label,
+							variantLabel,
 							viewport,
 						);
-					});
-
-					test(`${label} › ${root.states.hover.name}`, async ({ page }) => {
-						const button = acc(page, "variant", key, rootSel);
 						await button.hover();
 						await expectSnap(
+							page,
 							schema,
 							button,
 							dimensions.variant.meta.title,
-							label,
+							variantLabel,
 							root.states.hover.name,
 							viewport,
 						);
-					});
-
-					test(`${label} › ${root.states.focus.name}`, async ({ page }) => {
-						const button = acc(page, "variant", key, rootSel);
-						await button.focus();
+						await page.mouse.move(0, 0);
+						await focusByKeyboard(page, button);
 						await expectSnap(
+							page,
 							schema,
 							button,
 							dimensions.variant.meta.title,
-							label,
+							variantLabel,
 							root.states.focus.name,
 							viewport,
 						);
-					});
-				}
+					}
+				});
 			});
 
 			test.describe(dimensions.size.meta.title, () => {
@@ -162,76 +169,73 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 						lg: dimensions.size.options.lg.name ?? "lg",
 					};
 
-				for (const [key, label] of Object.entries(sizeCases) as [
-					keyof typeof dimensions.size.options,
-					string,
-				][]) {
-					test(label, async ({ page }) => {
+				test("captures every size", async ({ page }) => {
+					await page.goto(buildUrl("/components/button"));
+
+					for (const [key, label] of Object.entries(sizeCases) as [
+						keyof typeof dimensions.size.options,
+						string,
+					][]) {
 						const button = acc(page, "size", key, rootSel);
 						await expectSnap(
+							page,
 							schema,
 							button,
 							dimensions.size.meta.title,
 							label,
 							viewport,
 						);
-					});
-				}
+					}
+				});
 			});
 
 			test.describe(dimensions.icon.meta.title, () => {
-				const iconCases: Record<keyof typeof dimensions.icon.options, string> =
-					{
-						icon: dimensions.icon.options.icon.name ?? "icon",
-					};
+				test("captures icon option", async ({ page }) => {
+					await page.goto(buildUrl("/components/button"));
 
-				for (const [key, label] of Object.entries(iconCases) as [
-					keyof typeof dimensions.icon.options,
-					string,
-				][]) {
-					test(label, async ({ page }) => {
-						const button = acc(page, "icon", key, rootSel);
-						await expectSnap(
-							schema,
-							button,
-							dimensions.icon.meta.title,
-							label,
-							viewport,
-						);
-					});
-				}
+					const iconButton = acc(
+						page,
+						"icon",
+						"icon" satisfies keyof typeof dimensions.icon.options,
+						rootSel,
+					);
+					await expectSnap(
+						page,
+						schema,
+						iconButton,
+						dimensions.icon.meta.title,
+						dimensions.icon.options.icon.name ?? "icon",
+						viewport,
+					);
+				});
 			});
 
 			test.describe(dimensions.round.meta.title, () => {
-				const roundCases: Record<
-					keyof typeof dimensions.round.options,
-					string
-				> = {
-					round: dimensions.round.options.round.name ?? "round",
-				};
+				test("captures round option", async ({ page }) => {
+					await page.goto(buildUrl("/components/button"));
 
-				for (const [key, label] of Object.entries(roundCases) as [
-					keyof typeof dimensions.round.options,
-					string,
-				][]) {
-					test(label, async ({ page }) => {
-						const button = acc(page, "round", key, rootSel);
-						await expectSnap(
-							schema,
-							button,
-							dimensions.round.meta.title,
-							label,
-							viewport,
-						);
-					});
-				}
+					const roundButton = acc(
+						page,
+						"round",
+						"round" satisfies keyof typeof dimensions.round.options,
+						rootSel,
+					);
+					await expectSnap(
+						page,
+						schema,
+						roundButton,
+						dimensions.round.meta.title,
+						dimensions.round.options.round.name ?? "round",
+						viewport,
+					);
+				});
 			});
 		});
 
 		test.describe("Behavior", () => {
-			test(`${root.name} › ${root.states.disabled.name}: not interactive`, async ({
-				page,
-			}) => {
+			test("disabled and busy states stay inactive", async ({ page }) => {
+				await page.goto(buildUrl("/components/button"));
+
 				const disabledButton = exLocator(
 					page,
 					statesKey,
@@ -239,6 +243,16 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 				).locator(rootSelWithAttrs(root.states.disabled.htmlAttrs ?? {}));
 
 				await expect(disabledButton).toHaveCSS("pointer-events", "none");
+				await expect(disabledButton).toBeDisabled();
+
+				const busyButton = exLocator(
+					page,
+					statesKey,
+					"busy" satisfies keyof NonNullable<typeof schema.examples.states>,
+				).locator(rootSelWithAttrs(root.states.busy.htmlAttrs ?? {}));
+
+				await expect(busyButton).toHaveAttribute("aria-busy", "true");
+				await expect(busyButton).toBeDisabled();
 			});
 		});
 	});

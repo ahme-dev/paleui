@@ -11,11 +11,6 @@ if (isTestMode) {
 			aspect-ratio: unset !important;
 			flex: 1 !important;
 		}
-
-		.preview-panel > * {
-			flex: 1 !important;
-			min-height: 100% !important;
-		}
 	`;
 	document.head.appendChild(style);
 
@@ -23,11 +18,13 @@ if (isTestMode) {
 	const footer = document.querySelector("footer");
 	const mainAside = document.querySelector("main > aside");
 	const sidebarAside = document.querySelector("aside");
+	const sidebarLabel = document.querySelector("#sidebar-label");
 
 	if (header) header.remove();
 	if (footer) footer.remove();
 	if (mainAside) mainAside.remove();
 	if (sidebarAside) sidebarAside.remove();
+	if (sidebarLabel) sidebarLabel.remove();
 
 	const mainSection = document.querySelector("main > section");
 	if (mainSection) {
