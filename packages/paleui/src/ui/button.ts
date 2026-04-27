@@ -9,6 +9,7 @@ import {
 	defineDimensions,
 	defineExamples,
 	defineMeta,
+	defineSchema,
 	defineStyles,
 } from "../shared/types";
 import { dedent } from "../shared/utils";
@@ -17,7 +18,7 @@ const meta = defineMeta({
 	title: "Button",
 	subtitle: "Clickable element for triggering actions.",
 	description: [
-		'Use the link variant only for <code>&lt;a&gt;</code> elements with <code>role="button"</code>.',
+		"Use native <code>&lt;button&gt;</code> elements for actions. Add the <code>button</code> class to an <code>&lt;a href&gt;</code> when navigation should look like a button. The <code>link</code> variant styles a button like a link.",
 	],
 	tags: [
 		{
@@ -29,10 +30,10 @@ const meta = defineMeta({
 
 const anatomy = defineAnatomy({
 	root: {
-		selector: ["button", '[role="button"]'] as const,
+		selector: ["button", ".button"] as const,
 		name: "Button",
 		description: [
-			'A <code>&lt;button&gt;</code> element. For link-styled actions use <code>&lt;a role="button"&gt;</code>.',
+			'A native <code>&lt;button&gt;</code> element for actions, or an <code>&lt;a href class="button"&gt;</code> element when navigation should look like a button.',
 		],
 		states: {
 			hover: {
@@ -51,7 +52,7 @@ const anatomy = defineAnatomy({
 			busy: {
 				name: "Loading",
 				selector: '[aria-busy="true"]',
-				htmlAttrs: { "aria-busy": "true" },
+				htmlAttrs: { "aria-busy": "true", disabled: true },
 			},
 		},
 		optionsCombinations: [["hover"], ["focus"], ["disabled"], ["busy"]],
@@ -344,7 +345,7 @@ const examples = defineExamples(dimensions, anatomy, (_keys) => {
 			</button>
 		`),
 		link: dedent(`
-			<a role="button" href="#" class="link">Link</a>
+			<button class="link">Link</button>
 		`),
 	};
 
@@ -393,16 +394,22 @@ const examples = defineExamples(dimensions, anatomy, (_keys) => {
 				<button disabled class="outline">Disabled</button>
 			`),
 			busy: dedent(`
-				<button aria-busy="true" class="secondary">Loading</button>
+				<button aria-busy="true" disabled class="secondary">Loading</button>
 			`),
 		},
 	};
 });
 
-export const schema = {
-	meta,
+const button = {
 	anatomy,
 	styles,
 	dimensions,
 	examples,
 } as const;
+
+export const schema = defineSchema({
+	meta,
+	components: {
+		button,
+	},
+});

@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 import { schema } from "../packages/paleui/src/ui/button";
 import {
 	acc,
@@ -11,7 +11,9 @@ import {
 	VIEWPORTS,
 } from "./test-utils";
 
-const { anatomy, dimensions } = schema;
+const componentKey = "button" as const;
+const component = schema.components.button;
+const { anatomy, dimensions } = component;
 const root = anatomy.root;
 const rootSel = [root.selector].flat().join(", ");
 const rootSelWithAttrs = (attrs: Record<string, string | boolean>) => {
@@ -22,11 +24,30 @@ const rootSelWithAttrs = (attrs: Record<string, string | boolean>) => {
 		.join(", ");
 };
 
-const statesKey = "states" satisfies keyof typeof schema.examples;
+const statesKey = "states" satisfies keyof typeof component.examples;
 
 const pageAnatomy = {
 	header: "[data-header]",
 };
+
+async function readButtonStyles(locator: Locator) {
+	return locator.evaluate((element) => {
+		const styles = getComputedStyle(element);
+		return {
+			display: styles.display,
+			alignItems: styles.alignItems,
+			justifyContent: styles.justifyContent,
+			paddingTop: styles.paddingTop,
+			paddingRight: styles.paddingRight,
+			paddingBottom: styles.paddingBottom,
+			paddingLeft: styles.paddingLeft,
+			borderRadius: styles.borderRadius,
+			backgroundColor: styles.backgroundColor,
+			color: styles.color,
+			textDecorationLine: styles.textDecorationLine,
+		};
+	});
+}
 
 test.describe(`${schema.meta.title} › Package CSS`, () => {
 	test("loading spinner animation is provided by main.css", () => {
@@ -77,8 +98,11 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 				const stateButton = exLocator(
 					page,
+					componentKey,
 					statesKey,
-					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
+					"disabled" satisfies keyof NonNullable<
+						typeof component.examples.states
+					>,
 				).locator(rootSelWithAttrs(root.states.disabled.htmlAttrs ?? {}));
 				await expectSnap(
 					page,
@@ -91,8 +115,9 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 				const busyButton = exLocator(
 					page,
+					componentKey,
 					statesKey,
-					"busy" satisfies keyof NonNullable<typeof schema.examples.states>,
+					"busy" satisfies keyof NonNullable<typeof component.examples.states>,
 				).locator(rootSelWithAttrs(root.states.busy.htmlAttrs ?? {}));
 				await expectSnap(
 					page,
@@ -126,7 +151,13 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					for (const [variantKey, variantLabel] of Object.entries(
 						variantCases,
 					) as [keyof typeof dimensions.variant.options, string][]) {
-						const button = acc(page, "variant", variantKey, rootSel);
+						const button = acc(
+							page,
+							componentKey,
+							"variant",
+							variantKey,
+							rootSel,
+						);
 						await expectSnap(
 							page,
 							schema,
@@ -176,7 +207,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 						keyof typeof dimensions.size.options,
 						string,
 					][]) {
-						const button = acc(page, "size", key, rootSel);
+						const button = acc(page, componentKey, "size", key, rootSel);
 						await expectSnap(
 							page,
 							schema,
@@ -195,6 +226,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 					const iconButton = acc(
 						page,
+						componentKey,
 						"icon",
 						"icon" satisfies keyof typeof dimensions.icon.options,
 						rootSel,
@@ -216,6 +248,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 					const roundButton = acc(
 						page,
+						componentKey,
 						"round",
 						"round" satisfies keyof typeof dimensions.round.options,
 						rootSel,
@@ -233,13 +266,48 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 		});
 
 		test.describe("Behavior", () => {
+			test("anchor elements can reuse button classes for navigation styling", async ({
+				page,
+			}) => {
+				await page.goto(buildUrl("/components/button"));
+
+				await page.locator(pageAnatomy.header).evaluate((header) => {
+					const anchor = document.createElement("a");
+					anchor.href = "/components";
+					anchor.className = "button secondary";
+					anchor.textContent = "Anchor";
+					header.appendChild(anchor);
+				});
+
+				const anchorButton = page.locator(
+					`${pageAnatomy.header} > a.button.secondary`,
+				);
+				const nativeButton = acc(
+					page,
+					componentKey,
+					"variant",
+					"secondary" satisfies keyof typeof dimensions.variant.options,
+					rootSel,
+				);
+
+				await expect(anchorButton).toHaveAttribute("href", "/components");
+				const [anchorStyles, nativeStyles] = await Promise.all([
+					readButtonStyles(anchorButton),
+					readButtonStyles(nativeButton),
+				]);
+				expect(anchorStyles).toEqual(nativeStyles);
+			});
+
 			test("disabled and busy states stay inactive", async ({ page }) => {
 				await page.goto(buildUrl("/components/button"));
 
 				const disabledButton = exLocator(
 					page,
+					componentKey,
 					statesKey,
-					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
+					"disabled" satisfies keyof NonNullable<
+						typeof component.examples.states
+					>,
 				).locator(rootSelWithAttrs(root.states.disabled.htmlAttrs ?? {}));
 
 				await expect(disabledButton).toHaveCSS("pointer-events", "none");
@@ -247,8 +315,9 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 				const busyButton = exLocator(
 					page,
+					componentKey,
 					statesKey,
-					"busy" satisfies keyof NonNullable<typeof schema.examples.states>,
+					"busy" satisfies keyof NonNullable<typeof component.examples.states>,
 				).locator(rootSelWithAttrs(root.states.busy.htmlAttrs ?? {}));
 
 				await expect(busyButton).toHaveAttribute("aria-busy", "true");

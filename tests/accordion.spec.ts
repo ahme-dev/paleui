@@ -11,12 +11,14 @@ import {
 	VIEWPORTS,
 } from "./test-utils";
 
-const { anatomy, dimensions } = schema;
+const componentKey = "accordion" as const;
+const component = schema.components.accordion;
+const { anatomy, dimensions } = component;
 const root = anatomy.root;
 const item = root.children.item;
 const trigger = item.children.summary;
 
-const statesKey = "states" satisfies keyof typeof schema.examples;
+const statesKey = "states" satisfies keyof typeof component.examples;
 
 const pageAnatomy = {
 	header: "[data-header]",
@@ -61,8 +63,9 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 				const stateItem = exLocator(
 					page,
+					componentKey,
 					statesKey,
-					"open" satisfies keyof NonNullable<typeof schema.examples.states>,
+					"open" satisfies keyof NonNullable<typeof component.examples.states>,
 				).locator(
 					item.selector + attrsSelector(item.states.open.htmlAttrs ?? {}),
 				);
@@ -76,8 +79,11 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 				const disabledItem = exLocator(
 					page,
+					componentKey,
 					statesKey,
-					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
+					"disabled" satisfies keyof NonNullable<
+						typeof component.examples.states
+					>,
 				).locator(
 					item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}),
 				);
@@ -105,7 +111,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 					keyof typeof dimensions.mode.options,
 					string,
 				][]) {
-					const wrapper = acc(page, "mode", key, root.selector);
+					const wrapper = acc(page, componentKey, "mode", key, root.selector);
 					await expectSnap(
 						schema,
 						wrapper,
@@ -151,7 +157,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 			test("covers interaction behavior", async ({ page }) => {
 				await page.goto(buildUrl("/components/accordion"));
 
-				const example = exLocator(page, "mode", firstModeKey);
+				const example = exLocator(page, componentKey, "mode", firstModeKey);
 				const closedItem = example.locator(item.selector).nth(1);
 				const closedSummary = closedItem.locator(trigger.selector);
 
@@ -163,6 +169,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 				const multiExample = exLocator(
 					page,
+					componentKey,
 					"mode",
 					"multi" satisfies keyof typeof dimensions.mode.options,
 				);
@@ -177,6 +184,7 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 				const singleExample = exLocator(
 					page,
+					componentKey,
 					"mode",
 					"single" satisfies keyof typeof dimensions.mode.options,
 				);
@@ -190,8 +198,11 @@ for (const [viewport, size] of Object.entries(VIEWPORTS)) {
 
 				const disabledItem = exLocator(
 					page,
+					componentKey,
 					statesKey,
-					"disabled" satisfies keyof NonNullable<typeof schema.examples.states>,
+					"disabled" satisfies keyof NonNullable<
+						typeof component.examples.states
+					>,
 				).locator(
 					item.selector + attrsSelector(item.states.disabled.htmlAttrs ?? {}),
 				);

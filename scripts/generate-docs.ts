@@ -1,6 +1,10 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import type { TAnatomy, TSchema } from "../packages/paleui/src/shared/types";
+import type {
+	TAnatomy,
+	TComponentSchema,
+	TPageSchema,
+} from "../packages/paleui/src/shared/types";
 import { STATES_EXAMPLE_KEY } from "../packages/paleui/src/shared/types";
 
 const red = (s: string) => `\x1b[41m ${s} \x1b[0m`;
@@ -21,85 +25,88 @@ const WATCH_MODE = process.argv.includes("--watch");
 
 const lastGenerated = new Map<string, number>();
 
-function describeChild(
-	selector: string | undefined,
-	type: string,
-	description: readonly string[],
-	optional: boolean,
+function toAboveSlot(blocks: readonly string[]): string {
+	return blocks.length > 0
+		? `<Fragment slot="above">${blocks.join("")}</Fragment>`
+		: "";
+}
+
+function toParagraphs(descriptions: readonly string[]): string[] {
+	return descriptions.map((description) => `<p>${description}</p>`);
+}
+
+function componentLabel(
+	key: string,
+	component: TComponentSchema,
 ): string {
-	const opt = optional ? " (optional)" : "";
-	const desc = description.join(" ");
-	if (selector && type !== "text") {
-		const safeSel = selector.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-		return `<code>${safeSel}</code> — ${desc}${opt}.`;
-	}
-	return `${desc}${opt}.`;
+	return component.anatomy.root.name || key;
 }
 
-function generateAnatomyDescription(anatomy: TAnatomy): string[] {
-	const descriptions: string[] = [];
-	const root = anatomy.root;
+function describePart(
+	key: string,
+	part: {
+		selector?: string;
+		name: string;
+		description: readonly string[];
+		type: "pseudo" | "element" | "text";
+		optional?: boolean;
+	},
+): string {
+	const token =
+		part.selector && part.type !== "text"
+			? part.selector
+			: key.replace(/([A-Z])/g, "-$1").toLowerCase();
+	const label = token.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	const description = part.description.join(" ").trim().replace(/\.$/, "");
+	const optional = part.optional ? " Optional." : "";
+	return `<li><code>${label}</code> — <strong>${part.name}</strong>. ${description}.${optional}</li>`;
+}
 
-	if (root.description?.length) {
-		descriptions.push(...root.description);
-	} else {
-		const sel =
-			typeof root.selector === "string" ? root.selector : root.selector[0];
-		descriptions.push(`Built on the <code>&lt;${sel}&gt;</code> element.`);
-	}
+function generateUsageParts(root: TAnatomy["root"]): string {
+	const items: string[] = [];
 
-	if (!root.children) return descriptions;
+	for (const [childKey, child] of Object.entries(root.children ?? {})) {
+		items.push(describePart(childKey, child));
 
-	for (const child of Object.values(root.children)) {
-		if (child.description?.length) {
-			descriptions.push(
-				describeChild(child.selector, child.type, child.description, child.optional ?? false),
-			);
-		}
-
-		if (!child.children) continue;
-
-		for (const gc of Object.values(child.children)) {
-			if (gc.description?.length) {
-				descriptions.push(
-					describeChild(gc.selector, gc.type, gc.description, gc.optional ?? false),
-				);
-			}
+		for (const [grandchildKey, grandchild] of Object.entries(child.children ?? {})) {
+			items.push(describePart(grandchildKey, grandchild));
 		}
 	}
 
-	return descriptions;
+	return items.length ? `<ul>${items.join("")}</ul>` : "";
 }
 
-function generateStructureSection(schema: TSchema): string {
-	if (!schema.anatomy) return "";
+function generateUsageSections(
+	entries: [string, TComponentSchema][],
+): string {
+	if (!entries.length) return "";
 
-	const root = schema.anatomy.root;
-	const descriptions = generateAnatomyDescription(schema.anatomy);
-	const example = root.example;
+	const multipleComponents = entries.length > 1;
+	const sections = entries
+		.map(([key, component]) => {
+			const root = component.anatomy.root;
+			const above = toAboveSlot([
+				...toParagraphs(root.description),
+				generateUsageParts(root),
+			].filter(Boolean));
+			const title = multipleComponents ? ` title="${componentLabel(key, component)}"` : "";
+			return `<Subsection${title} codeOnly>${above}${root.example ?? ""}</Subsection>`;
+		})
+		.join("");
 
-	if (descriptions.length === 0 && !example) return "";
-
-	const aboveSlot =
-		descriptions.length > 0
-			? `<Fragment slot="above">${descriptions.map((d) => `<p>${d}</p>`).join("")}</Fragment>`
-			: "";
-
-	return `<Section title="Usage"><Subsection codeOnly>${aboveSlot}${example || ""}</Subsection></Section>`;
+	return `<Section title="Usage">${sections}</Section>`;
 }
 
-function isDocsSchema(value: unknown): value is TSchema {
+function isDocsSchema(value: unknown): value is TPageSchema {
 	return Boolean(
 		value &&
 			typeof value === "object" &&
 			"meta" in value &&
-			"anatomy" in value &&
-			"dimensions" in value &&
-			"examples" in value,
+			"components" in value,
 	);
 }
 
-function selectDocsSchema(input: unknown): TSchema | null {
+function selectDocsSchema(input: unknown): TPageSchema | null {
 	if (Array.isArray(input)) {
 		return input.find(isDocsSchema) ?? null;
 	}
@@ -113,39 +120,69 @@ function generateDocsFromSchema(mod: { schema: unknown }) {
 		return null;
 	}
 
-	if (!schema?.meta || !schema?.anatomy || !schema?.examples || !schema?.dimensions) {
+	if (!schema?.meta || !schema?.components) {
 		return null;
 	}
 
-	const { meta, anatomy, dimensions, examples } = schema;
+	const { meta, components } = schema;
+	const componentEntries = Object.entries(components);
+	const multipleComponents = componentEntries.length > 1;
+	const headerRawHtml =
+		schema.headerExample ??
+		componentEntries[0]?.[1].anatomy.root.example ??
+		"";
 
-	const headerRawHtml = anatomy.root.example ?? "";
+	const sections = componentEntries.flatMap(([componentKey, component]) => {
+		const label = componentLabel(componentKey, component);
+		const dimensionEntries = Object.entries(component.dimensions);
+		const multipleDimensions = dimensionEntries.length > 1;
+		const rendered = dimensionEntries.map(([dimKey, dim]) => {
+			const wrappedExamples = Object.entries(component.examples[dimKey] ?? {}).map(
+				([variant, html]) =>
+					`<div data-component="${componentKey}" data-example="${dimKey}" data-variant="${variant}">${html}</div>`,
+			);
 
-	const sections = Object.entries(dimensions).map(([dimKey, dim]) => {
-		const wrappedExamples = Object.entries(examples[dimKey] ?? {}).map(
-			([variant, html]) =>
-				`<div data-example="${dimKey}" data-variant="${variant}">${html}</div>`,
-		);
-		return {
-			title: dim.meta.title,
-			description: dim.meta.description,
-			examples: [`<div data-dimension="${dimKey}">${wrappedExamples.join("")}</div>`],
-		};
+			return {
+				title:
+					multipleComponents
+						? multipleDimensions
+							? `${label}: ${dim.meta.title}`
+							: label
+						: dim.meta.title,
+				description: dim.meta.description,
+				examples: [
+					`<div data-component="${componentKey}" data-dimension="${dimKey}">${wrappedExamples.join("")}</div>`,
+				],
+			};
+		});
+
+		if (
+			component.examples[STATES_EXAMPLE_KEY] &&
+			Object.keys(component.examples[STATES_EXAMPLE_KEY]).length
+		) {
+			const wrappedStates = Object.entries(
+				component.examples[STATES_EXAMPLE_KEY],
+			).map(
+				([name, html]) =>
+					`<div data-component="${componentKey}" data-example="${STATES_EXAMPLE_KEY}" data-variant="${name}">${html}</div>`,
+			);
+
+			rendered.push({
+				title:
+					multipleComponents ? `${label}: States` : "States",
+				description: [
+					`Similar to all components, the ${label.toLowerCase()} and its parts can be in certain states.`,
+				],
+				examples: [
+					`<div data-component="${componentKey}" data-dimension="${STATES_EXAMPLE_KEY}">${wrappedStates.join("")}</div>`,
+				],
+			});
+		}
+
+		return rendered;
 	});
 
-	if (examples[STATES_EXAMPLE_KEY] && Object.keys(examples[STATES_EXAMPLE_KEY]).length) {
-		const wrappedStates = Object.entries(examples[STATES_EXAMPLE_KEY]).map(
-			([name, html]) =>
-				`<div data-example="${STATES_EXAMPLE_KEY}" data-variant="${name}">${html}</div>`,
-		);
-		sections.push({
-			title: "States",
-			description: [`Similar to all components, the ${meta.title?.toLowerCase()} and its parts can be in certain states.`],
-			examples: [`<div data-dimension="${STATES_EXAMPLE_KEY}">${wrappedStates.join("")}</div>`],
-		});
-	}
-
-	const structureSection = generateStructureSection(schema);
+	const structureSection = generateUsageSections(componentEntries);
 
 	return { meta, sections, structureSection, headerRawHtml };
 }

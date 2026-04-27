@@ -316,12 +316,25 @@ export async function expectPaddedSnap(
 	return expectClippedSnap(page, schema, locator, padding, ...parts);
 }
 
-export function exLocator(page: Page, exKey: string, variant: string) {
-	return page.locator(`[data-example="${exKey}"][data-variant="${variant}"]`);
+export function exLocator(
+	page: Page,
+	component: string,
+	exKey: string,
+	variant: string,
+) {
+	return page.locator(
+		`[data-component="${component}"][data-example="${exKey}"][data-variant="${variant}"]`,
+	);
 }
 
-export function acc(page: Page, exKey: string, variant: string, root: string) {
-	return exLocator(page, exKey, variant).locator(root);
+export function acc(
+	page: Page,
+	component: string,
+	exKey: string,
+	variant: string,
+	root: string,
+) {
+	return exLocator(page, component, exKey, variant).locator(root);
 }
 
 export function attrsSelector(

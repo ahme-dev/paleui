@@ -43,6 +43,19 @@ export type TSchema = {
 	examples: Partial<Record<string, Record<string, string>>>;
 };
 
+export type TComponentSchema = Pick<
+	TSchema,
+	"anatomy" | "styles" | "dimensions" | "examples"
+>;
+
+export type TPageSchema<
+	C extends Record<string, TComponentSchema> = Record<string, TComponentSchema>,
+> = {
+	meta: TMeta;
+	headerExample?: string;
+	components: C;
+};
+
 //
 // Anatomy
 //
@@ -276,4 +289,8 @@ export function defineExamples<
 		(keys as Record<string, string[]>)[dimName] = Object.keys(dim.options);
 	}
 	return builder(keys, anatomy);
+}
+
+export function defineSchema<T extends TPageSchema>(schema: T): T {
+	return schema;
 }

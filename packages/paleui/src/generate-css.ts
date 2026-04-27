@@ -4,7 +4,9 @@ import type {
 	TAnatomy,
 	TAnatomyChild,
 	TAnatomyGrandchild,
+	TComponentSchema,
 	TCSS,
+	TPageSchema,
 	TSchema,
 	TSelectors,
 	TStyleBlock,
@@ -263,7 +265,10 @@ function renderDimensionOption(
 	return block(`&.${name}`, content.join("\n"));
 }
 
-function renderComponent(schema: TSchema, prefix: string): string {
+function renderComponent(
+	schema: TComponentSchema | TSchema,
+	prefix: string,
+): string | null {
 	const { anatomy, styles, dimensions } = schema;
 
 	const rootSelectors = Array.isArray(anatomy.root.selector)
@@ -314,6 +319,8 @@ function renderComponent(schema: TSchema, prefix: string): string {
 		body.push(...siblings);
 	}
 
+	if (!body.length) return null;
+
 	return `${selectorStr} {\n${body.join("\n")}\n}`;
 }
 
@@ -328,6 +335,12 @@ function renderSchema(schema: unknown): string | null {
 	if (s?.partial === true && typeof s.raw === "string") return s.raw;
 	if (s?.anatomy && s?.styles && s?.dimensions)
 		return renderComponent(s as TSchema, PREFIX);
+	if (s?.components && typeof s.components === "object") {
+		const parts = Object.values((s as TPageSchema).components)
+			.map((component) => renderComponent(component, PREFIX))
+			.filter((css): css is string => css !== null);
+		return parts.length ? parts.join("\n\n") : null;
+	}
 	return null;
 }
 

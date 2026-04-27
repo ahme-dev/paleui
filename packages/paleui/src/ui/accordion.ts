@@ -1,9 +1,15 @@
-import { pad, reset } from "../shared/mixins";
+import {
+	pad,
+	reset,
+	transitionOutlineVisible,
+	transitionOutlineWith,
+} from "../shared/mixins";
 import {
 	defineAnatomy,
 	defineDimensions,
 	defineExamples,
 	defineMeta,
+	defineSchema,
 	defineStyles,
 } from "../shared/types";
 import { dedent } from "../shared/utils";
@@ -42,6 +48,7 @@ const anatomy = defineAnatomy({
 				description: [
 					`Each accordion item is a <code>&lt;details role="region"&gt;</code> element. The <code>role="region"</code> attribute is required for proper accordion styling and semantics.`,
 					`Add a shared <code>name</code> attribute across items to limit one open at a time.`,
+					`Use both <code>aria-disabled="true"</code> and <code>inert</code> for disabled items so keyboard and pointer interactions are blocked`,
 				],
 				type: "element",
 				direct: true,
@@ -58,8 +65,8 @@ const anatomy = defineAnatomy({
 					},
 					disabled: {
 						name: "Disabled",
-						selector: '[aria-disabled="true"]',
-						htmlAttrs: { "aria-disabled": "true" },
+						selector: '[aria-disabled="true"], [inert]',
+						htmlAttrs: { "aria-disabled": "true", inert: true },
 					},
 				},
 				optionsCombinations: [["open"], ["hover"], ["disabled"]],
@@ -98,8 +105,18 @@ const anatomy = defineAnatomy({
 				},
 			},
 		},
-		example:
-			'<div data-accordion>\n  <details role="region" name="group">\n    <summary>\n      <!-- title -->\n    </summary>\n    <div>\n      <!-- content -->\n    </div>\n  </details>\n  <details role="region" name="group">\n    <summary>\n      <!-- title -->\n    </summary>\n    <div>\n      <!-- content -->\n    </div>\n  </details>\n</div>',
+		example: dedent(`
+				<div data-accordion>
+					<details role="region" name="faq">
+						<summary>What is PaleUI?</summary>
+						<div>A minimal, unstyled component library built on semantic HTML with CSS custom properties.</div>
+					</details>
+					<details role="region" name="faq">
+						<summary>Do I need a framework?</summary>
+						<div>No. PaleUI is framework-agnostic and works with plain HTML or any framework that renders it.</div>
+					</details>
+				</div>
+			`),
 	},
 });
 
@@ -113,12 +130,7 @@ const styles = defineStyles(anatomy, {
 		],
 	},
 	item: {
-		base: [
-			...reset(),
-			"overflow: hidden",
-			"width: 100%",
-			"border-bottom: 1px solid var(--border)",
-		],
+		base: [...reset(), "width: 100%", "border-bottom: 1px solid var(--border)"],
 		states: {
 			disabled: ["opacity: 0.5", "pointer-events: none", "cursor: not-allowed"],
 		},
@@ -129,7 +141,7 @@ const styles = defineStyles(anatomy, {
 	summary: {
 		base: [
 			...reset(),
-			...pad(4, 0),
+			...pad(4, 1),
 			"display: flex",
 			"gap: calc(var(--spacing) * 4)",
 			"justify-content: space-between",
@@ -142,10 +154,13 @@ const styles = defineStyles(anatomy, {
 			"color: var(--foreground)",
 			"line-height: 1",
 			"list-style: none",
+			...transitionOutlineWith(
+				"text-decoration-color var(--transition-speed) ease, color var(--transition-speed) ease",
+			),
 		],
 		states: {
 			hover: ["text-decoration: underline"],
-			focus: ["outline: 2px solid var(--ring)", "outline-offset: 2px"],
+			focus: [...transitionOutlineVisible()],
 		},
 	},
 	div: {
@@ -247,7 +262,7 @@ const examples = defineExamples(dimensions, anatomy, (_keys) => {
 			`),
 			disabled: dedent(`
 				<div data-accordion>
-					<details role="region" aria-disabled="true">
+					<details role="region" aria-disabled="true" inert>
 						<summary>Disabled</summary>
 						<div>This item cannot be toggled.</div>
 					</details>
@@ -261,10 +276,16 @@ const examples = defineExamples(dimensions, anatomy, (_keys) => {
 	};
 });
 
-export const schema = {
-	meta,
+const accordion = {
 	anatomy,
 	styles,
 	dimensions,
 	examples,
 } as const;
+
+export const schema = defineSchema({
+	meta,
+	components: {
+		accordion,
+	},
+});
