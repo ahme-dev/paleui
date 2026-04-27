@@ -1,0 +1,687 @@
+---
+const sampleTheme = `:root {
+  --background: oklch(0.984 0.008 95.32);
+  --foreground: oklch(0.242 0.015 264.21);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.242 0.015 264.21);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.242 0.015 264.21);
+  --primary: oklch(0.64 0.162 250.26);
+  --primary-foreground: oklch(0.984 0.003 247.86);
+  --secondary: oklch(0.934 0.02 251.39);
+  --secondary-foreground: oklch(0.367 0.03 259.73);
+  --muted: oklch(0.95 0.016 251.11);
+  --muted-foreground: oklch(0.503 0.028 258.84);
+  --accent: oklch(0.91 0.05 174.21);
+  --accent-foreground: oklch(0.268 0.021 185.24);
+  --destructive: oklch(0.63 0.214 28.81);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.886 0.022 255.17);
+  --input: oklch(0.886 0.022 255.17);
+  --ring: oklch(0.64 0.162 250.26);
+  --radius: 1rem;
+}
+
+.dark {
+  --background: oklch(0.17 0.02 258.34);
+  --foreground: oklch(0.965 0.006 255.1);
+  --card: oklch(0.214 0.024 258.92);
+  --card-foreground: oklch(0.965 0.006 255.1);
+  --popover: oklch(0.214 0.024 258.92);
+  --popover-foreground: oklch(0.965 0.006 255.1);
+  --primary: oklch(0.77 0.121 246.76);
+  --primary-foreground: oklch(0.23 0.024 259.72);
+  --secondary: oklch(0.29 0.026 260.51);
+  --secondary-foreground: oklch(0.965 0.006 255.1);
+  --muted: oklch(0.29 0.026 260.51);
+  --muted-foreground: oklch(0.76 0.021 255.56);
+  --accent: oklch(0.35 0.053 191.34);
+  --accent-foreground: oklch(0.96 0.018 196.71);
+  --destructive: oklch(0.68 0.182 24.12);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.77 0.121 246.76);
+}`;
+---
+
+<section class="playground" aria-labelledby="theme-playground-title">
+	<div class="intro">
+		<h2 id="theme-playground-title">Paste a theme and check it against real component surfaces.</h2>
+		<p class="lead">
+			Drop in a standard shadcn variable block with <code>:root</code> and
+			an optional <code>.dark</code> section. The preview stays scoped to this
+			page section, so you can validate tokens without changing the rest of the site.
+		</p>
+	</div>
+
+	<div class="grid">
+		<article class="panel">
+			<header class="panel-head">
+				<hgroup>
+					<h3>Theme Input</h3>
+					<p class="muted">
+						Paste raw CSS variables. The preview honors light tokens and optional dark tokens.
+					</p>
+				</hgroup>
+			</header>
+
+			<label class="label" for="theme-playground-css">
+				shadcn theme snippet
+			</label>
+			<textarea
+				id="theme-playground-css"
+				spellcheck="false"
+				placeholder=":root {\n  --background: oklch(...);\n}\n\n.dark {\n  --background: oklch(...);\n}"
+			></textarea>
+
+			<div class="actions">
+				<button type="button" id="theme-playground-apply">Apply Theme</button>
+				<button type="button" class="secondary" id="theme-playground-example">Use Example</button>
+				<button type="button" class="ghost" id="theme-playground-reset">Reset</button>
+			</div>
+
+			<div class="footnote">
+				<small>Saved locally in this browser.</small>
+				<small>Applies only to the preview panel.</small>
+			</div>
+		</article>
+
+		<div class="shell">
+			<div class="toolbar">
+				<div role="status" class="outline fit" id="theme-playground-status">
+					Using site theme
+				</div>
+				<button
+					type="button"
+					class="outline"
+					id="theme-playground-mode"
+					aria-controls="theme-playground-preview"
+				>
+					Preview Dark Theme
+				</button>
+			</div>
+
+			<section
+				id="theme-playground-preview"
+				class="preview"
+				data-theme-playground-preview
+			>
+				<article class="lead-card">
+					<header>
+						<hgroup>
+							<h3>Theme release review</h3>
+							<p>
+								Check the same token set across actions, supporting copy, state chips, and denser
+								surfaces before you publish.
+							</p>
+						</hgroup>
+					</header>
+
+					<p class="large">
+						This preview is built like a small product workflow, so buttons and badges appear where
+						they naturally would in a UI rather than as isolated examples.
+					</p>
+
+					<div class="actions-bar">
+						<button class="ghost">Discard</button>
+						<button class="outline">Save Draft</button>
+						<button class="secondary">Share Preview</button>
+						<button>Publish Theme</button>
+					</div>
+				</article>
+
+				<article class="queue-card">
+					<header class="section-head">
+						<hgroup>
+							<h4>Page review queue</h4>
+							<p class="muted">
+								Use queued surfaces to judge how badges, counters, and utility actions sit together.
+							</p>
+						</hgroup>
+						<button class="outline">Inspect All</button>
+					</header>
+
+					<div class="queue">
+						<div class="item">
+							<div class="item-copy">
+								<div class="tags">
+									<div role="status">Ready</div>
+									<div role="status" class="fit outline">12</div>
+								</div>
+								<h4>Landing page refresh</h4>
+								<p class="muted">
+									Checks how primary actions and neutral surfaces sit together in a calmer layout.
+								</p>
+							</div>
+
+							<div class="item-meta">
+								<div class="row-actions">
+									<button class="ghost">Open</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<div class="item-copy">
+								<div class="tags">
+									<div role="status" class="secondary">In review</div>
+									<div role="status" class="outline">Contrast pass</div>
+								</div>
+								<h4>Docs shell review</h4>
+								<p class="muted">
+									Good for checking secondary emphasis, quiet borders, and contrast on long-running pages.
+								</p>
+							</div>
+
+							<div class="item-meta">
+								<div class="row-actions">
+									<button class="outline">Inspect</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<div class="item-copy">
+								<div class="tags">
+									<div role="status" class="destructive">Needs attention</div>
+									<div role="status" class="fit outline">2</div>
+								</div>
+								<h4>Alert state fallback</h4>
+								<p class="muted">
+									Stress-tests destructive accents and whether warning states still read clearly.
+								</p>
+							</div>
+
+							<div class="item-meta">
+								<div class="row-actions">
+									<button class="secondary">Resolve</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</article>
+
+				<div class="details">
+					<article class="text-card">
+						<header>
+							<hgroup>
+								<h4>Theme notes</h4>
+								<p>Typography still matters after the color pass.</p>
+							</hgroup>
+						</header>
+
+						<p class="lead">
+							Headings, body copy, code, and quiet metadata should all remain comfortable once the
+							theme is doing more than rendering swatches.
+						</p>
+						<p>
+							Use this area to confirm your theme still reads well when a page mixes
+							<strong> primary information</strong>, supporting text, and inline code such as
+							<code>--radius</code> or <code>--ring</code>.
+						</p>
+
+						<pre><code>:root &lbrace;
+  --background: oklch(...);
+  --primary: oklch(...);
+  --ring: oklch(...);
+&rbrace;</code></pre>
+
+						<a class="button link" href="/docs">View token diff</a>
+					</article>
+
+					<article class="side-card">
+						<header>
+							<hgroup>
+								<h4>Publish checklist</h4>
+								<p>One support surface for guidance and edge-case actions.</p>
+							</hgroup>
+						</header>
+
+						<div role="alert">
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+								<path
+									fill="currentColor"
+									d="M16 2C8.268 2 2 8.268 2 16s6.268 14 14 14s14-6.268 14-14S23.732 2 16 2m0 6a2 2 0 1 1 0 4a2 2 0 0 1 0-4m1.5 16h-3v-9h3z"
+								></path>
+							</svg>
+							<p>Theme review tip</p>
+							<small>
+								Toggle the preview into dark mode to confirm your <code>.dark</code> tokens hold up
+								on alerts, borders, and muted text.
+							</small>
+						</div>
+
+						<div data-accordion>
+							<details role="region" name="theme-playground-faq" open>
+								<summary>What should I look at first?</summary>
+								<div>
+									Start with primary buttons, muted copy, and border contrast. Those three usually reveal
+									token problems quickly.
+								</div>
+							</details>
+							<details role="region" name="theme-playground-faq">
+								<summary>How does dark mode work here?</summary>
+								<div>
+									The preview container gets a <code>dark</code> class, so the same pasted variables can
+									be checked in both light and dark contexts.
+								</div>
+							</details>
+							<details role="region" name="theme-playground-faq">
+								<summary>Does this affect the rest of the site?</summary>
+								<div>
+									No. The pasted CSS is rewritten to target this preview section only, leaving the global
+									nav and other pages alone.
+								</div>
+							</details>
+						</div>
+
+						<footer>
+							<button class="destructive">Rollback Preview</button>
+						</footer>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<style is:inline id="theme-playground-runtime"></style>
+</section>
+
+<script define:vars={{ sampleTheme }}>
+	const STORAGE_KEY = "paleui-theme-playground-css";
+	const MODE_KEY = "paleui-theme-playground-mode";
+	const PREVIEW_SELECTOR = "[data-theme-playground-preview]";
+
+	const textarea = document.getElementById("theme-playground-css");
+	const applyButton = document.getElementById("theme-playground-apply");
+	const exampleButton = document.getElementById("theme-playground-example");
+	const resetButton = document.getElementById("theme-playground-reset");
+	const modeButton = document.getElementById("theme-playground-mode");
+	const statusBadge = document.getElementById("theme-playground-status");
+	const preview = document.querySelector(PREVIEW_SELECTOR);
+	const runtimeStyle = document.getElementById("theme-playground-runtime");
+	const derivedRadiusTokens = [
+		["--radius-sm", "calc(var(--radius) - 4px)"],
+		["--radius-md", "calc(var(--radius) - 2px)"],
+		["--radius-lg", "var(--radius)"],
+		["--radius-xl", "calc(var(--radius) + 4px)"],
+		["--radius-2xl", "calc(var(--radius) + 8px)"],
+		["--radius-3xl", "calc(var(--radius) + 12px)"],
+		["--radius-4xl", "calc(var(--radius) + 16px)"],
+		["--radius-full", "calc(infinity * 1px)"],
+	];
+
+	function extractBlocks(source, pattern) {
+		const regex = new RegExp(`${pattern}\\s*\\{([\\s\\S]*?)\\}`, "g");
+		const blocks = [];
+
+		for (const match of source.matchAll(regex)) {
+			const body = match[1]?.trim();
+			if (body) blocks.push(body);
+		}
+
+		return blocks;
+	}
+
+	function joinBlocks(blocks) {
+		return blocks.filter(Boolean).join("\n").trim();
+	}
+
+	function extractThemeRadiusDeclarations(source) {
+		const declarations = new Map();
+
+		for (const block of extractBlocks(source, "@theme(?:\\s+inline)?")) {
+			for (const match of block.matchAll(/(--radius(?:-[a-z0-9]+)?)\s*:\s*([^;]+);/gi)) {
+				const [, token, value] = match;
+				declarations.set(token, `  ${token}: ${value.trim()};`);
+			}
+		}
+
+		return Array.from(declarations.values()).join("\n");
+	}
+
+	function withDerivedRadiusTokens(declarations) {
+		const trimmed = declarations.trim();
+		if (!trimmed || !/--radius\s*:/.test(trimmed)) return trimmed;
+
+		const declared = new Set(
+			Array.from(trimmed.matchAll(/(--radius(?:-[a-z0-9]+)?)\s*:/gi), ([, token]) => token),
+		);
+		const missing = derivedRadiusTokens.filter(([token]) => !declared.has(token));
+		if (!missing.length) return trimmed;
+
+		const extras = missing
+			.map(([token, value]) => `  ${token}: ${value};`)
+			.join("\n");
+
+		return [trimmed, extras].filter(Boolean).join("\n");
+	}
+
+	function scopeThemeCss(source) {
+		const trimmed = source.trim();
+		if (!trimmed) return "";
+
+		const rootDeclarations = joinBlocks(extractBlocks(trimmed, ":root"));
+		const darkDeclarations = joinBlocks(extractBlocks(trimmed, "\\.dark"));
+		const themeRadiusDeclarations = extractThemeRadiusDeclarations(trimmed);
+
+		if (rootDeclarations || darkDeclarations || themeRadiusDeclarations) {
+			const css = [];
+			const lightBlock = withDerivedRadiusTokens(
+				joinBlocks([rootDeclarations, themeRadiusDeclarations]),
+			);
+			const darkBlock = withDerivedRadiusTokens(darkDeclarations);
+
+			if (lightBlock) {
+				css.push(`${PREVIEW_SELECTOR} {\n${lightBlock}\n}`);
+			}
+
+			if (darkBlock) {
+				css.push(`${PREVIEW_SELECTOR}.dark {\n${darkBlock}\n}`);
+			}
+
+			return css.join("\n\n");
+		}
+
+		return `${PREVIEW_SELECTOR} {\n${withDerivedRadiusTokens(trimmed)}\n}`;
+	}
+
+	function updateStatus(hasCustomTheme) {
+		if (!statusBadge) return;
+		statusBadge.textContent = hasCustomTheme ? "Custom theme applied" : "Using site theme";
+	}
+
+	function applyTheme(source) {
+		if (!runtimeStyle) return;
+		runtimeStyle.textContent = scopeThemeCss(source);
+		updateStatus(Boolean(source.trim()));
+	}
+
+	function setPreviewMode(mode) {
+		if (!preview || !modeButton) return;
+		const isDark = mode === "dark";
+		preview.classList.toggle("dark", isDark);
+		modeButton.textContent = isDark ? "Preview Light Theme" : "Preview Dark Theme";
+		localStorage.setItem(MODE_KEY, isDark ? "dark" : "light");
+	}
+
+	function saveAndApply(source) {
+		localStorage.setItem(STORAGE_KEY, source);
+		applyTheme(source);
+	}
+
+	if (
+		textarea &&
+		applyButton &&
+		exampleButton &&
+		resetButton &&
+		modeButton &&
+		preview &&
+		runtimeStyle
+	) {
+		const savedTheme = localStorage.getItem(STORAGE_KEY) ?? "";
+		const savedMode = localStorage.getItem(MODE_KEY);
+		const defaultMode = document.documentElement.classList.contains("dark")
+			? "dark"
+			: "light";
+
+		textarea.value = savedTheme;
+		applyTheme(savedTheme);
+		setPreviewMode(savedMode === "dark" || savedMode === "light" ? savedMode : defaultMode);
+
+		applyButton.addEventListener("click", () => {
+			saveAndApply(textarea.value);
+		});
+
+		exampleButton.addEventListener("click", () => {
+			textarea.value = sampleTheme;
+			saveAndApply(sampleTheme);
+		});
+
+		resetButton.addEventListener("click", () => {
+			textarea.value = "";
+			localStorage.removeItem(STORAGE_KEY);
+			applyTheme("");
+		});
+
+		modeButton.addEventListener("click", () => {
+			setPreviewMode(preview.classList.contains("dark") ? "light" : "dark");
+		});
+	}
+</script>
+
+<style>
+	.playground {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding-bottom: 4rem;
+	}
+
+	.intro {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		max-width: 48rem;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: clamp(18rem, 28vw, 22rem) minmax(0, 1fr);
+		gap: 1.5rem;
+		align-items: start;
+	}
+
+	.panel,
+	.shell {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.panel {
+		padding: 1.25rem;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background-color: var(--card);
+		box-shadow: var(--shadow-sm);
+		position: sticky;
+		top: 5.5rem;
+	}
+
+	.panel-head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.label {
+		font-size: 0.875rem;
+		font-weight: 600;
+	}
+
+	.playground textarea {
+		width: 100%;
+		min-height: 22rem;
+		padding: 1rem;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background-color: var(--muted);
+		color: var(--foreground);
+		font: 0.875rem/1.7 var(--font-mono);
+		resize: vertical;
+	}
+
+	.playground textarea:focus {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.footnote {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.75rem;
+	}
+
+	.toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+	}
+
+	.preview {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 1.25rem;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-xl);
+		background-color: var(--background);
+		color: var(--foreground);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.lead-card,
+	.queue-card,
+	.text-card,
+	.side-card {
+		max-width: none;
+	}
+
+	.lead-card,
+	.queue-card,
+	.text-card,
+	.side-card {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.actions-bar,
+	.side-card footer {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		align-items: center;
+	}
+
+	.tags,
+	.row-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.section-head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 0.75rem;
+	}
+
+	.section-head hgroup {
+		text-align: left;
+	}
+
+	.queue {
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+	}
+
+	.item {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 1rem;
+		align-items: start;
+		padding: 1rem;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background-color: var(--background);
+	}
+
+	.item-copy {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.item-copy h4,
+	.item-copy p {
+		margin: 0;
+	}
+
+	.item-meta {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		align-self: center;
+	}
+
+	.details {
+		display: grid;
+		grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+		gap: 1rem;
+		align-items: start;
+	}
+
+	.playground pre {
+		margin-top: 0;
+	}
+
+	@media (max-width: 1024px) {
+		.grid,
+		.details {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.panel {
+			position: static;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.playground {
+			padding-bottom: 3rem;
+		}
+
+		.preview,
+		.panel {
+			padding: 1rem;
+		}
+
+		.toolbar {
+			align-items: stretch;
+		}
+
+		.toolbar > * {
+			width: 100%;
+		}
+
+		.item {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.item-meta,
+		.section-head {
+			justify-content: flex-start;
+			justify-items: start;
+		}
+
+		.item-meta {
+			align-self: start;
+		}
+	}
+</style>
