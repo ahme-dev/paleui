@@ -56,7 +56,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: `PALEUI_TEST=true pnpm run --filter site preview -- --port ${testPort}`,
+    command: `PALEUI_TEST=true pnpm --filter site exec astro preview --host --port ${testPort}`,
     url: baseURL,
     reuseExistingServer: false,
   },
