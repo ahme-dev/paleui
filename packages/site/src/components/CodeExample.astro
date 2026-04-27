@@ -318,20 +318,22 @@ const escapedCode = escapeHtml(formattedCode);
 		});
 
 	// expand/collapse functionality
-	document.querySelectorAll<HTMLButtonElement>("[data-expand]").forEach((btn) => {
-		if (btn.dataset.bound === "true") return;
-		btn.dataset.bound = "true";
+	document
+		.querySelectorAll<HTMLButtonElement>("[data-expand]")
+		.forEach((btn) => {
+			if (btn.dataset.bound === "true") return;
+			btn.dataset.bound = "true";
 
-		btn.addEventListener("click", () => {
-			const panel = btn.closest<HTMLElement>("[data-expandable]");
-			if (!panel) return;
-			if (panel.getAttribute("data-collapsible") !== "true") return;
-			if (panel.getAttribute("data-state") === "expanded") return;
+			btn.addEventListener("click", () => {
+				const panel = btn.closest<HTMLElement>("[data-expandable]");
+				if (!panel) return;
+				if (panel.getAttribute("data-collapsible") !== "true") return;
+				if (panel.getAttribute("data-state") === "expanded") return;
 
-			panel.setAttribute("data-state", "expanded");
-			updateExpandButton(panel, btn);
+				panel.setAttribute("data-state", "expanded");
+				updateExpandButton(panel, btn);
+			});
 		});
-	});
 
 	syncCodePanels();
 	window.addEventListener("load", syncCodePanels, { once: true });
