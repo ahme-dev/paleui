@@ -3,14 +3,19 @@ import { defineConfig, devices } from "@playwright/test";
 // remote playwright server endpoint (set in devcontainer/CI environments)
 const wsEndpoint = process.env.PW_TEST_CONNECT_WS_ENDPOINT;
 const testPort = process.env.PALEUI_TEST_PORT || "4321";
-const baseURL = (() => {
-	if (!process.env.BASE_URL) {
+function resolveBaseURL(baseURL?: string) {
+	if (!baseURL) {
 		return `http://localhost:${testPort}`;
 	}
-	const resolvedBaseURL = new URL(process.env.BASE_URL);
+	const resolvedBaseURL = new URL(baseURL);
 	resolvedBaseURL.port = testPort;
 	return resolvedBaseURL.origin;
-})();
+}
+
+const hostBaseURL = resolveBaseURL(process.env.BASE_URL);
+const browserBaseURL = resolveBaseURL(
+	process.env.PW_BROWSER_BASE_URL || process.env.BASE_URL,
+);
 
 export default defineConfig({
   testDir: "./tests",
@@ -21,7 +26,7 @@ export default defineConfig({
   reporter: "html",
 
   use: {
-    baseURL,
+    baseURL: browserBaseURL,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
 
@@ -62,7 +67,7 @@ export default defineConfig({
 
   webServer: {
     command: `pnpm run build && PALEUI_TEST=true pnpm --filter site exec astro preview --host --port ${testPort}`,
-    url: baseURL,
+    url: hostBaseURL,
     timeout: 180_000,
     reuseExistingServer: false,
   },

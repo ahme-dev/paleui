@@ -21,7 +21,9 @@ const DEFAULT_SNAPSHOT_PADDING = 8;
 const DEFAULT_SNAPSHOT_MAX_DIFF_PIXELS = 250;
 const DEFAULT_TEST_PORT = process.env.PALEUI_TEST_PORT || "4321";
 const DEFAULT_BASE_URL =
-	process.env.BASE_URL || `http://localhost:${DEFAULT_TEST_PORT}`;
+	process.env.PW_BROWSER_BASE_URL ||
+	process.env.BASE_URL ||
+	`http://localhost:${DEFAULT_TEST_PORT}`;
 
 type SnapshotSchema = {
 	meta: {
