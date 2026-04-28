@@ -245,6 +245,7 @@ async function expectClippedSnap(
 	padding: number,
 	...parts: string[]
 ) {
+	await waitForPageToSettle(page);
 	await locator.scrollIntoViewIfNeeded();
 
 	const box = await locator.boundingBox();
