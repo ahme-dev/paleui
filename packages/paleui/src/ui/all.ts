@@ -7,6 +7,7 @@ import { schema as badgeSchema } from "./badge";
 import { schema as buttonSchema } from "./button";
 import { schema as cardSchema } from "./card";
 import { schema as mainSchema } from "./main";
+import { schema as tabsSchema } from "./tabs";
 import { schema as typographySchema } from "./typography";
 
 function toSchemas<T>(schema: T | readonly T[]) {
@@ -21,4 +22,5 @@ export const schema = [
 	...toSchemas(buttonSchema),
 	...toSchemas(cardSchema),
 	...toSchemas(typographySchema),
+	...toSchemas(tabsSchema),
 ];
