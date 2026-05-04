@@ -47,11 +47,13 @@ const sampleTheme = `:root {
 
 <section class="playground" aria-labelledby="theme-playground-title">
 	<div class="intro">
-		<h2 id="theme-playground-title">Paste a theme and check it against real component surfaces.</h2>
+		<h2 id="theme-playground-title">
+			Paste a theme and check it against real component surfaces.
+		</h2>
 		<p class="lead">
-			Drop in a standard shadcn variable block with <code>:root</code> and
-			an optional <code>.dark</code> section. The preview stays scoped to this
-			page section, so you can validate tokens without changing the rest of the site.
+			Drop in a standard shadcn variable block with <code>:root</code> and an optional
+			<code>.dark</code> section. The preview stays scoped to this page section, so
+			you can validate tokens without changing the rest of the site.
 		</p>
 	</div>
 
@@ -61,7 +63,8 @@ const sampleTheme = `:root {
 				<hgroup>
 					<h3>Theme Input</h3>
 					<p class="muted">
-						Paste raw CSS variables. The preview honors light tokens and optional dark tokens.
+						Paste raw CSS variables. The preview honors light tokens and
+						optional dark tokens.
 					</p>
 				</hgroup>
 			</header>
@@ -77,8 +80,12 @@ const sampleTheme = `:root {
 
 			<div class="actions">
 				<button type="button" id="theme-playground-apply">Apply Theme</button>
-				<button type="button" class="secondary" id="theme-playground-example">Use Example</button>
-				<button type="button" class="ghost" id="theme-playground-reset">Reset</button>
+				<button type="button" class="secondary" id="theme-playground-example"
+					>Use Example</button
+				>
+				<button type="button" class="ghost" id="theme-playground-reset"
+					>Reset</button
+				>
 			</div>
 
 			<div class="footnote">
@@ -112,15 +119,16 @@ const sampleTheme = `:root {
 						<hgroup>
 							<h3>Theme release review</h3>
 							<p>
-								Check the same token set across actions, supporting copy, state chips, and denser
-								surfaces before you publish.
+								Check the same token set across actions, supporting copy, state
+								chips, and denser surfaces before you publish.
 							</p>
 						</hgroup>
 					</header>
 
 					<p class="large">
-						This preview is built like a small product workflow, so buttons and badges appear where
-						they naturally would in a UI rather than as isolated examples.
+						This preview is built like a small product workflow, so buttons and
+						badges appear where they naturally would in a UI rather than as
+						isolated examples.
 					</p>
 
 					<div class="actions-bar">
@@ -136,7 +144,8 @@ const sampleTheme = `:root {
 						<hgroup>
 							<h4>Page review queue</h4>
 							<p class="muted">
-								Use queued surfaces to judge how badges, counters, and utility actions sit together.
+								Use queued surfaces to judge how badges, counters, and utility
+								actions sit together.
 							</p>
 						</hgroup>
 						<button class="outline">Inspect All</button>
@@ -151,7 +160,8 @@ const sampleTheme = `:root {
 								</div>
 								<h4>Landing page refresh</h4>
 								<p class="muted">
-									Checks how primary actions and neutral surfaces sit together in a calmer layout.
+									Checks how primary actions and neutral surfaces sit together
+									in a calmer layout.
 								</p>
 							</div>
 
@@ -170,7 +180,8 @@ const sampleTheme = `:root {
 								</div>
 								<h4>Docs shell review</h4>
 								<p class="muted">
-									Good for checking secondary emphasis, quiet borders, and contrast on long-running pages.
+									Good for checking secondary emphasis, quiet borders, and
+									contrast on long-running pages.
 								</p>
 							</div>
 
@@ -189,7 +200,8 @@ const sampleTheme = `:root {
 								</div>
 								<h4>Alert state fallback</h4>
 								<p class="muted">
-									Stress-tests destructive accents and whether warning states still read clearly.
+									Stress-tests destructive accents and whether warning states
+									still read clearly.
 								</p>
 							</div>
 
@@ -212,12 +224,14 @@ const sampleTheme = `:root {
 						</header>
 
 						<p class="lead">
-							Headings, body copy, code, and quiet metadata should all remain comfortable once the
-							theme is doing more than rendering swatches.
+							Headings, body copy, code, and quiet metadata should all remain
+							comfortable once the theme is doing more than rendering swatches.
 						</p>
 						<p>
-							Use this area to confirm your theme still reads well when a page mixes
-							<strong> primary information</strong>, supporting text, and inline code such as
+							Use this area to confirm your theme still reads well when a page
+							mixes
+							<strong> primary information</strong>, supporting text, and inline
+							code such as
 							<code>--radius</code> or <code>--ring</code>.
 						</p>
 
@@ -239,7 +253,12 @@ const sampleTheme = `:root {
 						</header>
 
 						<div role="alert">
-							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="32"
+								height="32"
+								viewBox="0 0 32 32"
+							>
 								<path
 									fill="currentColor"
 									d="M16 2C8.268 2 2 8.268 2 16s6.268 14 14 14s14-6.268 14-14S23.732 2 16 2m0 6a2 2 0 1 1 0 4a2 2 0 0 1 0-4m1.5 16h-3v-9h3z"
@@ -247,8 +266,9 @@ const sampleTheme = `:root {
 							</svg>
 							<p>Theme review tip</p>
 							<small>
-								Toggle the preview into dark mode to confirm your <code>.dark</code> tokens hold up
-								on alerts, borders, and muted text.
+								Toggle the preview into dark mode to confirm your <code
+									>.dark</code
+								> tokens hold up on alerts, borders, and muted text.
 							</small>
 						</div>
 
@@ -256,22 +276,22 @@ const sampleTheme = `:root {
 							<details role="region" name="theme-playground-faq" open>
 								<summary>What should I look at first?</summary>
 								<div>
-									Start with primary buttons, muted copy, and border contrast. Those three usually reveal
-									token problems quickly.
+									Start with primary buttons, muted copy, and border contrast.
+									Those three usually reveal token problems quickly.
 								</div>
 							</details>
 							<details role="region" name="theme-playground-faq">
 								<summary>How does dark mode work here?</summary>
 								<div>
-									The preview container gets a <code>dark</code> class, so the same pasted variables can
-									be checked in both light and dark contexts.
+									The preview container gets a <code>dark</code> class, so the same
+									pasted variables can be checked in both light and dark contexts.
 								</div>
 							</details>
 							<details role="region" name="theme-playground-faq">
 								<summary>Does this affect the rest of the site?</summary>
 								<div>
-									No. The pasted CSS is rewritten to target this preview section only, leaving the global
-									nav and other pages alone.
+									No. The pasted CSS is rewritten to target this preview section
+									only, leaving the global nav and other pages alone.
 								</div>
 							</details>
 						</div>
@@ -332,7 +352,9 @@ const sampleTheme = `:root {
 		const declarations = new Map();
 
 		for (const block of extractBlocks(source, "@theme(?:\\s+inline)?")) {
-			for (const match of block.matchAll(/(--radius(?:-[a-z0-9]+)?)\s*:\s*([^;]+);/gi)) {
+			for (const match of block.matchAll(
+				/(--radius(?:-[a-z0-9]+)?)\s*:\s*([^;]+);/gi,
+			)) {
 				const [, token, value] = match;
 				declarations.set(token, `  ${token}: ${value.trim()};`);
 			}
@@ -346,9 +368,14 @@ const sampleTheme = `:root {
 		if (!trimmed || !/--radius\s*:/.test(trimmed)) return trimmed;
 
 		const declared = new Set(
-			Array.from(trimmed.matchAll(/(--radius(?:-[a-z0-9]+)?)\s*:/gi), ([, token]) => token),
+			Array.from(
+				trimmed.matchAll(/(--radius(?:-[a-z0-9]+)?)\s*:/gi),
+				([, token]) => token,
+			),
 		);
-		const missing = derivedRadiusTokens.filter(([token]) => !declared.has(token));
+		const missing = derivedRadiusTokens.filter(
+			([token]) => !declared.has(token),
+		);
 		if (!missing.length) return trimmed;
 
 		const extras = missing
@@ -389,7 +416,9 @@ const sampleTheme = `:root {
 
 	function updateStatus(hasCustomTheme) {
 		if (!statusBadge) return;
-		statusBadge.textContent = hasCustomTheme ? "Custom theme applied" : "Using site theme";
+		statusBadge.textContent = hasCustomTheme
+			? "Custom theme applied"
+			: "Using site theme";
 	}
 
 	function applyTheme(source) {
@@ -402,7 +431,9 @@ const sampleTheme = `:root {
 		if (!preview || !modeButton) return;
 		const isDark = mode === "dark";
 		preview.classList.toggle("dark", isDark);
-		modeButton.textContent = isDark ? "Preview Light Theme" : "Preview Dark Theme";
+		modeButton.textContent = isDark
+			? "Preview Light Theme"
+			: "Preview Dark Theme";
 		localStorage.setItem(MODE_KEY, isDark ? "dark" : "light");
 	}
 
@@ -428,7 +459,9 @@ const sampleTheme = `:root {
 
 		textarea.value = savedTheme;
 		applyTheme(savedTheme);
-		setPreviewMode(savedMode === "dark" || savedMode === "light" ? savedMode : defaultMode);
+		setPreviewMode(
+			savedMode === "dark" || savedMode === "light" ? savedMode : defaultMode,
+		);
 
 		applyButton.addEventListener("click", () => {
 			saveAndApply(textarea.value);
