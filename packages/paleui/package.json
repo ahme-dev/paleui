@@ -1,7 +1,7 @@
 {
 	"type": "module",
 	"name": "paleui",
-	"version": "0.1.0",
+	"version": "0.0.0-semantic-release",
 	"description": "Pale UI",
 	"author": "https://ahme.dev",
 	"license": "MIT",
