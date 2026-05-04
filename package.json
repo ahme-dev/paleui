@@ -1,7 +1,6 @@
 {
 	"name": "paleui-monorepo",
 	"type": "module",
-	"private": true,
 	"packageManager": "pnpm@10.28.0",
 	"scripts": {
 		"dev": "concurrently -n SITE,LIB,DOCS \"pnpm run --filter site dev\" \"pnpm run --filter paleui dev\" \"tsx scripts/generate-docs.ts --watch\"",

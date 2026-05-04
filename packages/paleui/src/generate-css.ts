@@ -350,7 +350,16 @@ function renderSchema(schema: unknown): string | null {
 
 const UI_DIR = path.resolve(import.meta.dirname, "ui");
 const SHARED_DIR = path.resolve(import.meta.dirname, "shared");
+const PACKAGE_JSON = path.resolve(import.meta.dirname, "../package.json");
 const WATCH_MODE = process.argv.includes("--watch");
+const packageJson = JSON.parse(fs.readFileSync(PACKAGE_JSON, "utf-8")) as {
+	name?: string;
+	version?: string;
+};
+
+function withBanner(css: string): string {
+	return `/*! ${packageJson.name ?? "paleui"} v${packageJson.version ?? "0.0.0"} */\n${css}`;
+}
 
 async function generateCSS() {
 	const tsFiles = fs
@@ -369,7 +378,7 @@ async function generateCSS() {
 
 		fs.writeFileSync(
 			path.join(UI_DIR, `${componentName}.css`),
-			parts.join("\n\n"),
+			withBanner(parts.join("\n\n")),
 			"utf-8",
 		);
 		if (!WATCH_MODE) console.log(`\t✓ Generated: ${componentName}.css`);

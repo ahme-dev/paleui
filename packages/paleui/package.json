@@ -1,7 +1,7 @@
 {
 	"type": "module",
 	"name": "paleui",
-	"version": "0.0.0-semantic-release",
+	"version": "0.1.0",
 	"description": "Pale UI",
 	"author": "https://ahme.dev",
 	"license": "MIT",
@@ -29,7 +29,8 @@
 	},
 	"scripts": {
 		"build": "tsx src/generate-css.ts; postcss src/ui/*.css --base src/ui --dir lib",
-		"dev": "concurrently \"tsx src/generate-css.ts --watch\" \"postcss src/ui/*.css --base src/ui --dir lib --watch\""
+		"dev": "concurrently \"tsx src/generate-css.ts --watch\" \"postcss src/ui/*.css --base src/ui --dir lib --watch\"",
+		"prepack": "pnpm run build"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.21",
