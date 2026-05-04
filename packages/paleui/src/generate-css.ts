@@ -350,15 +350,15 @@ function renderSchema(schema: unknown): string | null {
 
 const UI_DIR = path.resolve(import.meta.dirname, "ui");
 const SHARED_DIR = path.resolve(import.meta.dirname, "shared");
-const PACKAGE_JSON = path.resolve(import.meta.dirname, "../package.json");
+const JSR_JSON = path.resolve(import.meta.dirname, "../jsr.json");
 const WATCH_MODE = process.argv.includes("--watch");
-const packageJson = JSON.parse(fs.readFileSync(PACKAGE_JSON, "utf-8")) as {
+const jsrJson = JSON.parse(fs.readFileSync(JSR_JSON, "utf-8")) as {
 	name?: string;
 	version?: string;
 };
 
 function withBanner(css: string): string {
-	return `/*! ${packageJson.name ?? "paleui"} v${packageJson.version ?? "0.0.0"} */\n${css}`;
+	return `/*! ${jsrJson.name ?? "paleui"} v${jsrJson.version ?? "0.0.0"} */\n${css}`;
 }
 
 async function generateCSS() {
