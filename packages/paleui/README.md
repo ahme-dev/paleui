@@ -4,10 +4,11 @@ PaleUI is a user interface library designed to provide a clean and modern look f
 
 ### Features
 
-- **Zero JavaScript Base**: PaleUI is built with CSS only, allowing you to use it without any JavaScript dependencies. This makes it lightweight and easy to integrate into any project.
-- **Sleek Modern Design**: PaleUI offers the modern and minimalist design aesthetic of `shadcn/ui` (with support for all its themes).
-- **Just Semantic HTML**: The library uses semantic HTML elements and role attributes to ensure accessibility and cleaner markup, making it easier to read and maintain.
-- **Modular, Small, and Fast**: PaleUI is designed to be modular, allowing you to import only the components you need. This keeps your project lightweight and fast.
+- **CSS-only**: No runtime JavaScript.
+- **Semantic HTML first**: Built around native elements, roles, and ARIA.
+- **Theme-compatible**: Uses `shadcn/ui` CSS variables.
+- **Scoped and modular**: Import everything or only the files you need.
+- **Visually tested**: Components are covered by Playwright snapshots where practical.
 
 ### Usage
 
@@ -108,9 +109,11 @@ PaleUI has several aims, in order of priority — a lower aim is ignored if it c
 
 **4. Stay compatible with `shadcn/ui` themes and components.** PaleUI uses the same CSS variables and covers the same component set.
 
-**5. Stay small and modular.** Distributed as both a single file and individual component files — use only what you need.
+**5. Be visually tested.** Component output should be covered by visual regression tests as much as practical, including variants, states, themes, and browser differences.
 
 **6. Work in modern JS frameworks.** PaleUI targets React, Vue, Svelte, and similar, not just plain HTML.
+
+**7. Stay small and modular.** Distributed as both a single file and individual component files — use only what you need.
 
 ### Contributing
 
